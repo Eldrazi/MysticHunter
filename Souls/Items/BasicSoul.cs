@@ -26,21 +26,14 @@ namespace MysticHunter.Souls.Items
 		/// </summary>
 		public SoulType soulType = SoulType.Red;
 
+		/// <summary>
+		/// CloneNewInstances set to true so every setting is carried over for each soul if it's instanced/cloned again.
+		/// </summary>
+		public override bool CloneNewInstances => true;
+
 		public override void SetDefaults()
 		{
 			item.width = item.height = 16;
-
-			// Remove this when the Soul Book has been implemented.
-			// This is just for testing purposes.
-			item.accessory = true;
-		}
-
-		// This also needs to be removed once the Soul Book is implemented.
-		// This functionality will all be handled inside a ModPlayer class (active abilities as well).
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			if (soulType == SoulType.Yellow)
-				SoulUpdate(player);
 		}
 
 		/// <summary>

@@ -37,12 +37,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MysticHunter.cs" />
+    <Compile Include="SoulPlayer.cs" />
     <Compile Include="Souls\Items\AntlionSwarmerSoul.cs" />
     <Compile Include="Souls\Items\BasicSoul.cs" />
+    <Compile Include="Souls\Items\SoulIndex.cs" />
+    <Compile Include="Souls\UI\SoulIndexUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553" />
+    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553" />
     <Reference Include="Terraria">
       <HintPath>X:\Games\Steam\steamapps\common\Terraria\Terraria.exe</HintPath>
     </Reference>
@@ -52,6 +56,13 @@
     <Content Include="description.txt" />
     <Content Include="Souls\Items\AntlionSwarmerSoul.png" />
     <Content Include="Souls\Items\BasicSoul.png" />
+    <Content Include="Souls\Items\SoulIndex.png" />
+    <Content Include="Souls\UI\BlueSlot.png" />
+    <Content Include="Souls\UI\SoulIndex_Panel.png" />
+    <Content Include="Souls\UI\SoulIndex_ItemBox.png" />
+    <Content Include="Souls\UI\GreySlot.png" />
+    <Content Include="Souls\UI\RedSlot.png" />
+    <Content Include="Souls\UI\YellowSlot.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
