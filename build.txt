@@ -1,0 +1,10 @@
+author = Terratroid, Eldrazi
+version = 1.0
+displayName = Mystic Hunter
+homepage = 
+noCompile = false
+hideCode = false
+hideResources = false
+includeSource = false
+includePDB = false
+side = Both
