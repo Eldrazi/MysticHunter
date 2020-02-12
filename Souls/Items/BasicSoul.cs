@@ -42,7 +42,7 @@ namespace MysticHunter.Souls.Items
 						c = Color.Blue;
 					else if (s.soulType == SoulType.Yellow)
 						c = Color.Yellow;
-					Main.NewText("You collected the " + s.soulName, c);
+					Main.NewText("You collected the " + s.soulName + " soul.", c);
 				}
 			}
 			else

@@ -37,6 +37,8 @@ namespace MysticHunter
 			set { souls[2] = value; }
 		}
 
+		private short redSoulCooldown, blueSoulCooldown;
+
 		/// <summary>
 		/// Initializes the `souls` array.
 		/// Done in this function so every player has his/her own instance.
@@ -56,6 +58,11 @@ namespace MysticHunter
 		{
 			if (YellowSoul != null)
 				YellowSoul.SoulUpdate(player);
+
+			if (redSoulCooldown > 0)
+				redSoulCooldown--;
+			if (blueSoulCooldown > 0)
+				blueSoulCooldown--;
 		}
 
 		/// <summary>
@@ -63,11 +70,17 @@ namespace MysticHunter
 		/// </summary>
 		public override void ProcessTriggers(TriggersSet triggersSet)
 		{
-			if (RedSoul != null && MysticHunter.Instance.RedSoulActive.JustPressed)
-				RedSoul.SoulUpdate(player);
+			if (RedSoul != null && redSoulCooldown <= 0 && MysticHunter.Instance.RedSoulActive.JustPressed)
+			{
+				if (player.CheckMana(RedSoul.manaConsume, true, false) && RedSoul.SoulUpdate(player))
+					redSoulCooldown = RedSoul.cooldown;
+			}
 
-			if (BlueSoul != null && MysticHunter.Instance.BlueSoulActive.JustPressed)
-				BlueSoul.SoulUpdate(player);
+			if (BlueSoul != null && blueSoulCooldown <= 0 && MysticHunter.Instance.BlueSoulActive.JustPressed)
+			{
+				if (player.CheckMana(BlueSoul.manaConsume, true, false) && BlueSoul.SoulUpdate(player))
+					blueSoulCooldown = BlueSoul.cooldown;
+			}
 		}
 
 		/// <summary>

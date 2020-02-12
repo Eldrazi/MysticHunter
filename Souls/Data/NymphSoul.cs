@@ -5,13 +5,13 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data
 {
-	public class AntlionSwarmerSoul : ISoul
+	public class NymphSoul : ISoul
 	{
 		public bool acquired { get; set; }
 
-		public short soulNPC => NPCID.FlyingAntlion;
-		public string soulName => "Antlion Swarmer";
-		public string soulDescription => "Boosts stats while in desert.";
+		public short soulNPC => NPCID.Nymph;
+		public string soulName => "Nymph";
+		public string soulDescription => "Grants spelunker effects.";
 
 		public short cooldown => 0;
 		public byte manaConsume => 0;
@@ -20,11 +20,7 @@ namespace MysticHunter.Souls.Data
 
 		public bool SoulUpdate(Player p)
 		{
-			if (p.ZoneDesert || p.ZoneUndergroundDesert)
-			{
-				p.statDefense += 5;
-				p.allDamageMult += .1f;
-			}
+			p.AddBuff(BuffID.Spelunker, 10);
 			return (true);
 		}
 	}

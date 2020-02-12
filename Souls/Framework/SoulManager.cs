@@ -13,6 +13,22 @@ namespace MysticHunter.Souls.Framework
 			MysticHunter.Instance.SoulDict = new Dictionary<short, ISoul>();
 
 			AddNewSoul(new AntlionSwarmerSoul());
+			AddNewSoul(new BlackSlimeSoul());
+			AddNewSoul(new CrabSoul());
+			AddNewSoul(new DemonSoul());
+			AddNewSoul(new DoctorBonesSoul());
+			AddNewSoul(new DungeonGuardianSoul());
+			AddNewSoul(new DungeonSlimeSoul());
+			AddNewSoul(new GoblinScoutSoul());
+			AddNewSoul(new GraniteGolemSoul());
+			AddNewSoul(new IceSlimeSoul());
+			AddNewSoul(new MushiLadybugSoul());
+			AddNewSoul(new NymphSoul());
+			AddNewSoul(new SquidSoul());
+			AddNewSoul(new TimSoul());
+			AddNewSoul(new UndeadVikingSoul());
+			AddNewSoul(new VoodooDemonSoul());
+			AddNewSoul(new BeeSoul());
 		}
 
 		public static void ResetSoulAcquisition(List<short> acquiredSouls = null)

@@ -51,15 +51,9 @@ namespace MysticHunter.Souls.UI
 		{
 			this.Clear();
 
-			List<ISoul> acquiredSouls = MysticHunter.Instance.SoulDict.Values.Where(v => v.acquired == true).ToList();
-
-			foreach (ISoul s in acquiredSouls)
-			{
-				SoulIndexUIListItem l = new SoulIndexUIListItem(s);
-				Main.NewText("Adding new soul to list: '" + s.soulName + "'.");
-
-				this.Add(l);
-			}
+			MysticHunter.Instance.SoulDict.Values.Where(v => v.acquired == true).ToList().ForEach(
+				v => this.Add(new SoulIndexUIListItem(v))
+			);
 		}
 	}
 
@@ -120,6 +114,7 @@ namespace MysticHunter.Souls.UI
 		{
 			Rectangle hitbox = GetInnerDimensions().ToRectangle();
 
+			// Draw the borders for this list item.
 			UIUtilities.DrawPanelBorders(spriteBatch, panelTexture, hitbox, 14, 2, true);
 
 			// Draw the Soul Slot.

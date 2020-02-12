@@ -20,6 +20,9 @@ namespace MysticHunter.Souls.Framework
 		string soulName { get; }
 		string soulDescription { get; }
 
+		short cooldown { get; }
+		byte manaConsume { get; }
+
 		SoulType soulType { get; }
 
 		bool SoulUpdate(Player player);

@@ -5,13 +5,13 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data
 {
-	public class AntlionSwarmerSoul : ISoul
+	public class UndeadVikingSoul : ISoul
 	{
 		public bool acquired { get; set; }
 
-		public short soulNPC => NPCID.FlyingAntlion;
-		public string soulName => "Antlion Swarmer";
-		public string soulDescription => "Boosts stats while in desert.";
+		public short soulNPC => NPCID.UndeadViking;
+		public string soulName => "Undead Viking";
+		public string soulDescription => "Increases melee damage at the cost of defense.";
 
 		public short cooldown => 0;
 		public byte manaConsume => 0;
@@ -20,11 +20,8 @@ namespace MysticHunter.Souls.Data
 
 		public bool SoulUpdate(Player p)
 		{
-			if (p.ZoneDesert || p.ZoneUndergroundDesert)
-			{
-				p.statDefense += 5;
-				p.allDamageMult += .1f;
-			}
+			p.meleeDamage += .1f;
+			p.statDefense -= 5;
 			return (true);
 		}
 	}
