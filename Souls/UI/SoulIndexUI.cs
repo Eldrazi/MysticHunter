@@ -1,15 +1,13 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-using Terraria;
+﻿using Terraria;
 using Terraria.UI;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.GameContent.UI.Elements;
 using static Terraria.ModLoader.ModContent;
 
 using MysticHunter.Souls.Items;
+using MysticHunter.Souls.Framework;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MysticHunter.Souls.UI
 {
@@ -17,7 +15,7 @@ namespace MysticHunter.Souls.UI
 	{
 		public static bool visible
 		{
-			get { return Main.playerInventory && Main.LocalPlayer.inventory[MysticHunter.Instance.selectedItem].type == ItemType<SoulIndex>(); }
+			get { return Main.playerInventory && Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem].type == ItemType<SoulIndex>(); }
 		}
 
 		internal SoulIndexPanel soulIndexPanel;
@@ -33,28 +31,34 @@ namespace MysticHunter.Souls.UI
 
 	internal class SoulIndexPanel : UIPanel
 	{
+		internal Texture2D skullTexture;
 		internal Texture2D panelTexture;
-		internal Rectangle drawRectangle => new Rectangle((int)Left.Pixels, (int)Top.Pixels, (int)Width.Pixels, (int)Height.Pixels);
+
+		internal Rectangle soulSlotRect;
+		internal const int soulSlotPanelWidth = 152, soulSlotPanelHeight = 50;
 
 		internal SoulItemBox[] soulItemBoxes;
 
-        public Vector2[] soulBoxPositions = new Vector2[3]
-        {
-            new Vector2(34, 12),
-            new Vector2(98, 12),
-            new Vector2(34, 80),
-        };
+		public SoulIndexUIListPanel soulListPanel;
+
+		public Vector2[] soulBoxPositions;
 
 		public override void OnInitialize()
 		{
-			panelTexture = GetTexture("MysticHunter/Souls/UI/SoulIndex_Panel");
+			skullTexture = GetTexture("MysticHunter/Souls/UI/SoulIndex_SkullFlair");
+			panelTexture = GetTexture("MysticHunter/Souls/UI/SoulIndex_GenericPanel");
 
 			this.SetPadding(0);
-			this.Left.Pixels = 160;
+			this.Left.Pixels = 82;
 			this.Top.Pixels = 260;
-			this.Width.Pixels = panelTexture.Width;
-			this.Height.Pixels = panelTexture.Height;
+			this.Width.Pixels = 350;
+			this.Height.Pixels = 200;
 
+			// Set the rectangle/position of the panel in which the soul slots are displayed.
+			soulSlotRect = new Rectangle((int)((Width.Pixels / 2) - (soulSlotPanelWidth / 2)), (int)(Height.Pixels - 14), soulSlotPanelWidth, soulSlotPanelHeight);
+
+			// Dynamically add the soul slots/boxes to the soulSlotRect panel.
+			// Automatically center every slot/box and add relevant padding depending on the dimensions of the soulSlotRect.
 			soulItemBoxes = new SoulItemBox[3];
 			for (int i = 0; i < soulItemBoxes.Length; ++i)
 			{
@@ -62,12 +66,23 @@ namespace MysticHunter.Souls.UI
 				{
 					soulSlot = (SoulType)i
 				};
-				soulItemBoxes[i].Top.Pixels = soulBoxPositions[i].Y;
-				soulItemBoxes[i].Left.Pixels = soulBoxPositions[i].X;
-				soulItemBoxes[i].SetCondition();
+
+				// Hardcoded dimension values of the slot textures (14).
+				soulItemBoxes[i].Top.Pixels = soulSlotRect.Y + (soulSlotPanelHeight / 2) - 12;
+				soulItemBoxes[i].Left.Pixels = soulSlotRect.X + 14 + (soulSlotPanelWidth / 3) * i;
 
 				this.Append(soulItemBoxes[i]);
 			}
+
+			soulListPanel = new SoulIndexUIListPanel();
+			soulListPanel.Width.Pixels = this.Width.Pixels - 16;
+			soulListPanel.Height.Pixels = this.Height.Pixels - 16;
+			this.Append(soulListPanel);
+
+			// Add the soulSlotPanelHeight to the height of the UI element.
+			// This is so that the soul slot panel that hangs under this panel is actually interactable.
+			this.Height.Pixels += soulSlotPanelHeight;
+			this.Recalculate();
 		}
 
 		public override void Update(GameTime gameTime)
@@ -81,22 +96,27 @@ namespace MysticHunter.Souls.UI
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
-			spriteBatch.Draw(panelTexture, drawRectangle, Color.White);
+			// Substract the soulSlotPanelHeight of this panels' height to accomodate for the added space in OnInitialize.
+			Rectangle panelRectangle = this.GetDimensions().ToRectangle();
+			panelRectangle.Height -= soulSlotPanelHeight;
+
+			// Draw the main panel.
+			UIUtilities.DrawPanelBorders(spriteBatch, panelTexture, panelRectangle, 14, 2, true);
+
+			// Draw the skull flair on the main panel.
+			Rectangle skullRectangle = new Rectangle((int)(Left.Pixels + Width.Pixels / 2) - (skullTexture.Width / 2), (int)(Top.Pixels - 4), skullTexture.Width, skullTexture.Height);
+			spriteBatch.Draw(skullTexture, skullRectangle, Color.White);
+
+			// Draw the souls panel.
+			Rectangle soulSlotsDrawRect = new Rectangle(soulSlotRect.X + (int)Left.Pixels, soulSlotRect.Y + (int)Top.Pixels, soulSlotRect.Width, soulSlotRect.Height);
+			UIUtilities.DrawPanelBorders(spriteBatch, panelTexture, soulSlotsDrawRect, 14, 2, true);
 		}
 	}
 
-	/// <summary>
-	/// A conditional check to see if an item is valid for a given slot.
-	/// </summary>
-	/// <param name="item">The item that needs to be checked.</param>
-	/// <returns>Returns whether or not the item </returns>
-	internal delegate bool Condition(Item item);
-
 	internal class SoulItemBox : UIPanel
 	{
-		Texture2D boxTexture;
-
-		public Condition condition;
+		Texture2D itemPanel;
+		Texture2D[] soulTextures;
 
 		public SoulType soulSlot;
 
@@ -104,125 +124,61 @@ namespace MysticHunter.Souls.UI
 
 		public override void OnInitialize()
 		{
-			boxTexture = GetTexture("MysticHunter/Souls/UI/SoulIndex_ItemBox");
+			itemPanel = GetTexture("MysticHunter/Souls/UI/SoulIndex_ItemPanel");
 
-			Width.Pixels = boxTexture.Width;
-			Height.Pixels = boxTexture.Height;
+			Width.Pixels = itemPanel.Width;
+			Height.Pixels = itemPanel.Height;
+
+			soulTextures = new Texture2D[3];
+			soulTextures[0] = GetTexture("MysticHunter/Souls/UI/SoulIndex_SoulRed");
+			soulTextures[1] = GetTexture("MysticHunter/Souls/UI/SoulIndex_SoulBlue");
+			soulTextures[2] = GetTexture("MysticHunter/Souls/UI/SoulIndex_SoulYellow");
 
 			this.OnClick += ItemBoxClick;
 		}
 
+		/// <summary>
+		/// Makes sure mouse clicks are registered as UI clicks and not as game-functionality related clicks.
+		/// </summary>
+		/// <param name="gameTime"></param>
 		public override void Update(GameTime gameTime)
 		{
 			if (IsMouseHovering)
 				Main.LocalPlayer.mouseInterface = true;
 		}
 
-		// This function needs to be doubly checked.
-		// Needs to incorporate a check.
-		public void SetCondition()
-		{
-			this.condition = delegate (Item item)
-			{
-				Mod mod = ModLoader.GetMod("MysticHunter");
-				if (item.modItem != null)
-				{
-					Main.NewText(item.modItem is BasicSoul);
-					return (item.modItem is BasicSoul soul && soul.soulType == this.soulSlot);
-				}
-				return (false);
-			};
-		}
-
-		// Clicking functionality.
+		/// <summary>
+		/// Removes a soul from its slot if it's clicked.
+		/// </summary>
 		private void ItemBoxClick(UIMouseEvent evt, UIElement e)
 		{
 			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
 
-			if (sp.souls[(int)soulSlot] != null && !sp.souls[(int)soulSlot].IsAir)
-			{
-				if (Main.mouseItem.IsAir)
-				{
-					Main.PlaySound(SoundID.Grab);
-					Main.mouseItem = sp.souls[(int)soulSlot].Clone();
-
-					sp.souls[(int)soulSlot].TurnToAir();
-				}
-				else if (condition == null || (condition != null && condition(Main.mouseItem)))
-				{
-					Main.PlaySound(SoundID.Grab);
-
-					Item tmpBoxItem = sp.souls[(int)soulSlot].Clone();
-
-					sp.souls[(int)soulSlot] = Main.mouseItem.Clone();
-					Main.mouseItem = tmpBoxItem;
-				}
-			}
-			else if (!Main.mouseItem.IsAir)
-			{
-				if (condition == null || (condition != null && condition(Main.mouseItem)))
-				{
-					Main.PlaySound(SoundID.Grab);
-					sp.souls[(int)soulSlot] = Main.mouseItem.Clone();
-					Main.mouseItem.TurnToAir();
-				}
-			}
+			if (sp.souls[(int)soulSlot] != null && sp.souls[(int)soulSlot].soulNPC != 0)
+				sp.souls[(int)soulSlot] = null;
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
 
-			spriteBatch.Draw(boxTexture, drawRectangle, Color.White);
+			spriteBatch.Draw(itemPanel, drawRectangle, Color.White);
 
 			// Check to see if the Soul item in the SoulPlayer is set.
-			// If not, there's no reason to try and draw it.
-			Item drawTarget = sp.souls[(int)soulSlot];
-			if (drawTarget == null || drawTarget.IsAir) return;
-
-			// Vanilla inventory item drawing code.
-			// Fairly straightforward, no real need to try and comprehend this.
-			// We probably won't touch this code too much!.
-			Color itemColor = drawTarget.GetAlpha(Color.White);
-			Texture2D itemTexture = Main.itemTexture[drawTarget.type];
-			CalculatedStyle innerDimensions = base.GetDimensions();
-
+			ISoul soulTarget = sp.souls[(int)soulSlot];
 			if (base.IsMouseHovering)
 			{
-				Main.hoverItemName = drawTarget.Name;
-				Main.HoverItem = drawTarget.Clone();
-			}
-
-			Rectangle frame = Main.itemAnimations[drawTarget.type] != null
-						? Main.itemAnimations[drawTarget.type].GetFrame(itemTexture)
-						: itemTexture.Frame(1, 1, 0, 0);
-
-			float drawScale = 1f;
-			if (frame.Width > innerDimensions.Width || frame.Height > innerDimensions.Width)
-			{
-				drawScale = innerDimensions.Width;
-				if (frame.Width > frame.Height)
-					drawScale /= frame.Width;
+				if (soulTarget == null || soulTarget.soulNPC == 0)
+					Main.hoverItemName = "No Soul";
 				else
-					drawScale /= frame.Height;
+					Main.hoverItemName = soulTarget.soulName;
 			}
 
-			Color tmpcolor = Color.White;
-
-			ItemSlot.GetItemLight(ref tmpcolor, ref drawScale, drawTarget.type);
-
-			Vector2 drawPosition = new Vector2(innerDimensions.X, innerDimensions.Y);
-
-			drawPosition.X += innerDimensions.Width * 1f / 2f - frame.Width * drawScale / 2f;
-			drawPosition.Y += innerDimensions.Height * 1f / 2f - frame.Height * drawScale / 2f;
-
-			spriteBatch.Draw(itemTexture, drawPosition, new Rectangle?(frame), itemColor, 0f,
-				Vector2.Zero, drawScale, SpriteEffects.None, 0f);
-
-			if (drawTarget.color != default)
+			if (soulTarget != null)
 			{
-				spriteBatch.Draw(itemTexture, drawPosition, new Rectangle?(frame), itemColor, 0f,
-					Vector2.Zero, drawScale, SpriteEffects.None, 0f);
+				Rectangle soulRect = new Rectangle(drawRectangle.X + drawRectangle.Width / 2 - soulTextures[0].Width / 2,
+					drawRectangle.Y + drawRectangle.Height / 2 - soulTextures[0].Height / 2, soulTextures[0].Width, soulTextures[0].Height);
+				spriteBatch.Draw(soulTextures[(int)soulTarget.soulType], soulRect, Color.White);
 			}
 		}
 	}

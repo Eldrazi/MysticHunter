@@ -5,6 +5,7 @@ using Terraria.UI;
 using Terraria.ModLoader;
 
 using MysticHunter.Souls.UI;
+using MysticHunter.Souls.Framework;
 
 using Microsoft.Xna.Framework;
 
@@ -23,13 +24,17 @@ namespace MysticHunter
 		internal SoulIndexUI soulIndexUI;
 		internal UserInterface siUserInterface;
 
-		public int selectedItem = 0;
-
-		public MysticHunter() { }
+		/// <summary>
+		/// A dictionary that keeps track of all soul data.
+		/// Set in the `Load` method via `SoulManager.SetupSouls`.
+		/// </summary>
+		public Dictionary<short, ISoul> SoulDict;
 
 		public override void Load()
 		{
 			Instance = this;
+
+			SoulManager.SetupSouls();
 
 			if (!Main.dedServ)
 			{
@@ -46,18 +51,15 @@ namespace MysticHunter
 		}
 		internal void SetupSoulUI()
 		{
-			soulIndexUI = new SoulIndexUI();
-			soulIndexUI.Activate();
 			siUserInterface = new UserInterface();
+			soulIndexUI = new SoulIndexUI();
+
+			soulIndexUI.Activate();
 			siUserInterface.SetState(soulIndexUI);
 		}
 
 		public override void UpdateUI(GameTime gameTime)
 		{
-			Player player = Main.LocalPlayer;
-			if (player.selectedItem < 10)
-				selectedItem = player.selectedItem;
-
 			if (siUserInterface != null && SoulIndexUI.visible)
 				siUserInterface.Update(gameTime);
 		}

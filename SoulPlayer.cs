@@ -1,9 +1,13 @@
-﻿using Terraria;
+﻿using System.Linq;
+using System.Collections.Generic;
+
+using Terraria;
+using Terraria.ID;
 using Terraria.GameInput;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
-using MysticHunter.Souls.Items;
+using MysticHunter.Souls.Framework;
 
 namespace MysticHunter
 {
@@ -16,10 +20,22 @@ namespace MysticHunter
 		/// An array that keeps track of soul items.
 		/// Red, Blue and Yellow souls are stacked in the array in that order (0, 1, 2).
 		/// </summary>
-		public Item[] souls;
-		private BasicSoul RedSoul => souls[0] != null ? souls[0].modItem as BasicSoul : null;
-		private BasicSoul BlueSoul => souls[1] != null ? souls[1].modItem as BasicSoul : null;
-		private BasicSoul YellowSoul => souls[2] != null ? souls[2].modItem as BasicSoul : null;
+		public ISoul[] souls;
+		public ISoul RedSoul
+		{
+			get { return souls[0]; }
+			set { souls[0] = value; }
+		}
+		public ISoul BlueSoul
+		{
+			get { return souls[1]; }
+			set { souls[1] = value; }
+		}
+		public ISoul YellowSoul
+		{
+			get { return souls[2]; }
+			set { souls[2] = value; }
+		}
 
 		/// <summary>
 		/// Initializes the `souls` array.
@@ -27,7 +43,10 @@ namespace MysticHunter
 		/// </summary>
 		public override void Initialize()
 		{
-			this.souls = new Item[3];
+			this.souls = new ISoul[3];
+
+			// Tmp testing stuff...
+			this.souls[0] = MysticHunter.Instance.SoulDict[NPCID.FlyingAntlion];
 		}
 
 		/// <summary>
@@ -42,13 +61,12 @@ namespace MysticHunter
 		/// <summary>
 		/// Used to process Red and Blue soul active triggers/hotkeys, if available.
 		/// </summary>
-		/// <param name="triggersSet">..</param>
 		public override void ProcessTriggers(TriggersSet triggersSet)
 		{
-			if (MysticHunter.Instance.RedSoulActive.JustPressed)
+			if (RedSoul != null && MysticHunter.Instance.RedSoulActive.JustPressed)
 				RedSoul.SoulUpdate(player);
 
-			if (MysticHunter.Instance.BlueSoulActive.JustPressed)
+			if (BlueSoul != null && MysticHunter.Instance.BlueSoulActive.JustPressed)
 				BlueSoul.SoulUpdate(player);
 		}
 
@@ -60,22 +78,32 @@ namespace MysticHunter
 			TagCompound tag = new TagCompound();
 			for (int i = 0; i < souls.Length; ++i)
 			{
-				// Failsave check.
-				if (souls[i] == null) souls[i] = new Item();
-				tag.Add("soul" + i, ItemIO.Save(souls[i]));
+				short id = 0;
+				if (souls[i] != null)
+					id = souls[i].soulNPC;
+				tag.Add("soul" + i, id);
 			}
+
+			// A simple query to get every soul that the player has unlocked and store it in a list for saving purposed.
+			List<short> acquiredSouls = MysticHunter.Instance.SoulDict.Values.Where(v => v.acquired == true).Select(v => v.soulNPC).ToList();
+			tag.Add("acquiredSouls", acquiredSouls);
+
 			return tag;
 		}
 		public override void Load(TagCompound tag)
 		{
 			try
 			{
-				souls = new Item[3];
+				souls = new ISoul[3];
 				for (int i = 0; i < souls.Length; i++)
 				{
-					Item item = tag.Get<Item>("soul" + i);
-					souls[i] = item;
+					short id = tag.GetShort("soul" + i);
+					if (id != 0)
+						souls[i] = MysticHunter.Instance.SoulDict[id];
 				}
+
+				SoulManager.ResetSoulAcquisition((List<short>)tag.GetList<short>("acquiredSouls"));
+				SoulManager.RepopulateSoulIndexUI();
 			}
 			catch { }
 		}

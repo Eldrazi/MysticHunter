@@ -2,34 +2,18 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using MysticHunter.Souls.Framework;
+
+using Microsoft.Xna.Framework;
+
 namespace MysticHunter.Souls.Items
 {
 	/// <summary>
-	/// The type of a soul. Used to determine how a soul is updated internally.
-	/// </summary>
-	public enum SoulType
-	{
-		Red,
-		Blue,
-		Yellow
-	}
-
-	/// <summary>
 	/// The basic class for a soul item.
-	/// We can use this class as a base for all other souls.
 	/// </summary>
-	public abstract class BasicSoul : ModItem
+	public class BasicSoul : ModItem
 	{
-		/// <summary>
-		/// The type of this soul.
-		/// Defaults to SoulType.Red.
-		/// </summary>
-		public SoulType soulType = SoulType.Red;
-
-		/// <summary>
-		/// CloneNewInstances set to true so every setting is carried over for each soul if it's instanced/cloned again.
-		/// </summary>
-		public override bool CloneNewInstances => true;
+		public short soulNPC = 0;
 
 		public override void SetDefaults()
 		{
@@ -37,10 +21,37 @@ namespace MysticHunter.Souls.Items
 		}
 
 		/// <summary>
-		/// Generic soul update functionality.
+		/// Triggers on pickup. Checks if a corresponding soul exists and sets that soul as acquired.
 		/// </summary>
-		/// <param name="player">The player that has the soul equipped.</param>
-		/// <returns></returns>
-		public abstract bool SoulUpdate(Player player);
+		/// <param name="player">The player that interacts with this item.</param>
+		/// <returns>Always returns false. This item is not actually added to the players' inventory.</returns>
+		public override bool OnPickup(Player player)
+		{
+			if (MysticHunter.Instance.SoulDict.ContainsKey(soulNPC))
+			{
+				ISoul s = MysticHunter.Instance.SoulDict[soulNPC];
+
+				// If this is the first time the soul has been picked up, the SoulIndexUIList needs to be repopulated.
+				if (s.acquired == false)
+				{
+					s.acquired = true;
+					SoulManager.RepopulateSoulIndexUI();
+
+					Color c = Color.Red;
+					if (s.soulType == SoulType.Blue)
+						c = Color.Blue;
+					else if (s.soulType == SoulType.Yellow)
+						c = Color.Yellow;
+					Main.NewText("You collected the " + s.soulName, c);
+				}
+			}
+			else
+			{
+				// Debug message for when a soul with the given `soulDataID` cannot be found.
+				Main.NewText("Soul with ID '" + soulNPC + "' cannot be found.");
+			}
+
+			return (false);
+		}
 	}
 }
