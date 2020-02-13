@@ -12,7 +12,10 @@ namespace MysticHunter.Souls.Framework
 		{
 			MysticHunter.Instance.SoulDict = new Dictionary<short, ISoul>();
 
+			// Pre-hardmode souls.
 			AddNewSoul(new AntlionSwarmerSoul());
+			AddNewSoul(new BabySlimeSoul());
+			AddNewSoul(new BeeSoul());
 			AddNewSoul(new BlackSlimeSoul());
 			AddNewSoul(new CrabSoul());
 			AddNewSoul(new DarkCasterSoul());
@@ -23,6 +26,7 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new GoblinScoutSoul());
 			AddNewSoul(new GraniteElementalSoul());
 			AddNewSoul(new GraniteGolemSoul());
+			AddNewSoul(new HarpySoul());
 			AddNewSoul(new IceSlimeSoul());
 			AddNewSoul(new MushiLadybugSoul());
 			AddNewSoul(new NymphSoul());
@@ -30,8 +34,12 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new TimSoul());
 			AddNewSoul(new UndeadVikingSoul());
 			AddNewSoul(new VoodooDemonSoul());
-			AddNewSoul(new BeeSoul());
+
+			// Hardmode souls.
 			AddNewSoul(new ArmoredVikingSoul());
+
+			// Boss souls.
+			AddNewSoul(new KingSlimeSoul());
 		}
 
 		public static void ResetSoulAcquisition(List<short> acquiredSouls = null)
