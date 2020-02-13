@@ -21,6 +21,7 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new DungeonGuardianSoul());
 			AddNewSoul(new DungeonSlimeSoul());
 			AddNewSoul(new GoblinScoutSoul());
+			AddNewSoul(new GraniteElementalSoul());
 			AddNewSoul(new GraniteGolemSoul());
 			AddNewSoul(new IceSlimeSoul());
 			AddNewSoul(new MushiLadybugSoul());

@@ -38,7 +38,6 @@ namespace MysticHunter.Souls.Data
 		{
 			DisplayName.SetDefault("Cursed Water");
 		}
-
 		public override void SetDefaults()
 		{
 			projectile.width = projectile.height = 16;
