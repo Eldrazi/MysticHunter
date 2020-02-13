@@ -14,11 +14,11 @@ namespace MysticHunter.Souls.Data
 		public string soulDescription => "Teleport to a random location.";
 
 		public short cooldown => 1200;
-		public byte manaConsume => 20;
 
 		public SoulType soulType => SoulType.Blue;
 
-		public bool SoulUpdate(Player p)
+		public short ManaCost(Player p, short stack) => (short)(50 - 5 * stack);
+		public bool SoulUpdate(Player p, short stack)
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				p.TeleportationPotion();

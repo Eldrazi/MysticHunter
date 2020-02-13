@@ -37,7 +37,9 @@ namespace MysticHunter
 			set { souls[2] = value; }
 		}
 
-		private short redSoulCooldown, blueSoulCooldown;
+		public byte[] soulsStack;
+
+		private short redSoulCooldown, blueSoulCooldown, yellowSoulCooldown;
 
 		/// <summary>
 		/// Initializes the `souls` array.
@@ -46,9 +48,7 @@ namespace MysticHunter
 		public override void Initialize()
 		{
 			this.souls = new ISoul[3];
-
-			// Tmp testing stuff...
-			this.souls[0] = MysticHunter.Instance.SoulDict[NPCID.FlyingAntlion];
+			this.soulsStack = new byte[3] { 1, 1, 1 };
 		}
 
 		/// <summary>
@@ -56,13 +56,15 @@ namespace MysticHunter
 		/// </summary>
 		public override void PostUpdateEquips()
 		{
-			if (YellowSoul != null)
-				YellowSoul.SoulUpdate(player);
+			if (YellowSoul != null && yellowSoulCooldown == 0)
+				YellowSoul.SoulUpdate(player, soulsStack[2]);
 
 			if (redSoulCooldown > 0)
 				redSoulCooldown--;
 			if (blueSoulCooldown > 0)
 				blueSoulCooldown--;
+			if (yellowSoulCooldown > 0)
+				yellowSoulCooldown--;
 		}
 
 		/// <summary>
@@ -72,13 +74,13 @@ namespace MysticHunter
 		{
 			if (RedSoul != null && redSoulCooldown <= 0 && MysticHunter.Instance.RedSoulActive.JustPressed)
 			{
-				if (player.CheckMana(RedSoul.manaConsume, true, false) && RedSoul.SoulUpdate(player))
+				if (player.CheckMana(RedSoul.ManaCost(player, soulsStack[0]), true, false) && RedSoul.SoulUpdate(player, soulsStack[0]))
 					redSoulCooldown = RedSoul.cooldown;
 			}
 
 			if (BlueSoul != null && blueSoulCooldown <= 0 && MysticHunter.Instance.BlueSoulActive.JustPressed)
 			{
-				if (player.CheckMana(BlueSoul.manaConsume, true, false) && BlueSoul.SoulUpdate(player))
+				if (player.CheckMana(BlueSoul.ManaCost(player, soulsStack[1]), true, false) && BlueSoul.SoulUpdate(player, soulsStack[1]))
 					blueSoulCooldown = BlueSoul.cooldown;
 			}
 		}
@@ -95,6 +97,7 @@ namespace MysticHunter
 				if (souls[i] != null)
 					id = souls[i].soulNPC;
 				tag.Add("soul" + i, id);
+				tag.Add("soulStack" + i, soulsStack[i]);
 			}
 
 			// A simple query to get every soul that the player has unlocked and store it in a list for saving purposed.
@@ -108,11 +111,16 @@ namespace MysticHunter
 			try
 			{
 				souls = new ISoul[3];
+				soulsStack = new byte[3];
 				for (int i = 0; i < souls.Length; i++)
 				{
 					short id = tag.GetShort("soul" + i);
 					if (id != 0)
 						souls[i] = MysticHunter.Instance.SoulDict[id];
+
+					soulsStack[i] = tag.GetByte("soulStack" + i);
+					if (soulsStack[i] <= 0)
+						soulsStack[i] = 1;
 				}
 
 				SoulManager.ResetSoulAcquisition((List<short>)tag.GetList<short>("acquiredSouls"));

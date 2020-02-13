@@ -20,14 +20,16 @@ namespace MysticHunter.Souls.Data
 		public string soulDescription => "Summons a small horde of bees.";
 
 		public short cooldown => 60;
-		public byte manaConsume => 5;
 
 		public SoulType soulType => SoulType.Red;
 
-		public bool SoulUpdate(Player p)
+		public short ManaCost(Player p, short stack) => 5;
+		public bool SoulUpdate(Player p, short stack)
 		{
 			// Spawn 3 to 5 little bee projectiles.
-			for (int i = 0; i < Main.rand.Next(3, 6); ++i)
+			int min = 3 + stack;
+			int max = 6 + (int)(1.5 * stack);
+			for (int i = 0; i < Main.rand.Next(min, max); ++i)
 			{
 				// Get a random position somewhere on the player to spawn a bee.
 				Vector2 pos = p.position + new Vector2(Main.rand.Next(0, p.width + 1), Main.rand.Next(0, p.height + 1));
@@ -36,7 +38,7 @@ namespace MysticHunter.Souls.Data
 				Vector2 velocity = Vector2.Normalize(Main.MouseWorld - pos);
 				velocity *= 5;
 
-				Projectile.NewProjectile(pos, velocity, ProjectileType<BeeSoulProj>(), 5, .1f, p.whoAmI);
+				Projectile.NewProjectile(pos, velocity, ProjectileType<BeeSoulProj>(), 2 + stack, .1f, p.whoAmI);
 			}
 			return (true);
 		}

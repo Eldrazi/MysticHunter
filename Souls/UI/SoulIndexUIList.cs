@@ -107,6 +107,7 @@ namespace MysticHunter.Souls.UI
 		{
 			int soulIndex = (int)this.soulReference.soulType;
 
+			Main.LocalPlayer.GetModPlayer<SoulPlayer>().soulsStack[soulIndex] = 1 ;
 			Main.LocalPlayer.GetModPlayer<SoulPlayer>().souls[soulIndex] = soulReference;
 		}
 

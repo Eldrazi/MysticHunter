@@ -20,13 +20,13 @@ namespace MysticHunter.Souls.Data
 		public string soulDescription => "Summons an icy axe.";
 
 		public short cooldown => 480;
-		public byte manaConsume => 25;
 
 		public SoulType soulType => SoulType.Red;
 
-		public bool SoulUpdate(Player p)
+		public short ManaCost(Player p, short stack) => (short)(25 + 2 * stack);
+		public bool SoulUpdate(Player p, short stack)
 		{
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<ArmoredVikingSoulProj>(), 30, .5f, p.whoAmI);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<ArmoredVikingSoulProj>(), 30 + 5 * stack, .5f + .1f * stack, p.whoAmI);
 			return (true);
 		}
 	}

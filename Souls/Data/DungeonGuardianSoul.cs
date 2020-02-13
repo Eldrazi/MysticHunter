@@ -14,19 +14,19 @@ namespace MysticHunter.Souls.Data
 		public string soulDescription => "Boosts invincibility time.";
 
 		public short cooldown => 0;
-		public byte manaConsume => 0;
 
 		public SoulType soulType => SoulType.Yellow;
 
 		bool appliedInvincibility = false;
 
-		public bool SoulUpdate(Player p)
+		public short ManaCost(Player p, short stack) => 0;
+		public bool SoulUpdate(Player p, short stack)
 		{
 			if (p.immuneTime == 0)
 				appliedInvincibility = false;
 			else if (!appliedInvincibility)
 			{
-				p.immuneTime += 60;
+				p.immuneTime += 60 + 30 * stack;
 				appliedInvincibility = true;
 			}
 			return (true);

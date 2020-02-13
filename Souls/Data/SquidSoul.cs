@@ -14,14 +14,14 @@ namespace MysticHunter.Souls.Data
 		public string soulDescription => "Grants extra mobility in water.";
 
 		public short cooldown => 0;
-		public byte manaConsume => 0;
 
 		public SoulType soulType => SoulType.Yellow;
 
-		public bool SoulUpdate(Player p)
+		public short ManaCost(Player p, short stack) => 0;
+		public bool SoulUpdate(Player p, short stack)
 		{
 			if (p.wet)
-				p.moveSpeed += .2f;
+				p.moveSpeed += .1f * stack;
 			return (true);
 		}
 	}

@@ -21,10 +21,10 @@ namespace MysticHunter.Souls.Framework
 		string soulDescription { get; }
 
 		short cooldown { get; }
-		byte manaConsume { get; }
 
 		SoulType soulType { get; }
 
-		bool SoulUpdate(Player player);
+		short ManaCost(Player player, short stack);
+		bool SoulUpdate(Player player, short stack);
 	}
 }

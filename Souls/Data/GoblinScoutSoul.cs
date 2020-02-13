@@ -15,17 +15,19 @@ namespace MysticHunter.Souls.Data
 		public string soulDescription => "Increased chance for a goblin invasion.";
 
 		public short cooldown => 0;
-		public byte manaConsume => 0;
 
 		public SoulType soulType => SoulType.Yellow;
 
-		public bool SoulUpdate(Player p)
+		public short ManaCost(Player p, short stack) => 0;
+		public bool SoulUpdate(Player p, short stack)
 		{
 			if (Main.time == 0.0)
 			{
 				if (!Main.snowMoon && !Main.pumpkinMoon && !DD2Event.Ongoing)
 				{
-					if (Main.rand.Next(60) == 0)
+					// Start with a 1/60 chance, end up with a 1/15 chance depending on stack size.
+					int randNum = 60 - 5 * stack;
+					if (Main.rand.Next(randNum) == 0)
 						Main.StartInvasion();
 				}
 			}

@@ -134,7 +134,8 @@ namespace MysticHunter.Souls.UI
 			soulTextures[1] = GetTexture("MysticHunter/Souls/UI/SoulIndex_SoulBlue");
 			soulTextures[2] = GetTexture("MysticHunter/Souls/UI/SoulIndex_SoulYellow");
 
-			this.OnClick += ItemBoxClick;
+			this.OnClick += LeftClick;
+			this.OnRightClick += RightClick;
 		}
 
 		/// <summary>
@@ -148,14 +149,23 @@ namespace MysticHunter.Souls.UI
 		}
 
 		/// <summary>
-		/// Removes a soul from its slot if it's clicked.
+		/// Add a stack to the click soul.
 		/// </summary>
-		private void ItemBoxClick(UIMouseEvent evt, UIElement e)
+		private void LeftClick(UIMouseEvent evt, UIElement e)
 		{
 			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
 
-			if (sp.souls[(int)soulSlot] != null && sp.souls[(int)soulSlot].soulNPC != 0)
-				sp.souls[(int)soulSlot] = null;
+			if (sp.souls[(int)soulSlot] != null && sp.soulsStack[(int)soulSlot] < 9)
+				sp.soulsStack[(int)soulSlot]++;
+		}
+		/// <summary>
+		/// Removes a soul from its slot if it's right clicked.
+		/// </summary>
+		private void RightClick(UIMouseEvent evt, UIElement e)
+		{
+			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
+			sp.souls[(int)soulSlot] = null;
+			sp.soulsStack[(int)soulSlot] = 1;
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
@@ -164,21 +174,25 @@ namespace MysticHunter.Souls.UI
 
 			spriteBatch.Draw(itemPanel, drawRectangle, Color.White);
 
-			// Check to see if the Soul item in the SoulPlayer is set.
-			ISoul soulTarget = sp.souls[(int)soulSlot];
+			ISoul soulReference = sp.souls[(int)soulSlot];
+
 			if (base.IsMouseHovering)
 			{
-				if (soulTarget == null || soulTarget.soulNPC == 0)
+				if (soulReference == null || soulReference.soulNPC == 0)
 					Main.hoverItemName = "No Soul";
 				else
-					Main.hoverItemName = soulTarget.soulName + " soul";
+					Main.hoverItemName = soulReference.soulName + " soul";
 			}
 
-			if (soulTarget != null)
+			// Check to see if the Soul item in the SoulPlayer is set.
+			if (soulReference != null)
 			{
 				Rectangle soulRect = new Rectangle(drawRectangle.X + drawRectangle.Width / 2 - soulTextures[0].Width / 2,
 					drawRectangle.Y + drawRectangle.Height / 2 - soulTextures[0].Height / 2, soulTextures[0].Width, soulTextures[0].Height);
-				spriteBatch.Draw(soulTextures[(int)soulTarget.soulType], soulRect, Color.White);
+				spriteBatch.Draw(soulTextures[(int)soulReference.soulType], soulRect, Color.White);
+
+				Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, sp.soulsStack[(int)soulSlot].ToString(), 
+					drawRectangle.X + 6, drawRectangle.Y + drawRectangle.Height - 12, Color.White, Color.Black, Vector2.Zero, .6f);
 			}
 		}
 	}

@@ -14,14 +14,14 @@ namespace MysticHunter.Souls.Data
 		public string soulDescription => "Increases magic damage at the cost of defense.";
 
 		public short cooldown => 0;
-		public byte manaConsume => 0;
 
 		public SoulType soulType => SoulType.Yellow;
 
-		public bool SoulUpdate(Player p)
+		public short ManaCost(Player p, short stack) => 0;
+		public bool SoulUpdate(Player p, short stack)
 		{
-			p.magicDamage += .1f;
-			p.statDefense -= 5;
+			p.statDefense -= 5 * stack;
+			p.magicDamage += .1f * stack;
 			return (true);
 		}
 	}
