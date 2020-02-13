@@ -15,6 +15,7 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new AntlionSwarmerSoul());
 			AddNewSoul(new BlackSlimeSoul());
 			AddNewSoul(new CrabSoul());
+			AddNewSoul(new DarkCasterSoul());
 			AddNewSoul(new DemonSoul());
 			AddNewSoul(new DoctorBonesSoul());
 			AddNewSoul(new DungeonGuardianSoul());
