@@ -171,7 +171,7 @@ namespace MysticHunter.Souls.UI
 				if (soulTarget == null || soulTarget.soulNPC == 0)
 					Main.hoverItemName = "No Soul";
 				else
-					Main.hoverItemName = soulTarget.soulName;
+					Main.hoverItemName = soulTarget.soulName + " soul";
 			}
 
 			if (soulTarget != null)

@@ -29,6 +29,7 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new UndeadVikingSoul());
 			AddNewSoul(new VoodooDemonSoul());
 			AddNewSoul(new BeeSoul());
+			AddNewSoul(new ArmoredVikingSoul());
 		}
 
 		public static void ResetSoulAcquisition(List<short> acquiredSouls = null)
@@ -48,7 +49,7 @@ namespace MysticHunter.Souls.Framework
 		{
 			if (MysticHunter.Instance.SoulDict.ContainsKey(data.soulNPC))
 			{
-				Console.WriteLine("ERROR: adding id '" + data.soulNPC + "' - from class '" + data.GetType().ToString() + "'");
+				MysticHunter.Instance.Logger.Warn("ERROR: ID '" + data.soulNPC + "' - from class '" + data.GetType().ToString() + "' already exists under name '" + MysticHunter.Instance.SoulDict[data.soulNPC].soulName + "'.");
 				return;
 			}
 			MysticHunter.Instance.SoulDict.Add(data.soulNPC, data);

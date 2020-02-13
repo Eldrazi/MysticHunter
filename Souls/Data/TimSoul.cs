@@ -10,7 +10,7 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.Tim;
-		public string soulName => "Tim";
+		public string soulName => "Tim's";
 		public string soulDescription => "Teleport to a random location.";
 
 		public short cooldown => 1200;

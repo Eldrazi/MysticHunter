@@ -129,7 +129,7 @@ namespace MysticHunter.Souls.UI
 			spriteBatch.Draw(soulTextures[(int)soulReference.soulType], soulSlotRect, Color.White);
 
 			// Draw the name of the soul/associated NPC next to the Soul Slot.
-			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, soulReference.soulName, hitbox.X + 40, hitbox.Y + 12, Color.White, Color.Black, Vector2.Zero, .8f);
+			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, soulReference.soulName + " soul", hitbox.X + 40, hitbox.Y + 12, Color.White, Color.Black, Vector2.Zero, .8f);
 
 			// Draw the description of the soul under the Soul Slot.
 			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, soulReference.soulDescription, hitbox.X + 12, hitbox.Y + 38, Color.White, Color.Black, Vector2.Zero, .8f);
