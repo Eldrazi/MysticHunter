@@ -72,13 +72,13 @@ namespace MysticHunter
 		/// </summary>
 		public override void ProcessTriggers(TriggersSet triggersSet)
 		{
-			if (RedSoul != null && redSoulCooldown <= 0 && MysticHunter.Instance.RedSoulActive.JustPressed)
+			if (RedSoul != null && redSoulCooldown <= 0 && MysticHunter.Instance.RedSoulActive.Current)
 			{
 				if (player.CheckMana(RedSoul.ManaCost(player, soulsStack[0]), true, false) && RedSoul.SoulUpdate(player, soulsStack[0]))
 					redSoulCooldown = RedSoul.cooldown;
 			}
 
-			if (BlueSoul != null && blueSoulCooldown <= 0 && MysticHunter.Instance.BlueSoulActive.JustPressed)
+			if (BlueSoul != null && blueSoulCooldown <= 0 && MysticHunter.Instance.BlueSoulActive.Current)
 			{
 				if (player.CheckMana(BlueSoul.ManaCost(player, soulsStack[1]), true, false) && BlueSoul.SoulUpdate(player, soulsStack[1]))
 					blueSoulCooldown = BlueSoul.cooldown;

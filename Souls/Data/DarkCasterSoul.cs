@@ -46,7 +46,6 @@ namespace MysticHunter.Souls.Data
 			projectile.penetrate = -1;
 
 			projectile.friendly = true;
-			projectile.tileCollide = false;
 		}
 
 		public override bool PreAI()
@@ -72,6 +71,16 @@ namespace MysticHunter.Souls.Data
 				}
 			}
 			projectile.rotation += 0.4f * projectile.direction;
+			return (false);
+		}
+
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			if (oldVelocity.X != projectile.velocity.X)
+				projectile.velocity.X = -oldVelocity.X;
+			if (oldVelocity.Y != projectile.velocity.Y)
+				projectile.velocity.Y = -oldVelocity.Y;
+
 			return (false);
 		}
 	}

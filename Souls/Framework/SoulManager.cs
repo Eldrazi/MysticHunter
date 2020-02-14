@@ -17,19 +17,28 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new BabySlimeSoul());
 			AddNewSoul(new BeeSoul());
 			AddNewSoul(new BlackSlimeSoul());
+			AddNewSoul(new BlueSlimeSoul());
 			AddNewSoul(new CrabSoul());
 			AddNewSoul(new DarkCasterSoul());
 			AddNewSoul(new DemonSoul());
 			AddNewSoul(new DoctorBonesSoul());
 			AddNewSoul(new DungeonGuardianSoul());
 			AddNewSoul(new DungeonSlimeSoul());
+			AddNewSoul(new FireImpSoul());
 			AddNewSoul(new GoblinScoutSoul());
 			AddNewSoul(new GraniteElementalSoul());
 			AddNewSoul(new GraniteGolemSoul());
 			AddNewSoul(new HarpySoul());
+			AddNewSoul(new HellbatSoul());
+			AddNewSoul(new IceBatSoul());
 			AddNewSoul(new IceSlimeSoul());
+			AddNewSoul(new JungleBatSoul());
+			AddNewSoul(new JungleSlimeSoul());
+			AddNewSoul(new LavaSlimeSoul());
 			AddNewSoul(new MushiLadybugSoul());
+			AddNewSoul(new SandSlimeSoul());
 			AddNewSoul(new NymphSoul());
+			AddNewSoul(new PurpleSlimeSoul());
 			AddNewSoul(new SquidSoul());
 			AddNewSoul(new TimSoul());
 			AddNewSoul(new UndeadVikingSoul());
@@ -40,6 +49,7 @@ namespace MysticHunter.Souls.Framework
 
 			// Boss souls.
 			AddNewSoul(new KingSlimeSoul());
+			AddNewSoul(new DarkMageSoul());
 		}
 
 		public static void ResetSoulAcquisition(List<short> acquiredSouls = null)

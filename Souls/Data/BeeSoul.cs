@@ -17,7 +17,7 @@ namespace MysticHunter.Souls.Data
 
 		public short soulNPC => NPCID.Bee;
 		public string soulName => "Bee";
-		public string soulDescription => "Summons a small horde of bees.";
+		public string soulDescription => "Fires a small horde of bees.";
 
 		public short cooldown => 60;
 
