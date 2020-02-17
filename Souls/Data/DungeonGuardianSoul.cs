@@ -10,7 +10,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.DungeonGuardian;
-		public string soulName => "Dungeon Guardian";
 		public string soulDescription => "Boosts invincibility time.";
 
 		public short cooldown => 0;

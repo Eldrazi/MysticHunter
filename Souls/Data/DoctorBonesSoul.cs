@@ -10,7 +10,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.DoctorBones;
-		public string soulName => "Doctor Bones";
 		public string soulDescription => "Boosts stats while in the jungle.";
 
 		public short cooldown => 0;

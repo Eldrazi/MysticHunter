@@ -16,7 +16,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.Bee;
-		public string soulName => "Bee";
 		public string soulDescription => "Fires a small horde of bees.";
 
 		public short cooldown => 60;
@@ -46,15 +45,16 @@ namespace MysticHunter.Souls.Data
 
 	public class BeeSoulProj : ModProjectile
 	{
+		public override string Texture => "Terraria/NPC_210";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bee");
 			Main.projFrames[projectile.type] = 4;
 		}
-
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 6;
+			projectile.width = projectile.height = 4;
 
 			projectile.magic = true;
 			projectile.friendly = true;
@@ -87,6 +87,12 @@ namespace MysticHunter.Souls.Data
 		{
 			if (Main.rand.Next(10) == 0)
 				target.AddBuff(BuffID.Poisoned, 90);
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			for (int i = 0; i < 5; i++)
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Grass, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100);
 		}
 	}
 }

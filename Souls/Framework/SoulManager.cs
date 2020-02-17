@@ -18,18 +18,23 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new BeeSoul());
 			AddNewSoul(new BlackSlimeSoul());
 			AddNewSoul(new BlueSlimeSoul());
+			AddNewSoul(new BoneSerpentSoul());
 			AddNewSoul(new CrabSoul());
 			AddNewSoul(new DarkCasterSoul());
 			AddNewSoul(new DemonSoul());
+			AddNewSoul(new DemonEyeSoul());
+			AddNewSoul(new DevourerSoul());
 			AddNewSoul(new DoctorBonesSoul());
 			AddNewSoul(new DungeonGuardianSoul());
 			AddNewSoul(new DungeonSlimeSoul());
 			AddNewSoul(new FireImpSoul());
+			AddNewSoul(new GiantWormSoul());
 			AddNewSoul(new GoblinScoutSoul());
 			AddNewSoul(new GraniteElementalSoul());
 			AddNewSoul(new GraniteGolemSoul());
 			AddNewSoul(new HarpySoul());
 			AddNewSoul(new HellbatSoul());
+			AddNewSoul(new HopliteSoul());
 			AddNewSoul(new IceBatSoul());
 			AddNewSoul(new IceSlimeSoul());
 			AddNewSoul(new JungleBatSoul());
@@ -41,6 +46,7 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new PurpleSlimeSoul());
 			AddNewSoul(new SquidSoul());
 			AddNewSoul(new TimSoul());
+			AddNewSoul(new TombCrawlerSoul());
 			AddNewSoul(new UndeadVikingSoul());
 			AddNewSoul(new VoodooDemonSoul());
 
@@ -69,7 +75,7 @@ namespace MysticHunter.Souls.Framework
 		{
 			if (MysticHunter.Instance.SoulDict.ContainsKey(data.soulNPC))
 			{
-				MysticHunter.Instance.Logger.Warn("ERROR: ID '" + data.soulNPC + "' - from class '" + data.GetType().ToString() + "' already exists under name '" + MysticHunter.Instance.SoulDict[data.soulNPC].soulName + "'.");
+				MysticHunter.Instance.Logger.Warn("ID '" + data.soulNPC + "' - from class '" + data.GetType().ToString() + "' already exists under name '" + MysticHunter.Instance.SoulDict[data.soulNPC].SoulNPCName() + "'.");
 				return;
 			}
 			MysticHunter.Instance.SoulDict.Add(data.soulNPC, data);

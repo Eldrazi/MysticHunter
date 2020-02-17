@@ -10,7 +10,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.Demon;
-		public string soulName => "Demon";
 		public string soulDescription => "Boosts stats while in the underworld.";
 
 		public short cooldown => 0;

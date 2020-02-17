@@ -10,7 +10,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.DD2DarkMageT1;
-		public string soulName => "Dark Mage";
 		public string soulDescription => "Increases summon damage at the cost of defense.";
 
 		public short cooldown => 0;

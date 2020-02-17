@@ -14,7 +14,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.DarkCaster;
-		public string soulName => "Dark Caster";
 		public string soulDescription => "Summons a bolt of cursed water.";
 
 		public short cooldown => 300;
@@ -34,6 +33,8 @@ namespace MysticHunter.Souls.Data
 
 	public class DarkCasterSoulProj : ModProjectile
 	{
+		public override string Texture => "Terraria/NPC_33";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cursed Water");
@@ -81,6 +82,7 @@ namespace MysticHunter.Souls.Data
 			if (oldVelocity.Y != projectile.velocity.Y)
 				projectile.velocity.Y = -oldVelocity.Y;
 
+			Main.PlaySound(SoundID.Item10, projectile.position);
 			return (false);
 		}
 	}

@@ -10,7 +10,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.BlackSlime;
-		public string soulName => "Black Slime";
 		public string soulDescription => "Boosts stats while underground.";
 
 		public short cooldown => 0;

@@ -10,7 +10,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.Nymph;
-		public string soulName => "Nymph";
 		public string soulDescription => "Grants spelunker effects.";
 
 		public short cooldown => 0;

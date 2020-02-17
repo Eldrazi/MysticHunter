@@ -41,8 +41,6 @@ namespace MysticHunter.Souls.UI
 
 		public SoulIndexUIListPanel soulListPanel;
 
-		public Vector2[] soulBoxPositions;
-
 		public override void OnInitialize()
 		{
 			skullTexture = GetTexture("MysticHunter/Souls/UI/SoulIndex_SkullFlair");
@@ -181,7 +179,7 @@ namespace MysticHunter.Souls.UI
 				if (soulReference == null || soulReference.soulNPC == 0)
 					Main.hoverItemName = "No Soul";
 				else
-					Main.hoverItemName = soulReference.soulName + " soul";
+					Main.hoverItemName = soulReference.SoulNPCName() + " soul";
 			}
 
 			// Check to see if the Soul item in the SoulPlayer is set.

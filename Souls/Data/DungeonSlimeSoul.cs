@@ -10,7 +10,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.DungeonSlime;
-		public string soulName => "Dungeon Slime";
 		public string soulDescription => "Boosts stats while in the dungeon.";
 
 		public short cooldown => 0;

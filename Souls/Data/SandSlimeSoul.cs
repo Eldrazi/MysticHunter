@@ -16,7 +16,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.SandSlime;
-		public string soulName => "Sand Slime";
 		public string soulDescription => "Fires a blinding, bouncing slime blob.";
 
 		public short cooldown => 180;

@@ -10,7 +10,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.UndeadViking;
-		public string soulName => "Undead Viking";
 		public string soulDescription => "Increases melee damage at the cost of defense.";
 
 		public short cooldown => 0;

@@ -11,7 +11,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.GoblinScout;
-		public string soulName => "Goblin Scout";
 		public string soulDescription => "Increased chance for a goblin invasion.";
 
 		public short cooldown => 0;

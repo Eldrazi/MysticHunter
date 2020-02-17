@@ -16,7 +16,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.JungleSlime;
-		public string soulName => "Jungle Slime";
 		public string soulDescription => "Fires a poisonous, bouncing slime blob.";
 
 		public short cooldown => 180;

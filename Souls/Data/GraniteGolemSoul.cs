@@ -10,7 +10,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.GraniteGolem;
-		public string soulName => "Granite Golem";
 		public string soulDescription => "Increases base defense";
 
 		public short cooldown => 0;

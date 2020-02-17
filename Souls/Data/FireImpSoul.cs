@@ -14,7 +14,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.FireImp;
-		public string soulName => "Fire Imp";
 		public string soulDescription => "Boosts stats while in the underworld.";
 
 		public short cooldown => 300;
@@ -34,6 +33,8 @@ namespace MysticHunter.Souls.Data
 
 	public class FireImpSoulProj : ModProjectile
 	{
+		public override string Texture => "Terraria/Projectile_15";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fireball");
@@ -93,6 +94,8 @@ namespace MysticHunter.Souls.Data
 				projectile.velocity.X = -oldVelocity.X;
 			if (oldVelocity.Y != projectile.velocity.Y)
 				projectile.velocity.Y = -oldVelocity.Y;
+
+			Main.PlaySound(SoundID.Item10, projectile.position);
 			return (false);
 		}
 
@@ -145,40 +148,6 @@ namespace MysticHunter.Souls.Data
 				d = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f)];
 				d.velocity *= 2f;
 			}
-
-			/*for (int i = 0; i < 3; ++i)
-			{
-				float num738 = 0.33f * (i+1);
-
-				int num739 = Gore.NewGore(new Vector2(projectile.position.X + (projectile.width / 2) - 24f, projectile.position.Y + (projectile.height / 2) - 24f), default, Main.rand.Next(61, 64));
-				Gore gore = Main.gore[num739];
-				gore.velocity *= num738;
-				Gore gore118 = Main.gore[num739];
-				gore118.velocity.X = gore118.velocity.X + 1f;
-				Gore gore119 = Main.gore[num739];
-				gore119.velocity.Y = gore119.velocity.Y + 1f;
-				num739 = Gore.NewGore(new Vector2(base.position.X + (float)(base.width / 2) - 24f, base.position.Y + (float)(base.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64));
-				gore = Main.gore[num739];
-				gore.velocity *= num738;
-				Gore gore120 = Main.gore[num739];
-				gore120.velocity.X = gore120.velocity.X - 1f;
-				Gore gore121 = Main.gore[num739];
-				gore121.velocity.Y = gore121.velocity.Y + 1f;
-				num739 = Gore.NewGore(new Vector2(base.position.X + (float)(base.width / 2) - 24f, base.position.Y + (float)(base.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64));
-				gore = Main.gore[num739];
-				gore.velocity *= num738;
-				Gore gore122 = Main.gore[num739];
-				gore122.velocity.X = gore122.velocity.X + 1f;
-				Gore gore123 = Main.gore[num739];
-				gore123.velocity.Y = gore123.velocity.Y - 1f;
-				num739 = Gore.NewGore(new Vector2(base.position.X + (float)(base.width / 2) - 24f, base.position.Y + (float)(base.height / 2) - 24f), default(Vector2), Main.rand.Next(61, 64));
-				gore = Main.gore[num739];
-				gore.velocity *= num738;
-				Gore gore124 = Main.gore[num739];
-				gore124.velocity.X = gore124.velocity.X - 1f;
-				Gore gore125 = Main.gore[num739];
-				gore125.velocity.Y = gore125.velocity.Y - 1f;
-			}*/
 			projectile.position.X = projectile.position.X + (projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (projectile.height / 2);
 			projectile.width = 10;

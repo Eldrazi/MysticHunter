@@ -17,7 +17,6 @@ namespace MysticHunter.Souls.Framework
 		bool acquired { get; set; }
 
 		short soulNPC { get; }
-		string soulName { get; }
 		string soulDescription { get; }
 
 		short cooldown { get; }
@@ -26,5 +25,15 @@ namespace MysticHunter.Souls.Framework
 
 		short ManaCost(Player player, short stack);
 		bool SoulUpdate(Player player, short stack);
+	}
+
+	public static class ISoulExtensions
+	{
+		public static string SoulNPCName(this ISoul soul)
+		{
+			if (soul == null || soul.soulNPC == 0)
+				return ("");
+			return Lang.GetNPCNameValue(soul.soulNPC);
+		}
 	}
 }

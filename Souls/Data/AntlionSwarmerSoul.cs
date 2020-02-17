@@ -10,7 +10,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.FlyingAntlion;
-		public string soulName => "Antlion Swarmer";
 		public string soulDescription => "Boosts stats while in desert.";
 
 		public short cooldown => 0;

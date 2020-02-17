@@ -16,7 +16,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.ArmoredViking;
-		public string soulName => "Armored Viking";
 		public string soulDescription => "Summons an icy axe.";
 
 		public short cooldown => 480;

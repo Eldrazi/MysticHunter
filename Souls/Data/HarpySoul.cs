@@ -16,7 +16,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.Harpy;
-		public string soulName => "Harpy";
 		public string soulDescription => "Fires a spread of feathers.";
 
 		public short cooldown => 300;

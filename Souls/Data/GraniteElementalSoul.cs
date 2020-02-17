@@ -16,7 +16,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.GraniteFlyer;
-		public string soulName => "Granite Elemental";
 		public string soulDescription => "Summons a protective granite elemental.";
 
 		public short cooldown => 0;
@@ -28,7 +27,7 @@ namespace MysticHunter.Souls.Data
 		{
 			// Kill any active GraniteElementalSoulNPCs.
 			for (int i = 0; i < Main.maxNPCs; ++i)
-				if (Main.npc[i].active && Main.npc[i].type == NPCType<GraniteElementalSoulNPC>())
+				if (Main.npc[i].active && Main.npc[i].ai[0] == p.whoAmI && Main.npc[i].type == NPCType<GraniteElementalSoulNPC>())
 					Main.npc[i].active = false;
 
 			// Set some values depending on the stack amount.

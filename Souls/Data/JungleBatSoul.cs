@@ -16,7 +16,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.JungleBat;
-		public string soulName => "Jungle Bat";
 		public string soulDescription => "Fire a spread of poisonous bats.";
 
 		public short cooldown => 20;

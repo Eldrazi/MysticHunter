@@ -10,7 +10,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.MushiLadybug;
-		public string soulName => "Mushi Ladybug";
 		public string soulDescription => "Boosts stats while in mushroom biome.";
 
 		public short cooldown => 0;

@@ -16,7 +16,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.LavaSlime;
-		public string soulName => "Lava Slime";
 		public string soulDescription => "Fires a burning, bouncing slime blob.";
 
 		public short cooldown => 180;

@@ -10,7 +10,6 @@ namespace MysticHunter.Souls.Data
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.Squid;
-		public string soulName => "Squid";
 		public string soulDescription => "Grants extra mobility in water.";
 
 		public short cooldown => 0;
