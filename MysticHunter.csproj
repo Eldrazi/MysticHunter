@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\references\tModLoader.targets" />
   <PropertyGroup>
@@ -10,4 +10,50 @@
   <Target Name="BuildMod" AfterTargets="Build">
     <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -define $(DefineConstants) -unsafe $(AllowUnsafeBlocks)" />
   </Target>
+  <ItemGroup>
+    <None Remove="Souls\Data\ArmoredVikingSoulProj.png" />
+    <None Remove="Souls\Data\BeetleShell.png" />
+    <None Remove="Souls\Data\BlueSlimeSoulProj.png" />
+    <None Remove="Souls\Data\BoneSerpentSoulProj.png" />
+    <None Remove="Souls\Data\BoneSerpentSoulProj_Chain.png" />
+    <None Remove="Souls\Data\CochinealBeetleSoul_Proj.png" />
+    <None Remove="Souls\Data\DevourerSoulProj.png" />
+    <None Remove="Souls\Data\DevourerSoulProj_Chain.png" />
+    <None Remove="Souls\Data\GiantWormSoulProj.png" />
+    <None Remove="Souls\Data\GiantWormSoulProj_Chain.png" />
+    <None Remove="Souls\Data\GraniteElementalSoulNPC.png" />
+    <None Remove="Souls\Data\HarpySoulProj.png" />
+    <None Remove="Souls\Data\HellbatSoulProj.png" />
+    <None Remove="Souls\Data\HM\ArmoredVikingSoulProj.png" />
+    <None Remove="Souls\Data\IceBatSoulProj.png" />
+    <None Remove="Souls\Data\JungleBatSoulProj.png" />
+    <None Remove="Souls\Data\JungleSlimeSoulProj.png" />
+    <None Remove="Souls\Data\LavaSlimeSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\BeetleShell.png" />
+    <None Remove="Souls\Data\Pre_HM\BlueSlimeSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\BoneSerpentSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\BoneSerpentSoulProj_Chain.png" />
+    <None Remove="Souls\Data\Pre_HM\DevourerSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\DevourerSoulProj_Chain.png" />
+    <None Remove="Souls\Data\Pre_HM\GiantWormSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\GiantWormSoulProj_Chain.png" />
+    <None Remove="Souls\Data\Pre_HM\GraniteElementalSoulNPC.png" />
+    <None Remove="Souls\Data\Pre_HM\HarpySoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\HellbatSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\IceBatSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\JungleBatSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\JungleSlimeSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\LavaSlimeSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\PurpleSlimeSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\SandSlimeSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\TombCrawlerSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\TombCrawlerSoulProj_Chain.png" />
+    <None Remove="Souls\Data\PurpleSlimeSoulProj.png" />
+    <None Remove="Souls\Data\SandSlimeSoulProj.png" />
+    <None Remove="Souls\Data\TombCrawlerSoulProj.png" />
+    <None Remove="Souls\Data\TombCrawlerSoulProj_Chain.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Souls\Data\Pre_HM\" />
+  </ItemGroup>
 </Project>

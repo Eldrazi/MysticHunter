@@ -6,11 +6,17 @@ using Terraria.ID;
 using Terraria.GameInput;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.DataStructures;
 
 using MysticHunter.Souls.Framework;
 
+using MysticHunter.Souls.Data.HM;
+using MysticHunter.Souls.Data.Pre_HM;
+
 namespace MysticHunter
 {
+	public delegate void PreHurtModifier(ref int damage, PlayerDeathReason damageSource);
+
 	/// <summary>
 	/// ModPlayer class for handling everything soul related (active/passive updates).
 	/// </summary>
@@ -41,6 +47,15 @@ namespace MysticHunter
 
 		private short redSoulCooldown, blueSoulCooldown, yellowSoulCooldown;
 
+		public PreHurtModifier preHurtModifier = null;
+
+		public bool pinkySoul;
+
+		// Beetle soul booleans.
+		public bool lacBeetleSoul = false;
+		public bool cyanBeetleSoul = false;
+		public bool cochinealBeetleSoul = false;
+
 		/// <summary>
 		/// Initializes the `souls` array.
 		/// Done in this function so every player has his/her own instance.
@@ -49,6 +64,20 @@ namespace MysticHunter
 		{
 			this.souls = new ISoul[3];
 			this.soulsStack = new byte[3] { 1, 1, 1 };
+		}
+
+		public override void ResetEffects()
+		{
+			preHurtModifier = null;
+
+			pinkySoul = false;
+
+			if (BlueSoul == null || BlueSoul.soulNPC != NPCID.LacBeetle)
+				lacBeetleSoul = false;
+			if (BlueSoul == null || BlueSoul.soulNPC != NPCID.CyanBeetle)
+				cyanBeetleSoul = false;
+			if (BlueSoul == null || BlueSoul.soulNPC != NPCID.CochinealBeetle)
+				cochinealBeetleSoul = false;
 		}
 
 		/// <summary>
@@ -67,6 +96,18 @@ namespace MysticHunter
 				yellowSoulCooldown--;
 		}
 
+		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+		{
+			if (lacBeetleSoul)
+				LacBeetleSoul.ModifyHit(player, ref damage, damageSource, soulsStack[1]);
+			if (cyanBeetleSoul)
+				CyanBeetleSoul.ModifyHit(player, ref damage, damageSource, soulsStack[1]);
+			if (cochinealBeetleSoul)
+				CochinealBeetleSoul.ModifyHit(player, ref damage, damageSource, soulsStack[1]);
+
+			return (true);
+		}
+
 		/// <summary>
 		/// Used to process Red and Blue soul active triggers/hotkeys, if available.
 		/// </summary>
@@ -75,13 +116,38 @@ namespace MysticHunter
 			if (RedSoul != null && redSoulCooldown <= 0 && MysticHunter.Instance.RedSoulActive.Current)
 			{
 				if (player.CheckMana(RedSoul.ManaCost(player, soulsStack[0]), true, false) && RedSoul.SoulUpdate(player, soulsStack[0]))
+				{
 					redSoulCooldown = RedSoul.cooldown;
+					player.manaRegenDelay = (int)player.maxRegenDelay;
+				}
 			}
 
 			if (BlueSoul != null && blueSoulCooldown <= 0 && MysticHunter.Instance.BlueSoulActive.Current)
 			{
 				if (player.CheckMana(BlueSoul.ManaCost(player, soulsStack[1]), true, false) && BlueSoul.SoulUpdate(player, soulsStack[1]))
+				{
 					blueSoulCooldown = BlueSoul.cooldown;
+					player.manaRegenDelay = (int)player.maxRegenDelay;
+				}
+			}
+		}
+
+		public override void ModifyDrawLayers(List<PlayerLayer> layers)
+		{
+			if (this.lacBeetleSoul)
+			{
+				LacBeetleSoul.DrawLayer.visible = true;
+				layers.Add(LacBeetleSoul.DrawLayer);
+			}
+			if (this.cyanBeetleSoul)
+			{
+				CyanBeetleSoul.DrawLayer.visible = true;
+				layers.Add(CyanBeetleSoul.DrawLayer);
+			}
+			if (this.cochinealBeetleSoul)
+			{
+				CochinealBeetleSoul.DrawLayer.visible = true;
+				layers.Add(CochinealBeetleSoul.DrawLayer);
 			}
 		}
 

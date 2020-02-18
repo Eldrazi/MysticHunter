@@ -18,6 +18,7 @@ namespace MysticHunter
 			short snetID = (short)npc.netID;
 			if (MysticHunter.Instance.SoulDict.ContainsKey(snetID))
 			{
+				// TODO
 				// There needs to be a random check here, since we don't want souls to *always* drop.
 				// Leaving it like this is solely for debugging purposes.
 
@@ -31,6 +32,14 @@ namespace MysticHunter
 					bs.soulNPC = snetID;
 				}
 			}
+		}
+
+		public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
+		{
+			SoulPlayer sp = player.GetModPlayer<SoulPlayer>();
+
+			if (sp.pinkySoul)
+				spawnRate += 5 + 2 * (sp.soulsStack[0]);
 		}
 	}
 }

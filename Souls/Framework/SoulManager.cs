@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Collections.Generic;
 
-using MysticHunter.Souls.Data;
+using MysticHunter.Souls.Data.HM;
+using MysticHunter.Souls.Data.Pre_HM;
 
 namespace MysticHunter.Souls.Framework
 {
@@ -19,7 +20,10 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new BlackSlimeSoul());
 			AddNewSoul(new BlueSlimeSoul());
 			AddNewSoul(new BoneSerpentSoul());
+			AddNewSoul(new CochinealBeetleSoul());
 			AddNewSoul(new CrabSoul());
+			AddNewSoul(new CursedSkullSoul());
+			AddNewSoul(new CyanBeetleSoul());
 			AddNewSoul(new DarkCasterSoul());
 			AddNewSoul(new DemonSoul());
 			AddNewSoul(new DemonEyeSoul());
@@ -28,6 +32,7 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new DungeonGuardianSoul());
 			AddNewSoul(new DungeonSlimeSoul());
 			AddNewSoul(new FireImpSoul());
+			AddNewSoul(new FungiBulbSoul());
 			AddNewSoul(new GiantWormSoul());
 			AddNewSoul(new GoblinScoutSoul());
 			AddNewSoul(new GraniteElementalSoul());
@@ -39,10 +44,13 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new IceSlimeSoul());
 			AddNewSoul(new JungleBatSoul());
 			AddNewSoul(new JungleSlimeSoul());
+			AddNewSoul(new LacBeetleSoul());
 			AddNewSoul(new LavaSlimeSoul());
+			AddNewSoul(new ManEaterSoul());
 			AddNewSoul(new MushiLadybugSoul());
 			AddNewSoul(new SandSlimeSoul());
 			AddNewSoul(new NymphSoul());
+			AddNewSoul(new PinkySoul());
 			AddNewSoul(new PurpleSlimeSoul());
 			AddNewSoul(new SquidSoul());
 			AddNewSoul(new TimSoul());
@@ -51,7 +59,19 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new VoodooDemonSoul());
 
 			// Hardmode souls.
+			AddNewSoul(new AngryTrapperSoul());
 			AddNewSoul(new ArmoredVikingSoul());
+			AddNewSoul(new BasiliskSoul());
+			AddNewSoul(new DreamerGhoulSoul());
+			AddNewSoul(new FloatyGrossSoul());
+			AddNewSoul(new HellArmoredBonesSoul());
+			AddNewSoul(new IceElementalSoul());
+			AddNewSoul(new NecromancerSoul());
+			AddNewSoul(new RustyArmoredBonesSoul());
+			AddNewSoul(new TaintedGhoulSoul());
+			AddNewSoul(new UnicornSoul());
+			AddNewSoul(new VileGhoulSoul());
+			AddNewSoul(new WyvernSoul());
 
 			// Boss souls.
 			AddNewSoul(new KingSlimeSoul());
