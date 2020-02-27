@@ -37,7 +37,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				return;
 
 			Player drawPlayer = drawInfo.drawPlayer;
-			Texture2D texture = GetTexture("MysticHunter/Souls/Data/Pre_HM/BeetleShell");
+			Texture2D texture = GetTexture("MysticHunter/Souls/Data/Pre_HM/LacBeetleShell");
 
 			int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
 			int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y);

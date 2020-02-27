@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using MysticHunter.Souls.Framework;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MysticHunter.Souls.Items
 {
@@ -15,6 +16,10 @@ namespace MysticHunter.Souls.Items
 	{
 		public short soulNPC = 0;
 
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Soul");
+		}
 		public override void SetDefaults()
 		{
 			item.width = item.height = 16;
@@ -50,6 +55,24 @@ namespace MysticHunter.Souls.Items
 				// Debug message for when a soul with the given `soulDataID` cannot be found.
 				Main.NewText("Soul with ID '" + soulNPC + "' cannot be found.");
 			}
+
+			return (false);
+		}
+
+		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+		{
+			SoulType type = MysticHunter.Instance.SoulDict[soulNPC].soulType;
+
+			Texture2D tex = Main.itemTexture[item.type];
+			Rectangle rect = new Rectangle(0, 0, 16, 16);
+			Vector2 origin = new Vector2(tex.Width * .5f, (tex.Height / 3) * .5f);
+
+			if (type == SoulType.Blue)
+				rect.Y += 16;
+			if (type == SoulType.Yellow)
+				rect.Y += 32;
+
+			spriteBatch.Draw(tex, item.position - Main.screenPosition + origin, rect, lightColor, 0, origin, 1, SpriteEffects.None, 0);
 
 			return (false);
 		}

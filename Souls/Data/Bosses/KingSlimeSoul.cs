@@ -3,14 +3,14 @@ using Terraria.ID;
 
 using MysticHunter.Souls.Framework;
 
-namespace MysticHunter.Souls.Data.Pre_HM
+namespace MysticHunter.Souls.Data.Bosses
 {
-	public class DarkMageSoul : ISoul
+	public class KingSlimeSoul : ISoul
 	{
 		public bool acquired { get; set; }
 
-		public short soulNPC => NPCID.DD2DarkMageT1;
-		public string soulDescription => "Increases summon damage at the cost of defense.";
+		public short soulNPC => NPCID.KingSlime;
+		public string soulDescription => "Increases throwing damage at the cost of defense.";
 
 		public short cooldown => 0;
 
@@ -20,7 +20,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public bool SoulUpdate(Player p, short stack)
 		{
 			p.statDefense -= 5 * stack;
-			p.minionDamage += .1f * stack;
+			p.thrownDamage += .1f * stack;
 			return (true);
 		}
 	}

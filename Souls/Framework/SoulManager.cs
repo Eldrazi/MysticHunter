@@ -3,7 +3,9 @@ using System.Linq;
 using System.Collections.Generic;
 
 using MysticHunter.Souls.Data.HM;
+using MysticHunter.Souls.Data.Event;
 using MysticHunter.Souls.Data.Pre_HM;
+using MysticHunter.Souls.Data.Bosses;
 
 namespace MysticHunter.Souls.Framework
 {
@@ -48,10 +50,15 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new LavaSlimeSoul());
 			AddNewSoul(new ManEaterSoul());
 			AddNewSoul(new MushiLadybugSoul());
+			AddNewSoul(new RedSlimeSoul());
 			AddNewSoul(new SandSlimeSoul());
 			AddNewSoul(new NymphSoul());
 			AddNewSoul(new PinkySoul());
 			AddNewSoul(new PurpleSlimeSoul());
+			AddNewSoul(new SkeletonSoul());
+			AddNewSoul(new SnowFlinxSoul());
+			AddNewSoul(new SpikedIceSlimeSoul());
+			AddNewSoul(new SpikedJungleSlimeSoul());
 			AddNewSoul(new SquidSoul());
 			AddNewSoul(new TimSoul());
 			AddNewSoul(new TombCrawlerSoul());
@@ -68,14 +75,24 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new IceElementalSoul());
 			AddNewSoul(new NecromancerSoul());
 			AddNewSoul(new RustyArmoredBonesSoul());
+			AddNewSoul(new SandPoacherSoul());
 			AddNewSoul(new TaintedGhoulSoul());
 			AddNewSoul(new UnicornSoul());
 			AddNewSoul(new VileGhoulSoul());
 			AddNewSoul(new WyvernSoul());
 
+			// Event souls.
+			AddNewSoul(new GoblinArcherSoul());
+			AddNewSoul(new GoblinPeonSoul());
+			AddNewSoul(new GoblinSorcererSoul());
+			AddNewSoul(new GoblinSummonerSoul());
+			AddNewSoul(new GoblinThiefSoul());
+			AddNewSoul(new GoblinWarriorSoul());
+
 			// Boss souls.
-			AddNewSoul(new KingSlimeSoul());
 			AddNewSoul(new DarkMageSoul());
+			AddNewSoul(new DestroyerSoul());
+			AddNewSoul(new KingSlimeSoul());
 		}
 
 		public static void ResetSoulAcquisition(List<short> acquiredSouls = null)

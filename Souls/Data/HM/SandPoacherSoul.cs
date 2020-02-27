@@ -11,38 +11,38 @@ using Microsoft.Xna.Framework.Graphics;
 using MysticHunter.Souls.Framework;
 using System.Collections.Generic;
 
-namespace MysticHunter.Souls.Data.Pre_HM
+namespace MysticHunter.Souls.Data.HM
 {
-	public class DevourerSoul : ISoul
+	public class SandPoacherSoul : ISoul
 	{
 		public bool acquired { get; set; }
 
-		public short soulNPC => NPCID.DevourerHead;
-		public string soulDescription => "Grow a poisonous stinger.";
+		public short soulNPC => NPCID.DesertScorpionWalk;
+		public string soulDescription => "Grow a venomous stinger.";
 
 		public short cooldown => 600;
 
 		public SoulType soulType => SoulType.Blue;
 
-		public short ManaCost(Player p, short stack) => 20;
+		public short ManaCost(Player p, short stack) => 25;
 		public bool SoulUpdate(Player p, short stack)
 		{
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<DevourerSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<SandPoacherSoulProj>())
 					Main.projectile[i].Kill();
 			}
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<DevourerSoulProj>(), 20 + (2 * stack), .1f, p.whoAmI, -1);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<SandPoacherSoulProj>(), 70 + (10 * stack), .3f, p.whoAmI, -1);
 			return (true);
 		}
 	}
 
-	public class DevourerSoulProj : ModProjectile
+	public class SandPoacherSoulProj : ModProjectile
 	{
 		private readonly int tailParts= 10;
-		private readonly float tailScale = .5f;
+		private readonly float tailScale = .6f;
 		private readonly int tailPartLength = 20;
 		private int TailLength
 		{
@@ -51,7 +51,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Corrupt Stinger");
+			DisplayName.SetDefault("Venomous Tail");
 		}
 		public override void SetDefaults()
 		{
@@ -64,7 +64,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.hostile = false;
 			projectile.tileCollide = false;
 
-			projectile.scale = .8f;
+			projectile.scale = 1;
 		}
 
 		public override bool PreAI()
@@ -72,9 +72,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Player player = Main.player[projectile.owner];
 			
 			// Check if the projectile should still be alive.
-			if (player.dead || player.GetModPlayer<SoulPlayer>().souls[1] == null || player.GetModPlayer<SoulPlayer>().souls[1].soulNPC != NPCID.DevourerHead)
+			if (player.dead || player.GetModPlayer<SoulPlayer>().souls[1] == null || player.GetModPlayer<SoulPlayer>().souls[1].soulNPC != NPCID.DesertScorpionWalk)
 				projectile.Kill();
-			projectile.timeLeft = 10;
 
 			// Projectile state management.
 			float maxSpeed = .5f;
@@ -96,7 +95,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				{
 					for (int i = 0; i < Main.maxNPCs; ++i)
 					{
-						if (Main.npc[i].CanBeChasedBy(projectile) && Vector2.Distance(player.Center, Main.npc[i].Center) <= TailLength)
+						if (Main.npc[i].active && Vector2.Distance(player.Center, Main.npc[i].Center) <= TailLength)
 						{
 							projectile.ai[0] = i;
 							projectile.ai[1] = 0;
@@ -130,7 +129,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			if (projectile.ai[0] != -1)
 			{
 				projectile.ai[0] = -1;
-				target.AddBuff(BuffID.Poisoned, 180);
+				target.AddBuff(BuffID.Venom, 180);
 			}
 		}
 
@@ -143,7 +142,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Player player = Main.player[projectile.owner];
 
-			Texture2D tailPartTex = GetTexture("MysticHunter/Souls/Data/Pre_HM/DevourerSoulProj_Chain");
+			Texture2D tailPartTex = GetTexture("MysticHunter/Souls/Data/HM/SandPoacherSoulProj_Chain");
 
 			Vector2 origin = new Vector2(tailPartTex.Width / 2, tailPartTex.Height / 2);
 
@@ -179,6 +178,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				if (i == maxLen - 1 && maxLen < tailParts && Vector2.Distance(startPos, endPos) > (tailPartLength/2) * tailScale)
 					maxLen++;
 			}
+
+			projectile.spriteDirection = -dir;
 
 			return (true);
 		}

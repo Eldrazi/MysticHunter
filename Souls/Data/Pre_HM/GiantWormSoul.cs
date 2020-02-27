@@ -18,7 +18,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public bool acquired { get; set; }
 
 		public short soulNPC => NPCID.GiantWormHead;
-		public string soulDescription => "Grow a whip like tail.";
+		public string soulDescription => "Grow a whip-like tail.";
 
 		public short cooldown => 600;
 
@@ -74,6 +74,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			// Check if the projectile should still be alive.
 			if (player.dead || player.GetModPlayer<SoulPlayer>().souls[1] == null || player.GetModPlayer<SoulPlayer>().souls[1].soulNPC != NPCID.GiantWormHead)
 				projectile.Kill();
+			projectile.timeLeft = 10;
 
 			// Projectile state management.
 			float maxSpeed = .5f;
@@ -95,7 +96,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				{
 					for (int i = 0; i < Main.maxNPCs; ++i)
 					{
-						if (Main.npc[i].active && Vector2.Distance(player.Center, Main.npc[i].Center) <= TailLength)
+						if (Main.npc[i].CanBeChasedBy(projectile) && Vector2.Distance(player.Center, Main.npc[i].Center) <= TailLength)
 						{
 							projectile.ai[0] = i;
 							projectile.ai[1] = 0;
@@ -139,7 +140,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Player player = Main.player[projectile.owner];
 
-			Texture2D tailPartTex = GetTexture("MysticHunter/Souls/Data/GiantWormSoulProj_Chain");
+			Texture2D tailPartTex = GetTexture("MysticHunter/Souls/Data/Pre_HM/GiantWormSoulProj_Chain");
 
 			Vector2 origin = new Vector2(tailPartTex.Width / 2, tailPartTex.Height / 2);
 
