@@ -15,7 +15,7 @@ using MysticHunter.Souls.Data.Pre_HM;
 
 namespace MysticHunter
 {
-	public delegate void PreHurtModifier(ref int damage, PlayerDeathReason damageSource);
+	public delegate void PreHurtModifier(Player player, ref int damage, PlayerDeathReason damageSource, int soulStack);
 
 	/// <summary>
 	/// ModPlayer class for handling everything soul related (active/passive updates).
@@ -29,29 +29,34 @@ namespace MysticHunter
 		public ISoul[] souls;
 		public ISoul RedSoul
 		{
-			get { return souls[0]; }
-			set { souls[0] = value; }
+			get { return souls[(int)SoulType.Red]; }
+			set { souls[(int)SoulType.Red] = value; }
 		}
 		public ISoul BlueSoul
 		{
-			get { return souls[1]; }
-			set { souls[1] = value; }
+			get { return souls[(int)SoulType.Blue]; }
+			set { souls[(int)SoulType.Blue] = value; }
 		}
 		public ISoul YellowSoul
 		{
-			get { return souls[2]; }
-			set { souls[2] = value; }
+			get { return souls[(int)SoulType.Yellow]; }
+			set { souls[(int)SoulType.Yellow] = value; }
 		}
 
 		public byte[] soulsStack;
+
+		public readonly float[] DefinedSoulDropModifier = new float[3] { 0.01f, 0.01f, 0.01f };
+		public float[] soulDropModifier;
 
 		private short redSoulCooldown, blueSoulCooldown, yellowSoulCooldown;
 
 		public PreHurtModifier preHurtModifier = null;
 
-		public bool pinkySoul;
+		// Yellow soul booleans.
+		public bool pinkySoul = false;
+		public bool undeadMinerSoul = false;
 
-		// Beetle soul booleans.
+		// Blue soul booleans.
 		public bool lacBeetleSoul = false;
 		public bool cyanBeetleSoul = false;
 		public bool cochinealBeetleSoul = false;
@@ -64,6 +69,8 @@ namespace MysticHunter
 		{
 			this.souls = new ISoul[3];
 			this.soulsStack = new byte[3] { 1, 1, 1 };
+
+			this.soulDropModifier = new float[3] { DefinedSoulDropModifier[0], DefinedSoulDropModifier[1], DefinedSoulDropModifier[2] };
 		}
 
 		public override void ResetEffects()
@@ -71,6 +78,7 @@ namespace MysticHunter
 			preHurtModifier = null;
 
 			pinkySoul = false;
+			undeadMinerSoul = false;
 
 			if (BlueSoul == null || BlueSoul.soulNPC != NPCID.LacBeetle)
 				lacBeetleSoul = false;
@@ -78,6 +86,10 @@ namespace MysticHunter
 				cyanBeetleSoul = false;
 			if (BlueSoul == null || BlueSoul.soulNPC != NPCID.CochinealBeetle)
 				cochinealBeetleSoul = false;
+
+			this.soulDropModifier[0] = DefinedSoulDropModifier[0];
+			this.soulDropModifier[1] = DefinedSoulDropModifier[1];
+			this.soulDropModifier[2] = DefinedSoulDropModifier[2];
 		}
 
 		/// <summary>
@@ -104,6 +116,8 @@ namespace MysticHunter
 				CyanBeetleSoul.ModifyHit(player, ref damage, damageSource, soulsStack[1]);
 			if (cochinealBeetleSoul)
 				CochinealBeetleSoul.ModifyHit(player, ref damage, damageSource, soulsStack[1]);
+
+			preHurtModifier?.Invoke(player, ref damage, damageSource, soulsStack[2]);
 
 			return (true);
 		}

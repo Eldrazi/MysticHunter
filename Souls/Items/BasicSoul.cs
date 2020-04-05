@@ -59,6 +59,8 @@ namespace MysticHunter.Souls.Items
 			return (false);
 		}
 
+		public override bool ItemSpace(Player player) => true;
+
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
 			SoulType type = MysticHunter.Instance.SoulDict[soulNPC].soulType;

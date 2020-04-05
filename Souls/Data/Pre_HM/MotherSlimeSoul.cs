@@ -1,0 +1,194 @@
+﻿using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
+
+using Microsoft.Xna.Framework;
+
+using MysticHunter.Souls.Framework;
+
+namespace MysticHunter.Souls.Data.Pre_HM
+{
+	public class MotherSlimeSoul : ISoul
+	{
+		public bool acquired { get; set; }
+
+		public short soulNPC => NPCID.MotherSlime;
+		public string soulDescription => "Summons a massive slime blob.";
+
+		public short cooldown => 60;
+
+		public SoulType soulType => SoulType.Blue;
+
+		public short ManaCost(Player p, short stack) => 50;
+		public bool SoulUpdate(Player p, short stack)
+		{
+			for (int i = 0; i < Main.maxProjectiles; ++i)
+				if (Main.projectile[i].active && Main.projectile[i].type == ProjectileType<MotherSlimeSoulProj>() && Main.projectile[i].owner == p.whoAmI)
+					Main.projectile[i].Kill();
+
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<MotherSlimeSoulProj>(), 0, 0, p.whoAmI, stack);
+			return (true);
+		}
+	}
+
+	public class MotherSlimeSoulProj : ModProjectile
+	{
+		public override string Texture => "Terraria/NPC_16";
+
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Slime Blob");
+			Main.projFrames[projectile.type] = 2;
+		}
+		public override void SetDefaults()
+		{
+			projectile.width = 36;
+			projectile.height = 24;
+
+			projectile.alpha = 150;
+			projectile.scale = 1.25f;
+			projectile.penetrate = -1;
+
+			projectile.minion = true;
+			projectile.friendly = true;
+
+			drawOriginOffsetY = -4;
+		}
+
+		public override bool PreAI()
+		{
+			Player owner = Main.player[projectile.owner];
+			SoulPlayer sp = owner.GetModPlayer<SoulPlayer>();
+
+			// Check to see if the NPC should still be alive.
+			if (owner.whoAmI == Main.myPlayer && (owner.dead || sp.souls[(int)SoulType.Blue] == null || sp.souls[(int)SoulType.Blue].soulNPC != NPCID.MotherSlime))
+				projectile.Kill();
+			else
+				projectile.timeLeft = 10;
+
+			// A cooldown of 20 seconds (1200 ticks) - 1 second per soul stack (minimum of 720 ticks/12 seconds).
+			float summonCooldown = 1260 - (60 * projectile.ai[0]);
+
+			// Spawn a new mini slime.
+			if (Main.netMode != NetmodeID.MultiplayerClient && projectile.ai[1]++ >= summonCooldown)
+			{
+				int damage = (int)(20 + projectile.ai[0] * 2);
+				Vector2 velocity = new Vector2(Main.rand.Next(7) - 3, -4);
+
+				Projectile.NewProjectile(projectile.Center, velocity, ProjectileType<MiniSlimeProj>(), damage, .2f, owner.whoAmI);
+				projectile.ai[1] = 0;
+			}
+
+			// Apply gravity.
+			projectile.velocity.Y += .2f;
+
+			// Animate projectile.
+			if (projectile.frameCounter++ >= 10)
+			{
+				projectile.frameCounter = 0;
+				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+			}
+			return (false);
+		}
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return (new Color(100, 100, 100, projectile.alpha));
+		}
+
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			return (false);
+		}
+	}
+
+	public class MiniSlimeProj : ModProjectile
+	{
+		public override string Texture => "Terraria/NPC_1";
+
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Mini slime");
+			Main.projFrames[projectile.type] = 2;
+		}
+		public override void SetDefaults()
+		{
+			projectile.width = 24;
+			projectile.height = 24;
+
+			projectile.alpha = 150;
+			projectile.scale = .5f;
+			projectile.timeLeft = 600;
+			projectile.penetrate = -1;
+
+			projectile.minion = true;
+			projectile.friendly = true;
+
+			drawOriginOffsetY = -2;
+		}
+
+		public override bool PreAI()
+		{
+			if (projectile.direction == 0)
+				projectile.direction = 1;
+
+			if (projectile.velocity.Y == 0)
+			{
+				projectile.velocity.X *= .9f;
+				if (projectile.velocity.X > -.1f && projectile.velocity.X < .1f)
+					projectile.velocity.X = 0;
+
+				if (projectile.ai[0]++ >= 120 && projectile.owner == Main.myPlayer)
+				{
+					// 50/50 change to go left or right.
+					if (Main.rand.Next(2) == 0)
+						projectile.direction *= -1;
+
+					projectile.velocity.Y = -5f;
+					projectile.velocity.X = 3 * projectile.direction;
+
+					projectile.ai[0] = 0 - Main.rand.Next(0, 91);
+					projectile.netUpdate = true;
+				}
+			}
+
+			// Animate.
+			if (projectile.ai[0] >= 60 || projectile.velocity.Y != 0)
+				projectile.frameCounter += 4;
+
+			if (projectile.frameCounter++ >= 12)
+			{
+				projectile.frameCounter = 0;
+				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+			}
+
+			// Apply gravity.
+			projectile.velocity.Y += .2f;
+			return (false);
+		}
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return (new Color(100, 100, 100, projectile.alpha));
+		}
+
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			if (projectile.velocity.X != oldVelocity.X)
+				projectile.velocity.X *= -1;
+
+			if (projectile.velocity.Y != oldVelocity.Y && projectile.velocity.Y == 0)
+				projectile.position.X -= projectile.velocity.X;
+			return (false);
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			for (int i = 0; i < 10; i++)
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.t_Slime, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100, new Color(140, 140, 140), projectile.scale);
+
+			Main.PlaySound(SoundID.NPCDeath1, projectile.Center);
+		}
+	}
+}

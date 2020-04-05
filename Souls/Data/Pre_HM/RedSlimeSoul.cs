@@ -82,52 +82,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 				}
 			}
-			/*
-				scale -= 0.02f;
-				if (scale <= 0f)
-				{
-					Kill();
-				}
-				if (this.ai[0] > 3f)
-				{
-					base.velocity.Y = base.velocity.Y + 0.2f;
-					int num4;
-					for (int num167 = 0; num167 < 1; num167 = num4 + 1)
-					{
-						for (int num168 = 0; num168 < 3; num168 = num4 + 1)
-						{
-							float num169 = base.velocity.X / 3f * (float)num168;
-							float num170 = base.velocity.Y / 3f * (float)num168;
-							int num171 = 6;
-							int num172 = Dust.NewDust(new Vector2(base.position.X + (float)num171, base.position.Y + (float)num171), width - num171 * 2, height - num171 * 2, 172, 0f, 0f, 100, default(Color), 1.2f);
-							Main.dust[num172].noGravity = true;
-							Dust dust3 = Main.dust[num172];
-							dust3.velocity *= 0.3f;
-							dust3 = Main.dust[num172];
-							dust3.velocity += base.velocity * 0.5f;
-							Dust dust22 = Main.dust[num172];
-							dust22.position.X = dust22.position.X - num169;
-							Dust dust23 = Main.dust[num172];
-							dust23.position.Y = dust23.position.Y - num170;
-							num4 = num168;
-						}
-						if (Main.rand.Next(8) == 0)
-						{
-							int num173 = 6;
-							int num174 = Dust.NewDust(new Vector2(base.position.X + (float)num173, base.position.Y + (float)num173), width - num173 * 2, height - num173 * 2, 172, 0f, 0f, 100, default(Color), 0.75f);
-							Dust dust3 = Main.dust[num174];
-							dust3.velocity *= 0.5f;
-							dust3 = Main.dust[num174];
-							dust3.velocity += base.velocity * 0.5f;
-						}
-						num4 = num167;
-					}
-				}
-				else
-				{
-					ref float reference = ref this.ai[0];
-					reference += 1f;
-				}*/
 			return (false);
 		}
 

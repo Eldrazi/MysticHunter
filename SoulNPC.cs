@@ -15,22 +15,40 @@ namespace MysticHunter
 	{		
 		public override void NPCLoot(NPC npc)
 		{
+			// Soul dropping.
 			short snetID = (short)npc.netID;
 			if (MysticHunter.Instance.SoulDict.ContainsKey(snetID))
 			{
-				// TODO
-				// There needs to be a random check here, since we don't want souls to *always* drop.
-				// Leaving it like this is solely for debugging purposes.
+				float modifier = Main.LocalPlayer.GetModPlayer<SoulPlayer>().soulDropModifier[(int)MysticHunter.Instance.SoulDict[snetID].soulType];
 
-				Item i = Main.item[Item.NewItem(npc.position, ItemType<BasicSoul>(), 1, true)];
-
-				// Set the correct ID of the item drop.
-				if (i != null)
+				if (Main.rand.NextFloat() <= modifier)
 				{
-					BasicSoul bs = i.modItem as BasicSoul;
+					Item i = Main.item[Item.NewItem(npc.position, ItemType<BasicSoul>(), 1, true, 0, true)];
 
-					bs.soulNPC = snetID;
+					// Set the correct ID of the item drop.
+					if (i != null)
+					{
+						BasicSoul bs = i.modItem as BasicSoul;
+
+						bs.soulNPC = snetID;
+					}
 				}
+			}
+
+			if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.BrainofCthulhu)
+			{
+				if (Main.rand.Next(50) == 0)
+					Item.NewItem(npc.position, ItemType<BraceOfEvil>());
+			}
+			else if (npc.type == NPCID.EyeofCthulhu)
+			{
+				if (Main.rand.Next(50) == 0)
+					Item.NewItem(npc.position, ItemType<OccularCharm>());
+			}
+			else if (npc.type == NPCID.SkeletronHead)
+			{
+				if (Main.rand.Next(50) == 0)
+					Item.NewItem(npc.position, ItemType<CursedHand>());
 			}
 		}
 

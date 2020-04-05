@@ -16,6 +16,8 @@
     <None Remove="Souls\Data\BlueSlimeSoulProj.png" />
     <None Remove="Souls\Data\BoneSerpentSoulProj.png" />
     <None Remove="Souls\Data\BoneSerpentSoulProj_Chain.png" />
+    <None Remove="Souls\Data\Bosses\DestroyerSoulProj.png" />
+    <None Remove="Souls\Data\Bosses\DestroyerSoulProj_Chain.png" />
     <None Remove="Souls\Data\CochinealBeetleSoul_Proj.png" />
     <None Remove="Souls\Data\DevourerSoulProj.png" />
     <None Remove="Souls\Data\DevourerSoulProj_Chain.png" />
@@ -25,14 +27,20 @@
     <None Remove="Souls\Data\HarpySoulProj.png" />
     <None Remove="Souls\Data\HellbatSoulProj.png" />
     <None Remove="Souls\Data\HM\ArmoredVikingSoulProj.png" />
+    <None Remove="Souls\Data\HM\SandPoacherSoulProj.png" />
+    <None Remove="Souls\Data\HM\SandPoacherSoulProj_Chain.png" />
     <None Remove="Souls\Data\IceBatSoulProj.png" />
     <None Remove="Souls\Data\JungleBatSoulProj.png" />
     <None Remove="Souls\Data\JungleSlimeSoulProj.png" />
     <None Remove="Souls\Data\LavaSlimeSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\BeetleShell.png" />
+    <None Remove="Souls\Data\Pre_HM\BloodCrawlerSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\BlueSlimeSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\BoneSerpentSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\BoneSerpentSoulProj_Chain.png" />
+    <None Remove="Souls\Data\Pre_HM\CochinealBeetleShell.png" />
+    <None Remove="Souls\Data\Pre_HM\CrawdadSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\CyanBeetleShell.png" />
     <None Remove="Souls\Data\Pre_HM\DevourerSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\DevourerSoulProj_Chain.png" />
     <None Remove="Souls\Data\Pre_HM\GiantWormSoulProj.png" />
@@ -43,17 +51,17 @@
     <None Remove="Souls\Data\Pre_HM\IceBatSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\JungleBatSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\JungleSlimeSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\LacBeetleShell.png" />
     <None Remove="Souls\Data\Pre_HM\LavaSlimeSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\PurpleSlimeSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\SandSlimeSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\SnowFlinxSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\TombCrawlerSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\TombCrawlerSoulProj_Chain.png" />
+    <None Remove="Souls\Data\Pre_HM\YellowSlimeSoulProj.png" />
     <None Remove="Souls\Data\PurpleSlimeSoulProj.png" />
     <None Remove="Souls\Data\SandSlimeSoulProj.png" />
     <None Remove="Souls\Data\TombCrawlerSoulProj.png" />
     <None Remove="Souls\Data\TombCrawlerSoulProj_Chain.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Souls\Data\Pre_HM\" />
   </ItemGroup>
 </Project>

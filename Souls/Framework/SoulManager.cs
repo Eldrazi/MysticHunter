@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 
 using MysticHunter.Souls.Data.HM;
@@ -16,14 +15,20 @@ namespace MysticHunter.Souls.Framework
 			MysticHunter.Instance.SoulDict = new Dictionary<short, ISoul>();
 
 			// Pre-hardmode souls.
+			AddNewSoul(new AngryBonesSoul());
+			AddNewSoul(new AnomuraFungusSoul());
+			AddNewSoul(new AntlionChargerSoul());
 			AddNewSoul(new AntlionSwarmerSoul());
 			AddNewSoul(new BabySlimeSoul());
 			AddNewSoul(new BeeSoul());
 			AddNewSoul(new BlackSlimeSoul());
+			AddNewSoul(new BloodCrawlerSoul());
 			AddNewSoul(new BlueSlimeSoul());
 			AddNewSoul(new BoneSerpentSoul());
 			AddNewSoul(new CochinealBeetleSoul());
 			AddNewSoul(new CrabSoul());
+			AddNewSoul(new CrawdadSoul());
+			AddNewSoul(new CrimeraSoul());
 			AddNewSoul(new CursedSkullSoul());
 			AddNewSoul(new CyanBeetleSoul());
 			AddNewSoul(new DarkCasterSoul());
@@ -33,15 +38,20 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new DoctorBonesSoul());
 			AddNewSoul(new DungeonGuardianSoul());
 			AddNewSoul(new DungeonSlimeSoul());
+			AddNewSoul(new EaterOfSoulsSoul());
+			AddNewSoul(new FaceMonsterSoul());
 			AddNewSoul(new FireImpSoul());
 			AddNewSoul(new FungiBulbSoul());
+			AddNewSoul(new GiantShellySoul());
 			AddNewSoul(new GiantWormSoul());
 			AddNewSoul(new GoblinScoutSoul());
 			AddNewSoul(new GraniteElementalSoul());
 			AddNewSoul(new GraniteGolemSoul());
+			AddNewSoul(new GreenSlimeSoul());
 			AddNewSoul(new HarpySoul());
 			AddNewSoul(new HellbatSoul());
 			AddNewSoul(new HopliteSoul());
+			AddNewSoul(new HornetSoul());
 			AddNewSoul(new IceBatSoul());
 			AddNewSoul(new IceSlimeSoul());
 			AddNewSoul(new JungleBatSoul());
@@ -49,12 +59,19 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new LacBeetleSoul());
 			AddNewSoul(new LavaSlimeSoul());
 			AddNewSoul(new ManEaterSoul());
+			AddNewSoul(new MeteorHeadSoul());
+			AddNewSoul(new MotherSlimeSoul());
 			AddNewSoul(new MushiLadybugSoul());
-			AddNewSoul(new RedSlimeSoul());
-			AddNewSoul(new SandSlimeSoul());
+			AddNewSoul(new MushroomZombieSoul());
 			AddNewSoul(new NymphSoul());
 			AddNewSoul(new PinkySoul());
+			AddNewSoul(new PinkJellyfishSoul());
+			AddNewSoul(new PiranhaSoul());
 			AddNewSoul(new PurpleSlimeSoul());
+			AddNewSoul(new RavenSoul());
+			AddNewSoul(new RedSlimeSoul());
+			AddNewSoul(new SalamanderSoul());
+			AddNewSoul(new SandSlimeSoul());
 			AddNewSoul(new SkeletonSoul());
 			AddNewSoul(new SnowFlinxSoul());
 			AddNewSoul(new SpikedIceSlimeSoul());
@@ -64,6 +81,11 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new TombCrawlerSoul());
 			AddNewSoul(new UndeadVikingSoul());
 			AddNewSoul(new VoodooDemonSoul());
+			AddNewSoul(new YellowSlimeSoul());
+			AddNewSoul(new VultureSoul());
+			AddNewSoul(new WallCreeperSoul());
+			AddNewSoul(new ZombieSoul());
+			AddNewSoul(new ZombieEskimoSoul());
 
 			// Hardmode souls.
 			AddNewSoul(new AngryTrapperSoul());
@@ -90,6 +112,7 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new GoblinWarriorSoul());
 
 			// Boss souls.
+			AddNewSoul(new BrainOfCthuluSoul());
 			AddNewSoul(new DarkMageSoul());
 			AddNewSoul(new DestroyerSoul());
 			AddNewSoul(new KingSlimeSoul());
