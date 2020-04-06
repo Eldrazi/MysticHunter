@@ -9,19 +9,17 @@ using Microsoft.Xna.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class DarkCasterSoul : ISoul
+	public class DarkCasterSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.DarkCaster;
+		public override string soulDescription => "Summons a bolt of cursed water.";
 
-		public short soulNPC => NPCID.DarkCaster;
-		public string soulDescription => "Summons a bolt of cursed water.";
+		public override short cooldown => 300;
 
-		public short cooldown => 300;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => (short)(15 + stack);
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => (short)(15 + stack);
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center);
 			velocity *= 6;

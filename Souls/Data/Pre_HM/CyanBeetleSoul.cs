@@ -11,19 +11,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class CyanBeetleSoul : ISoul
+	public class CyanBeetleSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.CyanBeetle;
+		public override string soulDescription => "Summons ranged damage shield.";
 
-		public short soulNPC => NPCID.CyanBeetle;
-		public string soulDescription => "Summons ranged damage shield.";
+		public override short cooldown => 180;
 
-		public short cooldown => 180;
+		public override SoulType soulType => SoulType.Blue;
 
-		public SoulType soulType => SoulType.Blue;
-
-		public short ManaCost(Player p, short stack) => 0;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 0;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			SoulPlayer sp = p.GetModPlayer<SoulPlayer>();
 

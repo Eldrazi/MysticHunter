@@ -12,17 +12,19 @@ namespace MysticHunter.Souls.Framework
 	{
 		public static void SetupSouls()
 		{
-			MysticHunter.Instance.SoulDict = new Dictionary<short, ISoul>();
+			MysticHunter.Instance.SoulDict = new Dictionary<short, BaseSoul>();
 
 			// Pre-hardmode souls.
 			AddNewSoul(new AngryBonesSoul());
 			AddNewSoul(new AnomuraFungusSoul());
+			AddNewSoul(new AntlionSoul());
 			AddNewSoul(new AntlionChargerSoul());
 			AddNewSoul(new AntlionSwarmerSoul());
 			AddNewSoul(new BabySlimeSoul());
 			AddNewSoul(new BeeSoul());
 			AddNewSoul(new BlackSlimeSoul());
 			AddNewSoul(new BloodCrawlerSoul());
+			AddNewSoul(new BlueJellyfishSoul());
 			AddNewSoul(new BlueSlimeSoul());
 			AddNewSoul(new BoneSerpentSoul());
 			AddNewSoul(new CochinealBeetleSoul());
@@ -72,13 +74,16 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new RedSlimeSoul());
 			AddNewSoul(new SalamanderSoul());
 			AddNewSoul(new SandSlimeSoul());
+			AddNewSoul(new SeaSnailSoul());
 			AddNewSoul(new SkeletonSoul());
+			AddNewSoul(new SnatcherSoul());
 			AddNewSoul(new SnowFlinxSoul());
 			AddNewSoul(new SpikedIceSlimeSoul());
 			AddNewSoul(new SpikedJungleSlimeSoul());
 			AddNewSoul(new SquidSoul());
 			AddNewSoul(new TimSoul());
 			AddNewSoul(new TombCrawlerSoul());
+			AddNewSoul(new UndeadMinerSoul());
 			AddNewSoul(new UndeadVikingSoul());
 			AddNewSoul(new VoodooDemonSoul());
 			AddNewSoul(new YellowSlimeSoul());
@@ -118,20 +123,23 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new KingSlimeSoul());
 		}
 
-		public static void ResetSoulAcquisition(List<short> acquiredSouls = null)
+		public static void ResetSoulAcquisition(Dictionary<short, byte> acquiredSouls)
 		{
 			MysticHunter.Instance.SoulDict.Values.Select(v => v.acquired = false);
 
 			if (acquiredSouls != null)
-				acquiredSouls.ForEach(v => MysticHunter.Instance.SoulDict[v].acquired = true);
+			{
+				foreach (var kvp in acquiredSouls)
+					MysticHunter.Instance.SoulDict[kvp.Key].stack = kvp.Value;
+			}
 		}
 
-		public static void RepopulateSoulIndexUI()
+		public static void ReloadSoulIndexUI()
 		{
-			MysticHunter.Instance.soulIndexUI.soulIndexPanel.soulListPanel.soulList.RepopulateList();
+			MysticHunter.Instance.soulIndexUI.soulIndexPanel.soulListPanel.soulList.ReloadList();
 		}
 
-		private static void AddNewSoul(ISoul data)
+		private static void AddNewSoul(BaseSoul data)
 		{
 			if (MysticHunter.Instance.SoulDict.ContainsKey(data.soulNPC))
 			{
@@ -139,6 +147,11 @@ namespace MysticHunter.Souls.Framework
 				return;
 			}
 			MysticHunter.Instance.SoulDict.Add(data.soulNPC, data);
+		}
+
+		public static void UnloadSouls()
+		{
+			MysticHunter.Instance.SoulDict.Clear();
 		}
 	}
 }

@@ -11,19 +11,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class IceBatSoul : ISoul
+	public class IceBatSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.IceBat;
+		public override string soulDescription => "Fire a spread of icy bats.";
 
-		public short soulNPC => NPCID.IceBat;
-		public string soulDescription => "Fire a spread of icy bats.";
+		public override short cooldown => 20;
 
-		public short cooldown => 20;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => (short)(2 + (.5 * stack));
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => (short)(2 + (.5 * stack));
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			int minAmount = 2;
 			int maxAmount = 5;

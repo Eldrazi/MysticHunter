@@ -9,19 +9,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class FaceMonsterSoul : ISoul
+	public class FaceMonsterSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.FaceMonster;
+		public override string soulDescription => "Summons a charging face monster.";
 
-		public short soulNPC => NPCID.FaceMonster;
-		public string soulDescription => "Summons a charging face monster.";
+		public override short cooldown => 180;
 
-		public short cooldown => 180;
-
-		public SoulType soulType => SoulType.Red;
+		public override SoulType soulType => SoulType.Red;
 		
-		public short ManaCost(Player p, short stack) => (short)(5 + 3 * stack);
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => (short)(5 + 3 * stack);
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			Vector2 velocity = new Vector2(4 * p.direction, 0);
 

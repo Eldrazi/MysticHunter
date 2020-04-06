@@ -13,19 +13,17 @@ using System.Collections.Generic;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class BoneSerpentSoul : ISoul
+	public class BoneSerpentSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.BoneSerpentHead;
+		public override string soulDescription => "Grow a bone tail.";
 
-		public short soulNPC => NPCID.BoneSerpentHead;
-		public string soulDescription => "Grow a bone tail.";
+		public override short cooldown => 600;
 
-		public short cooldown => 600;
+		public override SoulType soulType => SoulType.Blue;
 
-		public SoulType soulType => SoulType.Blue;
-
-		public short ManaCost(Player p, short stack) => 25;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 25;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
@@ -72,7 +70,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Player player = Main.player[projectile.owner];
 			
 			// Check if the projectile should still be alive.
-			if (player.dead || player.GetModPlayer<SoulPlayer>().souls[1] == null || player.GetModPlayer<SoulPlayer>().souls[1].soulNPC != NPCID.BoneSerpentHead)
+			if (player.dead || player.GetModPlayer<SoulPlayer>().BlueSoul == null || player.GetModPlayer<SoulPlayer>().BlueSoul.soulNPC != NPCID.BoneSerpentHead)
 				projectile.Kill();
 			projectile.timeLeft = 10;
 

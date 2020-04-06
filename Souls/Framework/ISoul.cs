@@ -12,24 +12,35 @@ namespace MysticHunter.Souls.Framework
 		Yellow = 2
 	}
 
-	public interface ISoul
+	public abstract class BaseSoul
 	{
-		bool acquired { get; set; }
+		public bool acquired 
+		{
+			get { return stack >= 1; }
+			set 
+			{
+				if (value == false)
+					stack = 0;
+				else if (stack == 0)
+					stack = 1;
+			}
+		}
+		public byte stack { get; set; }
 
-		short soulNPC { get; }
-		string soulDescription { get; }
+		public abstract short soulNPC { get; }
+		public abstract string soulDescription { get; }
 
-		short cooldown { get; }
+		public abstract short cooldown { get; }
 
-		SoulType soulType { get; }
+		public abstract SoulType soulType { get; }
 
-		short ManaCost(Player player, short stack);
-		bool SoulUpdate(Player player, short stack);
+		public abstract short ManaCost(Player player, short stack);
+		public abstract bool SoulUpdate(Player player, short stack);
 	}
 
 	public static class ISoulExtensions
 	{
-		public static string SoulNPCName(this ISoul soul)
+		public static string SoulNPCName(this BaseSoul soul)
 		{
 			if (soul == null || soul.soulNPC == 0)
 				return ("");

@@ -11,19 +11,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class SpikedJungleSlimeSoul : ISoul
+	public class SpikedJungleSlimeSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.SpikedJungleSlime;
+		public override string soulDescription => "Fires poisonous spikes.";
 
-		public short soulNPC => NPCID.SpikedJungleSlime;
-		public string soulDescription => "Fires poisonous spikes.";
+		public override short cooldown => 180;
 
-		public short cooldown => 180;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => 5;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 5;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			int amount = 2 + stack;
 

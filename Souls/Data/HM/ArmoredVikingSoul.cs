@@ -11,19 +11,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class ArmoredVikingSoul : ISoul
+	public class ArmoredVikingSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.ArmoredViking;
+		public override string soulDescription => "Summons an icy axe.";
 
-		public short soulNPC => NPCID.ArmoredViking;
-		public string soulDescription => "Summons an icy axe.";
+		public override short cooldown => 480;
 
-		public short cooldown => 480;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => (short)(25 + 2 * stack);
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => (short)(25 + 2 * stack);
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<ArmoredVikingSoulProj>(), 30 + 5 * stack, .5f + .1f * stack, p.whoAmI);
 			return (true);

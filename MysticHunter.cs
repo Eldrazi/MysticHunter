@@ -28,7 +28,7 @@ namespace MysticHunter
 		/// A dictionary that keeps track of all soul data.
 		/// Set in the `Load` method via `SoulManager.SetupSouls`.
 		/// </summary>
-		public Dictionary<short, ISoul> SoulDict;
+		public Dictionary<short, BaseSoul> SoulDict;
 
 		public override void Load()
 		{
@@ -42,7 +42,12 @@ namespace MysticHunter
 				SetupSoulUI();
 			}
 		}
-		public override void Unload() => Instance = null;
+		public override void Unload()
+		{
+			SoulManager.UnloadSouls();
+
+			Instance = null;
+		}
 
 		internal void SetupSoulHotkeys()
 		{

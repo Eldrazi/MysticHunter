@@ -5,19 +5,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class BlackSlimeSoul : ISoul
+	public class BlackSlimeSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.BlackSlime;
+		public override string soulDescription => "Boosts stats while underground.";
 
-		public short soulNPC => NPCID.BlackSlime;
-		public string soulDescription => "Boosts stats while underground.";
+		public override short cooldown => 0;
 
-		public short cooldown => 0;
+		public override SoulType soulType => SoulType.Yellow;
 
-		public SoulType soulType => SoulType.Yellow;
-
-		public short ManaCost(Player p, short stack) => 0;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 0;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			if (p.ZoneRockLayerHeight)
 			{

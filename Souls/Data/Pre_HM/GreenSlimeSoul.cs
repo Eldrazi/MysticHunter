@@ -1,6 +1,4 @@
-﻿using System;
-
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -11,19 +9,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class GreenSlimeSoul : ISoul
+	public class GreenSlimeSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.GreenSlime;
+		public override string soulDescription => "Summons a little slimy friend.";
 
-		public short soulNPC => NPCID.GreenSlime;
-		public string soulDescription => "Summons a little slimy friend.";
+		public override short cooldown => 30;
 
-		public short cooldown => 30;
+		public override SoulType soulType => SoulType.Blue;
 
-		public SoulType soulType => SoulType.Blue;
-
-		public short ManaCost(Player p, short stack) => 5;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 5;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			int damage = 5;
 			float knockBack = .1f;

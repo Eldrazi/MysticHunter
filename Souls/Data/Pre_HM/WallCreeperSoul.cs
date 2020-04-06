@@ -11,19 +11,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class WallCreeperSoul : ISoul
+	public class WallCreeperSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.WallCreeper;
+		public override string soulDescription => "Fires an entangling web.";
 
-		public short soulNPC => NPCID.WallCreeper;
-		public string soulDescription => "Fires an entangling web.";
+		public override short cooldown => 360;
 
-		public short cooldown => 360;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => 15;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 15;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 7;
 

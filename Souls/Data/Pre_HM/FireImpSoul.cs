@@ -9,19 +9,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class FireImpSoul : ISoul
+	public class FireImpSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.FireImp;
+		public override string soulDescription => "Boosts stats while in the underworld.";
 
-		public short soulNPC => NPCID.FireImp;
-		public string soulDescription => "Boosts stats while in the underworld.";
+		public override short cooldown => 300;
 
-		public short cooldown => 300;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => (short)(20 + stack);
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => (short)(20 + stack);
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 7f;
 

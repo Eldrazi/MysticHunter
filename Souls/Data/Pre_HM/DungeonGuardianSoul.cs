@@ -5,21 +5,19 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class DungeonGuardianSoul : ISoul
+	public class DungeonGuardianSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.DungeonGuardian;
+		public override string soulDescription => "Boosts invincibility time.";
 
-		public short soulNPC => NPCID.DungeonGuardian;
-		public string soulDescription => "Boosts invincibility time.";
+		public override short cooldown => 0;
 
-		public short cooldown => 0;
-
-		public SoulType soulType => SoulType.Yellow;
+		public override SoulType soulType => SoulType.Yellow;
 
 		bool appliedInvincibility = false;
 
-		public short ManaCost(Player p, short stack) => 0;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 0;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			if (p.immuneTime == 0)
 				appliedInvincibility = false;

@@ -13,19 +13,17 @@ using System.Collections.Generic;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class GiantWormSoul : ISoul
+	public class GiantWormSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.GiantWormHead;
+		public override string soulDescription => "Grow a whip-like tail.";
 
-		public short soulNPC => NPCID.GiantWormHead;
-		public string soulDescription => "Grow a whip-like tail.";
+		public override short cooldown => 600;
 
-		public short cooldown => 600;
+		public override SoulType soulType => SoulType.Blue;
 
-		public SoulType soulType => SoulType.Blue;
-
-		public short ManaCost(Player p, short stack) => 10;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 10;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)

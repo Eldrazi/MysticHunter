@@ -13,19 +13,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class EaterOfSoulsSoul : ISoul
+	public class EaterOfSoulsSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.EaterofSouls;
+		public override string soulDescription => "Summons a friendly eater of souls.";
 
-		public short soulNPC => NPCID.EaterofSouls;
-		public string soulDescription => "Summons a friendly eater of souls.";
+		public override short cooldown => 300;
 
-		public short cooldown => 300;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => (short)(10 + stack);
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => (short)(10 + stack);
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			// Kill any active Eater of Souls projectiles.
 			for (int i = 0; i < Main.maxProjectiles; ++i)

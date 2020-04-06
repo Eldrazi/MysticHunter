@@ -11,19 +11,17 @@ using Microsoft.Xna.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class HarpySoul : ISoul
+	public class HarpySoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.Harpy;
+		public override string soulDescription => "Fires a spread of feathers.";
 
-		public short soulNPC => NPCID.Harpy;
-		public string soulDescription => "Fires a spread of feathers.";
+		public override short cooldown => 300;
 
-		public short cooldown => 300;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => (short)(10 + (stack >= 5 ? 5 : 0) + (stack >= 9 ? 5 : 0));
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => (short)(10 + (stack >= 5 ? 5 : 0) + (stack >= 9 ? 5 : 0));
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			int damage = 25;
 			if (stack > 1)

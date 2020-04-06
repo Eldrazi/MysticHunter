@@ -11,19 +11,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class CursedSkullSoul : ISoul
+	public class CursedSkullSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.CursedSkull;
+		public override string soulDescription => "Fires a homing skull.";
 
-		public short soulNPC => NPCID.CursedSkull;
-		public string soulDescription => "Fires a homing skull.";
+		public override short cooldown => 180;
 
-		public short cooldown => 180;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => 10;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 10;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			// Calculate the required velocity of the bees towards the cursor.
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 5f;

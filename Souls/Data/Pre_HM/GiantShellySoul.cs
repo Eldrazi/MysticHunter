@@ -10,19 +10,17 @@ using MysticHunter.Souls.Framework;
 namespace MysticHunter.Souls.Data.Pre_HM
 {
 	// TODO: Add custom sprite to projectile to make it look better.
-	public class GiantShellySoul : ISoul
+	public class GiantShellySoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.GiantShelly;
+		public override string soulDescription => "Summons a bouncing shell.";
 
-		public short soulNPC => NPCID.GiantShelly;
-		public string soulDescription => "Summons a bouncing shell.";
+		public override short cooldown => 240;
 
-		public short cooldown => 240;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => 15;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 15;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			Vector2 velocity = new Vector2(4 * p.direction, 0);
 

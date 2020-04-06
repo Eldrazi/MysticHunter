@@ -5,19 +5,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class TimSoul : ISoul
+	public class TimSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.Tim;
+		public override string soulDescription => "Teleport to a random location.";
 
-		public short soulNPC => NPCID.Tim;
-		public string soulDescription => "Teleport to a random location.";
+		public override short cooldown => 1200;
 
-		public short cooldown => 1200;
+		public override SoulType soulType => SoulType.Blue;
 
-		public SoulType soulType => SoulType.Blue;
-
-		public short ManaCost(Player p, short stack) => (short)(50 - 5 * stack);
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => (short)(50 - 5 * stack);
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				p.TeleportationPotion();

@@ -5,19 +5,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class SquidSoul : ISoul
+	public class SquidSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.Squid;
+		public override string soulDescription => "Grants extra mobility in water.";
 
-		public short soulNPC => NPCID.Squid;
-		public string soulDescription => "Grants extra mobility in water.";
+		public override short cooldown => 0;
 
-		public short cooldown => 0;
+		public override SoulType soulType => SoulType.Yellow;
 
-		public SoulType soulType => SoulType.Yellow;
-
-		public short ManaCost(Player p, short stack) => 0;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 0;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			if (p.wet)
 				p.moveSpeed += .1f * stack;

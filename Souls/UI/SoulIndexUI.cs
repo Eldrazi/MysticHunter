@@ -55,6 +55,13 @@ namespace MysticHunter.Souls.UI
 			// Set the rectangle/position of the panel in which the soul slots are displayed.
 			soulSlotRect = new Rectangle((int)((Width.Pixels / 2) - (soulSlotPanelWidth / 2)), (int)(Height.Pixels - 14), soulSlotPanelWidth, soulSlotPanelHeight);
 
+			// Add the SoulIndexUIListPanel, which controls the scrolling list of acquired souls.
+			soulListPanel = new SoulIndexUIListPanel();
+			soulListPanel.Width.Pixels = this.Width.Pixels - 16;
+			soulListPanel.Height.Pixels = this.Height.Pixels - 16;
+			soulListPanel.soulItemBoxReferences = this.soulItemBoxes;
+			this.Append(soulListPanel);
+
 			// Dynamically add the soul slots/boxes to the soulSlotRect panel.
 			// Automatically center every slot/box and add relevant padding depending on the dimensions of the soulSlotRect.
 			soulItemBoxes = new SoulItemBox[3];
@@ -62,7 +69,8 @@ namespace MysticHunter.Souls.UI
 			{
 				soulItemBoxes[i] = new SoulItemBox
 				{
-					soulSlot = (SoulType)i
+					soulSlot = (SoulType)i,
+					soulIndexUIListPanelReference = soulListPanel
 				};
 
 				// Hardcoded dimension values of the slot textures (14).
@@ -71,11 +79,6 @@ namespace MysticHunter.Souls.UI
 
 				this.Append(soulItemBoxes[i]);
 			}
-
-			soulListPanel = new SoulIndexUIListPanel();
-			soulListPanel.Width.Pixels = this.Width.Pixels - 16;
-			soulListPanel.Height.Pixels = this.Height.Pixels - 16;
-			this.Append(soulListPanel);
 
 			// Add the soulSlotPanelHeight to the height of the UI element.
 			// This is so that the soul slot panel that hangs under this panel is actually interactable.
@@ -120,6 +123,8 @@ namespace MysticHunter.Souls.UI
 
 		public Rectangle drawRectangle => new Rectangle((int)(Parent.Left.Pixels + Left.Pixels), (int)(Parent.Top.Pixels + Top.Pixels), (int)Width.Pixels, (int)Height.Pixels);
 
+		public SoulIndexUIListPanel soulIndexUIListPanelReference;
+
 		public override void OnInitialize()
 		{
 			itemPanel = GetTexture("MysticHunter/Souls/UI/SoulIndex_ItemPanel");
@@ -151,10 +156,16 @@ namespace MysticHunter.Souls.UI
 		/// </summary>
 		private void LeftClick(UIMouseEvent evt, UIElement e)
 		{
-			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
+			if (this.soulIndexUIListPanelReference != null)
+			{
+				// If the new filter is the same as the filter that's already there, just ignore.
+				if (this.soulIndexUIListPanelReference.soulList.filter == this.soulSlot)
+					return;
 
-			if (sp.souls[(int)soulSlot] != null && sp.soulsStack[(int)soulSlot] < 9)
-				sp.soulsStack[(int)soulSlot]++;
+				// Set the correct filter.
+				this.soulIndexUIListPanelReference.soulList.filter = this.soulSlot;
+				SoulManager.ReloadSoulIndexUI();
+			}
 		}
 		/// <summary>
 		/// Removes a soul from its slot if it's right clicked.
@@ -163,7 +174,6 @@ namespace MysticHunter.Souls.UI
 		{
 			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
 			sp.souls[(int)soulSlot] = null;
-			sp.soulsStack[(int)soulSlot] = 1;
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
@@ -172,7 +182,7 @@ namespace MysticHunter.Souls.UI
 
 			spriteBatch.Draw(itemPanel, drawRectangle, Color.White);
 
-			ISoul soulReference = sp.souls[(int)soulSlot];
+			BaseSoul soulReference = sp.souls[(int)soulSlot];
 
 			if (base.IsMouseHovering)
 			{
@@ -189,7 +199,7 @@ namespace MysticHunter.Souls.UI
 					drawRectangle.Y + drawRectangle.Height / 2 - soulTextures[0].Height / 2, soulTextures[0].Width, soulTextures[0].Height);
 				spriteBatch.Draw(soulTextures[(int)soulReference.soulType], soulRect, Color.White);
 
-				Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, sp.soulsStack[(int)soulSlot].ToString(), 
+				Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, sp.souls[(int)soulSlot].stack.ToString(), 
 					drawRectangle.X + 6, drawRectangle.Y + drawRectangle.Height - 12, Color.White, Color.Black, Vector2.Zero, .6f);
 			}
 		}

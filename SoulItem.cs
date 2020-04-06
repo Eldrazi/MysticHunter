@@ -12,7 +12,7 @@ namespace MysticHunter
 			if (sp.undeadMinerSoul)
 			{
 				int amount = 1;
-				int stack = sp.soulsStack[2];
+				int stack = sp.YellowSoul.stack;
 
 				if (stack >= 5)
 					amount++;

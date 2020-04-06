@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 using Terraria;
 using Terraria.ID;
@@ -13,19 +12,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class PinkJellyfishSoul : ISoul
+	public class PinkJellyfishSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.PinkJellyfish;
+		public override string soulDescription => "Summons a shocking jellyfish.";
 
-		public short soulNPC => NPCID.PinkJellyfish;
-		public string soulDescription => "Summons a shocking jellyfish.";
+		public override short cooldown => 300;
 
-		public short cooldown => 300;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => (short)(10 + stack);
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => (short)(10 + stack);
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			int damage = 20;
 			int jellyfishSize = 1;

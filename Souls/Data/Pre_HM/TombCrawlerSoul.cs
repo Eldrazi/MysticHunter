@@ -13,19 +13,17 @@ using System.Collections.Generic;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class TombCrawlerSoul : ISoul
+	public class TombCrawlerSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.TombCrawlerHead;
+		public override string soulDescription => "Grow a spiny tail.";
 
-		public short soulNPC => NPCID.TombCrawlerHead;
-		public string soulDescription => "Grow a spiny tail.";
+		public override short cooldown => 600;
 
-		public short cooldown => 600;
+		public override SoulType soulType => SoulType.Blue;
 
-		public SoulType soulType => SoulType.Blue;
-
-		public short ManaCost(Player p, short stack) => 15;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 15;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)

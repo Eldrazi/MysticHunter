@@ -5,19 +5,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class VileGhoulSoul : ISoul
+	public class VileGhoulSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.DesertGhoulCorruption;
+		public override string soulDescription => "Grants resistance to Cursed Fire.";
 
-		public short soulNPC => NPCID.DesertGhoulCorruption;
-		public string soulDescription => "Grants resistance to Cursed Fire.";
+		public override short cooldown => 0;
 
-		public short cooldown => 0;
+		public override SoulType soulType => SoulType.Yellow;
 
-		public SoulType soulType => SoulType.Yellow;
-
-		public short ManaCost(Player p, short stack) => 0;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 0;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			if (stack >= 9)
 				p.buffImmune[BuffID.CursedInferno] = true;

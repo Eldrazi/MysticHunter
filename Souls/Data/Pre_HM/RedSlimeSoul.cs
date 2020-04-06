@@ -1,6 +1,4 @@
-﻿using System;
-
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -11,19 +9,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class RedSlimeSoul : ISoul
+	public class RedSlimeSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.RedSlime;
+		public override string soulDescription => "Fires a spray of red slime.";
 
-		public short soulNPC => NPCID.RedSlime;
-		public string soulDescription => "Fires a spray of red slime.";
+		public override short cooldown => 8;
 
-		public short cooldown => 8;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => 1;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 1;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 12.5f;
 			Projectile.NewProjectile(p.Center, velocity, ProjectileType<RedSlimeSoulProj>(), 5 + stack, 5, p.whoAmI);

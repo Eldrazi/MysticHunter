@@ -11,19 +11,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class VultureSoul : ISoul
+	public class VultureSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.Vulture;
+		public override string soulDescription => "Summons a swooping vulture.";
 
-		public short soulNPC => NPCID.Vulture;
-		public string soulDescription => "Summons a swooping vulture.";
+		public override short cooldown => 180;
 
-		public short cooldown => 180;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => 8;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 8;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			int amount = 1;
 			Vector2 maxVelocity = new Vector2(3, 6);

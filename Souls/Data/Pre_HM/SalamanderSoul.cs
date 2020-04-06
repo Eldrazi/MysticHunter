@@ -9,25 +9,23 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class SalamanderSoul : ISoul
+	public class SalamanderSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.Salamander;
+		public override string soulDescription => "Spit a random debuff ball.";
 
-		public short soulNPC => NPCID.Salamander;
-		public string soulDescription => "Spit a random debuff ball.";
+		public override short cooldown => 120;
 
-		public short cooldown => 120;
+		public override SoulType soulType => SoulType.Blue;
 
-		public SoulType soulType => SoulType.Blue;
-
-		public short ManaCost(Player p, short stack) => 6;
+		public override short ManaCost(Player p, short stack) => 6;
 
 		private readonly int[] randomBuffs = new int[] {
 			BuffID.Poisoned, BuffID.OnFire, BuffID.Oiled, BuffID.Midas, BuffID.Wet, // First stage debuffs.
 			BuffID.Ichor, BuffID.Venom, BuffID.CursedInferno, // Second stage debuffs.
 			BuffID.ShadowFlame, BuffID.Confused, BuffID.Frostburn // Third stage debuffs.
 		};
-		public bool SoulUpdate(Player p, short stack)
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			int randBuffMax = 5;
 			if (stack >= 5)

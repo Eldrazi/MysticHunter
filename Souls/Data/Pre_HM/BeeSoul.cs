@@ -9,19 +9,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class BeeSoul : ISoul
+	public class BeeSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.Bee;
+		public override string soulDescription => "Fires a small horde of bees.";
 
-		public short soulNPC => NPCID.Bee;
-		public string soulDescription => "Fires a small horde of bees.";
+		public override short cooldown => 60;
 
-		public short cooldown => 60;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => 5;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 5;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			// Spawn 3 to 5 little bee projectiles.
 			int min = 3 + stack;

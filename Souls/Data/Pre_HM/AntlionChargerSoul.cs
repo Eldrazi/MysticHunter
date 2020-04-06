@@ -9,19 +9,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class AntlionChargerSoul : ISoul
+	public class AntlionChargerSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.WalkingAntlion;
+		public override string soulDescription => "Summons an aggressive antlion charger.";
 
-		public short soulNPC => NPCID.WalkingAntlion;
-		public string soulDescription => "Summons an aggressive antlion charger.";
+		public override short cooldown => 180;
 
-		public short cooldown => 180;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => 10;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 10;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			Vector2 velocity = new Vector2(4 * p.direction, 0);
 

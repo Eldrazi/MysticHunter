@@ -11,19 +11,17 @@ using Microsoft.Xna.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class LavaSlimeSoul : ISoul
+	public class LavaSlimeSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.LavaSlime;
+		public override string soulDescription => "Fires a burning, bouncing slime blob.";
 
-		public short soulNPC => NPCID.LavaSlime;
-		public string soulDescription => "Fires a burning, bouncing slime blob.";
+		public override short cooldown => 180;
 
-		public short cooldown => 180;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => 10;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 10;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			int damage = 12;
 			int bounceAmount = 1;

@@ -9,13 +9,14 @@ using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace MysticHunter.Souls.UI
 {
 	internal class SoulIndexUIListPanel : UIElement
 	{
 		public SoulIndexUIList soulList;
+
+		public SoulItemBox[] soulItemBoxReferences;
 
 		public override void OnInitialize()
 		{
@@ -39,19 +40,26 @@ namespace MysticHunter.Souls.UI
 
 	internal class SoulIndexUIList : GenericUIList
 	{
+		public SoulType filter;
+
 		public override void OnInitialize()
 		{
 			this.Top.Pixels = 8;
 			this.Left.Pixels = 8;
 			this.Width.Pixels = Parent.Width.Pixels - 22;
 			this.Height.Pixels = Parent.Height.Pixels - 16;
+
+			// Auto-set soul filter to red.
+			filter = SoulType.Red;
 		}
 
-		public void RepopulateList()
+		public void ReloadList()
 		{
 			this.Clear();
 
-			MysticHunter.Instance.SoulDict.Values.Where(v => v.acquired == true).ToList().ForEach(
+			MysticHunter.Instance.SoulDict.Values.Where(v => v.acquired == true && v.soulType == filter)
+				.ToList()
+				.ForEach(
 				v => this.Add(new SoulIndexUIListItem(v))
 			);
 		}
@@ -70,14 +78,14 @@ namespace MysticHunter.Souls.UI
 
 	internal class SoulIndexUIListItem : UIPanel
 	{
-		private ISoul soulReference;
+		private BaseSoul soulReference;
 
 		private Texture2D panelTexture;
 
 		private Texture2D[] soulTextures;
 		private Texture2D soulSlotTexture;
 
-		public SoulIndexUIListItem(ISoul soulReference)
+		public SoulIndexUIListItem(BaseSoul soulReference)
 		{
 			this.soulReference = soulReference;
 
@@ -107,7 +115,6 @@ namespace MysticHunter.Souls.UI
 		{
 			int soulIndex = (int)this.soulReference.soulType;
 
-			Main.LocalPlayer.GetModPlayer<SoulPlayer>().soulsStack[soulIndex] = 1 ;
 			Main.LocalPlayer.GetModPlayer<SoulPlayer>().souls[soulIndex] = soulReference;
 		}
 

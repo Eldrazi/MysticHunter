@@ -9,19 +9,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class MotherSlimeSoul : ISoul
+	public class MotherSlimeSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.MotherSlime;
+		public override string soulDescription => "Summons a massive slime blob.";
 
-		public short soulNPC => NPCID.MotherSlime;
-		public string soulDescription => "Summons a massive slime blob.";
+		public override short cooldown => 60;
 
-		public short cooldown => 60;
+		public override SoulType soulType => SoulType.Blue;
 
-		public SoulType soulType => SoulType.Blue;
-
-		public short ManaCost(Player p, short stack) => 50;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 50;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 				if (Main.projectile[i].active && Main.projectile[i].type == ProjectileType<MotherSlimeSoulProj>() && Main.projectile[i].owner == p.whoAmI)

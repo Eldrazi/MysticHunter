@@ -25,6 +25,8 @@ namespace MysticHunter.Souls.Items
 			item.width = item.height = 16;
 		}
 
+		private readonly string[] numberList = new string[] { "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth" };
+
 		/// <summary>
 		/// Triggers on pickup. Checks if a corresponding soul exists and sets that soul as acquired.
 		/// </summary>
@@ -34,20 +36,20 @@ namespace MysticHunter.Souls.Items
 		{
 			if (MysticHunter.Instance.SoulDict.ContainsKey(soulNPC))
 			{
-				ISoul s = MysticHunter.Instance.SoulDict[soulNPC];
+				BaseSoul s = MysticHunter.Instance.SoulDict[soulNPC];
 
-				// If this is the first time the soul has been picked up, the SoulIndexUIList needs to be repopulated.
-				if (s.acquired == false)
+				Color c = Color.Red;
+				if (s.soulType == SoulType.Blue)
+					c = Color.Blue;
+				else if (s.soulType == SoulType.Yellow)
+					c = Color.Yellow;
+
+				if (s.stack < 9)
 				{
-					s.acquired = true;
-					SoulManager.RepopulateSoulIndexUI();
+					Main.NewText($"You collected your {numberList[s.stack]} {s.SoulNPCName()} soul.", c);
 
-					Color c = Color.Red;
-					if (s.soulType == SoulType.Blue)
-						c = Color.Blue;
-					else if (s.soulType == SoulType.Yellow)
-						c = Color.Yellow;
-					Main.NewText("You collected the " + s.SoulNPCName() + " soul.", c);
+					s.stack++;
+					SoulManager.ReloadSoulIndexUI();
 				}
 			}
 			else

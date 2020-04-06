@@ -11,19 +11,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class ZombieSoul : ISoul
+	public class ZombieSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.Zombie;
+		public override string soulDescription => "Summons a lumbering zombie.";
 
-		public short soulNPC => NPCID.Zombie;
-		public string soulDescription => "Summons a lumbering zombie.";
+		public override short cooldown => 300;
 
-		public short cooldown => 300;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => (short)(5 + 3 * stack);
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => (short)(5 + 3 * stack);
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			int amount = 1;
 			if (stack >= 5)

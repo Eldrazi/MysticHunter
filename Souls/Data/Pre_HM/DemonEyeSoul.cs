@@ -11,19 +11,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class DemonEyeSoul : ISoul
+	public class DemonEyeSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.DemonEye;
+		public override string soulDescription => "Fires a rebounding eyeball.";
 
-		public short soulNPC => NPCID.DemonEye;
-		public string soulDescription => "Fires a rebounding eyeball.";
+		public override short cooldown => 60;
 
-		public short cooldown => 60;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => (short)(5 + stack);
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => (short)(5 + stack);
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 6f;
 

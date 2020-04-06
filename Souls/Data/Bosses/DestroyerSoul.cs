@@ -13,19 +13,17 @@ using System.Collections.Generic;
 
 namespace MysticHunter.Souls.Data.Bosses
 {
-	public class DestroyerSoul : ISoul
+	public class DestroyerSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.TheDestroyer;
+		public override string soulDescription => "Grow a laser shooting tail.";
 
-		public short soulNPC => NPCID.TheDestroyer;
-		public string soulDescription => "Grow a laser shooting tail.";
+		public override short cooldown => 600;
 
-		public short cooldown => 600;
+		public override SoulType soulType => SoulType.Blue;
 
-		public SoulType soulType => SoulType.Blue;
-
-		public short ManaCost(Player p, short stack) => 10;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 10;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)

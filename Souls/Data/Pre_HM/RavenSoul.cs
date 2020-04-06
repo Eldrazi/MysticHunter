@@ -11,19 +11,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class RavenSoul : ISoul
+	public class RavenSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.Raven;
+		public override string soulDescription => "Summons a swooping raven.";
 
-		public short soulNPC => NPCID.Raven;
-		public string soulDescription => "Summons a swooping raven.";
+		public override short cooldown => 120;
 
-		public short cooldown => 120;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => 10;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 10;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			int amount = 1;
 			Vector2 maxVelocity = new Vector2(3, 8);

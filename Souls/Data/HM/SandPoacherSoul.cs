@@ -13,19 +13,17 @@ using System.Collections.Generic;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class SandPoacherSoul : ISoul
+	public class SandPoacherSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.DesertScorpionWalk;
+		public override string soulDescription => "Grow a venomous stinger.";
 
-		public short soulNPC => NPCID.DesertScorpionWalk;
-		public string soulDescription => "Grow a venomous stinger.";
+		public override short cooldown => 600;
 
-		public short cooldown => 600;
+		public override SoulType soulType => SoulType.Blue;
 
-		public SoulType soulType => SoulType.Blue;
-
-		public short ManaCost(Player p, short stack) => 25;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 25;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)

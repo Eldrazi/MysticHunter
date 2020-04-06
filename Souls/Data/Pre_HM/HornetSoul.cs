@@ -11,19 +11,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class HornetSoul : ISoul
+	public class HornetSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.Hornet;
+		public override string soulDescription => "Summons a friendly, stationary hornet.";
 
-		public short soulNPC => NPCID.Hornet;
-		public string soulDescription => "Summons a friendly, stationary hornet.";
+		public override short cooldown => 60;
 
-		public short cooldown => 60;
+		public override SoulType soulType => SoulType.Blue;
 
-		public SoulType soulType => SoulType.Blue;
-
-		public short ManaCost(Player p, short stack) => 5;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 5;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)

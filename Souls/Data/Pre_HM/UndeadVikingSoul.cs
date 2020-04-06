@@ -5,19 +5,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class UndeadVikingSoul : ISoul
+	public class UndeadVikingSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.UndeadViking;
+		public override string soulDescription => "Increases melee damage at the cost of defense.";
 
-		public short soulNPC => NPCID.UndeadViking;
-		public string soulDescription => "Increases melee damage at the cost of defense.";
+		public override short cooldown => 0;
 
-		public short cooldown => 0;
+		public override SoulType soulType => SoulType.Yellow;
 
-		public SoulType soulType => SoulType.Yellow;
-
-		public short ManaCost(Player p, short stack) => 0;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 0;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			p.statDefense -= 5 * stack;
 			p.meleeDamage += .1f * stack;

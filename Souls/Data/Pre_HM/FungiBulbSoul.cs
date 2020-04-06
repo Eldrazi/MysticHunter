@@ -12,19 +12,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class FungiBulbSoul : ISoul
+	public class FungiBulbSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.FungiBulb;
+		public override string soulDescription => "Summons a friendly Fungi Bulb";
 
-		public short soulNPC => NPCID.FungiBulb;
-		public string soulDescription => "Summons a friendly Fungi Bulb";
+		public override short cooldown => 180;
 
-		public short cooldown => 180;
+		public override SoulType soulType => SoulType.Blue;
 
-		public SoulType soulType => SoulType.Blue;
-
-		public short ManaCost(Player p, short stack) => 10;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 10;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
@@ -74,7 +72,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.timeLeft = 10;
 
 			float maxSpeed = 2;
-			float maxRange = 50 + (10 * sp.soulsStack[1]);
+			float maxRange = 50 + (10 * sp.BlueSoul.stack);
 			float acceleration = .055f;
 
 			// Give a bit more range every 5 seconds.

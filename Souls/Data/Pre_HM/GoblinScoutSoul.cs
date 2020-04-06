@@ -6,19 +6,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class GoblinScoutSoul : ISoul
+	public class GoblinScoutSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.GoblinScout;
+		public override string soulDescription => "Increased chance for a goblin invasion.";
 
-		public short soulNPC => NPCID.GoblinScout;
-		public string soulDescription => "Increased chance for a goblin invasion.";
+		public override short cooldown => 0;
 
-		public short cooldown => 0;
+		public override SoulType soulType => SoulType.Yellow;
 
-		public SoulType soulType => SoulType.Yellow;
-
-		public short ManaCost(Player p, short stack) => 0;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 0;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			if (Main.time == 0.0)
 			{

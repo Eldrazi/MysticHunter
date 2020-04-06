@@ -11,19 +11,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class GraniteElementalSoul : ISoul
+	public class GraniteElementalSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.GraniteFlyer;
+		public override string soulDescription => "Summons a protective granite elemental.";
 
-		public short soulNPC => NPCID.GraniteFlyer;
-		public string soulDescription => "Summons a protective granite elemental.";
+		public override short cooldown => 0;
 
-		public short cooldown => 0;
+		public override SoulType soulType => SoulType.Blue;
 
-		public SoulType soulType => SoulType.Blue;
-
-		public short ManaCost(Player p, short stack) => 30;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 30;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			// Kill any active GraniteElementalSoulNPCs.
 			for (int i = 0; i < Main.maxNPCs; ++i)

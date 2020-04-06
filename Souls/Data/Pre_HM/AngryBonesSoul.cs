@@ -9,19 +9,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class AngryBonesSoul : ISoul
+	public class AngryBonesSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.AngryBones;
+		public override string soulDescription => "Summons a charging skeleton.";
 
-		public short soulNPC => NPCID.AngryBones;
-		public string soulDescription => "Summons a charging skeleton.";
+		public override short cooldown => 120;
 
-		public short cooldown => 120;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => (short)(10 + 3 * stack);
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => (short)(10 + 3 * stack);
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			Vector2 velocity = new Vector2(4 * p.direction, 0);
 				

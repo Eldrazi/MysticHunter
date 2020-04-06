@@ -18,9 +18,9 @@ namespace MysticHunter.Souls.UI
 		private Texture2D slotTexture;
 		private Texture2D[] soulTextures;
 
-		public ISoul soulTarget = null;
+		public BaseSoul soulTarget = null;
 
-		public SoulIndexUISoulSlot(ISoul soulTarget = null)
+		public SoulIndexUISoulSlot(BaseSoul soulTarget = null)
 		{
 			slotTexture = GetTexture("MysticHunter/Souls/UI/SoulIndex_ItemPanel");
 
@@ -37,7 +37,7 @@ namespace MysticHunter.Souls.UI
 			this.soulTarget = soulTarget;
 		}
 
-		public void SetSoulTarget(ISoul soulTarget)
+		public void SetSoulTarget(BaseSoul soulTarget)
 		{
 			this.soulTarget = soulTarget;
 		}

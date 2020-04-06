@@ -11,19 +11,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class BrainOfCthuluSoul : ISoul
+	public class BrainOfCthuluSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.BrainofCthulhu;
+		public override string soulDescription => "Summon protective creepers.";
 
-		public short soulNPC => NPCID.BrainofCthulhu;
-		public string soulDescription => "Summon protective creepers.";
+		public override short cooldown => 3600;
 
-		public short cooldown => 3600;
+		public override SoulType soulType => SoulType.Blue;
 
-		public SoulType soulType => SoulType.Blue;
-
-		public short ManaCost(Player p, short stack) => 20;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 20;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			int amount = 5 + stack;
 			for (int i = 0; i < amount; ++i)

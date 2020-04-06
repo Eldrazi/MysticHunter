@@ -9,19 +9,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class AnomuraFungusSoul : ISoul
+	public class AnomuraFungusSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.AnomuraFungus;
+		public override string soulDescription => "Summons a heavy anomura fungus.";
 
-		public short soulNPC => NPCID.AnomuraFungus;
-		public string soulDescription => "Summons a heavy anomura fungus.";
+		public override short cooldown => 120;
 
-		public short cooldown => 120;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => 10;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 10;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			Vector2 velocity = new Vector2(4 * p.direction, 0);
 

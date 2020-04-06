@@ -11,19 +11,17 @@ using Microsoft.Xna.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class HopliteSoul : ISoul
+	public class HopliteSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.GreekSkeleton;
+		public override string soulDescription => "Summons a hoplite.";
 
-		public short soulNPC => NPCID.GreekSkeleton;
-		public string soulDescription => "Summons a hoplite.";
+		public override short cooldown => 480;
 
-		public short cooldown => 480;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => 25;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 25;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			int amount = 1;
 			if (stack >= 5)

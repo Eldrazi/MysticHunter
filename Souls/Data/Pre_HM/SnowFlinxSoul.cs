@@ -10,19 +10,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class SnowFlinxSoul : ISoul
+	public class SnowFlinxSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.SnowFlinx;
+		public override string soulDescription => "Summons a rolling snowball.";
 
-		public short soulNPC => NPCID.SnowFlinx;
-		public string soulDescription => "Summons a rolling snowball.";
+		public override short cooldown => 180;
 
-		public short cooldown => 180;
+		public override SoulType soulType => SoulType.Blue;
 
-		public SoulType soulType => SoulType.Blue;
-
-		public short ManaCost(Player p, short stack) => 1;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 1;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 2;
 			Projectile.NewProjectile(p.Center, velocity, ProjectileType<SnowFlinxSoulProj>(), 5 + stack, .1f, p.whoAmI, 0, (stack >= 9 ? 1 : 0));

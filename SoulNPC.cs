@@ -57,7 +57,7 @@ namespace MysticHunter
 			SoulPlayer sp = player.GetModPlayer<SoulPlayer>();
 
 			if (sp.pinkySoul)
-				spawnRate += 5 + 2 * (sp.soulsStack[0]);
+				spawnRate += 5 + 2 * (sp.YellowSoul.stack);
 		}
 	}
 }

@@ -10,19 +10,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class BloodCrawlerSoul : ISoul
+	public class BloodCrawlerSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.BloodCrawler;
+		public override string soulDescription => "Summon flesh ripping teeth.";
 
-		public short soulNPC => NPCID.BloodCrawler;
-		public string soulDescription => "Summon flesh ripping teeth.";
+		public override short cooldown => 120;
 
-		public short cooldown => 120;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => (short)(10 + 3 * stack);
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => (short)(10 + 3 * stack);
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<BloodCrawlerSoulProj>(), 20 + stack, .1f, p.whoAmI, stack);
 			return (true);

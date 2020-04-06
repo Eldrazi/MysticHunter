@@ -9,19 +9,17 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class CrawdadSoul : ISoul
+	public class CrawdadSoul : BaseSoul
 	{
-		public bool acquired { get; set; }
+		public override short soulNPC => NPCID.Crawdad;
+		public override string soulDescription => "Claw at your enemies.";
 
-		public short soulNPC => NPCID.Crawdad;
-		public string soulDescription => "Claw at your enemies.";
+		public override short cooldown => 300;
 
-		public short cooldown => 300;
+		public override SoulType soulType => SoulType.Red;
 
-		public SoulType soulType => SoulType.Red;
-
-		public short ManaCost(Player p, short stack) => 15;
-		public bool SoulUpdate(Player p, short stack)
+		public override short ManaCost(Player p, short stack) => 15;
+		public override bool SoulUpdate(Player p, short stack)
 		{
 			int damage = 20;
 			int clawState = 0;
