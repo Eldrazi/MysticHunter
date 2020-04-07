@@ -27,6 +27,7 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new BlueJellyfishSoul());
 			AddNewSoul(new BlueSlimeSoul());
 			AddNewSoul(new BoneSerpentSoul());
+			AddNewSoul(new CaveBatSoul());
 			AddNewSoul(new CochinealBeetleSoul());
 			AddNewSoul(new CrabSoul());
 			AddNewSoul(new CrawdadSoul());
@@ -75,6 +76,7 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new SalamanderSoul());
 			AddNewSoul(new SandSlimeSoul());
 			AddNewSoul(new SeaSnailSoul());
+			AddNewSoul(new SharkSoul());
 			AddNewSoul(new SkeletonSoul());
 			AddNewSoul(new SnatcherSoul());
 			AddNewSoul(new SnowFlinxSoul());
