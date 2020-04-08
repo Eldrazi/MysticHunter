@@ -36,6 +36,12 @@ namespace MysticHunter.Souls.Framework
 
 		public abstract short ManaCost(Player player, short stack);
 		public abstract bool SoulUpdate(Player player, short stack);
+
+		/// <summary>
+		/// An update that is called in <see cref="SoulPlayer"/> for an extra update if necessary.
+		/// </summary>
+		/// <param name="player">The player that has this soul equipped.</param>
+		public virtual void PostUpdate(Player player) { }
 	}
 
 	public static class ISoulExtensions

@@ -13,7 +13,7 @@ using MysticHunter.Souls.Framework;
 
 using MysticHunter.Souls.Items;
 using MysticHunter.Souls.Data.Pre_HM;
-using System;
+using MysticHunter.Souls.Data.Bosses;
 
 namespace MysticHunter
 {
@@ -45,7 +45,7 @@ namespace MysticHunter
 			set { souls[(int)SoulType.Yellow] = value; }
 		}
 
-		public readonly float[] DefinedSoulDropModifier = new float[3] { 1, 1, 1 };
+		public readonly float[] DefinedSoulDropModifier = new float[3] { .1f, .1f, .1f };
 		public float[] soulDropModifier;
 
 		private short redSoulCooldown, blueSoulCooldown, yellowSoulCooldown;
@@ -63,6 +63,7 @@ namespace MysticHunter
 		public bool cochinealBeetleSoul = false;
 
 		// Additional soul variables.
+		public bool eocSoulDash = false;
 		public int seaSnailAnimationCounter = 0;
 
 		/// <summary>
@@ -91,6 +92,9 @@ namespace MysticHunter
 			if (BlueSoul == null || BlueSoul.soulNPC != NPCID.CochinealBeetle)
 				cochinealBeetleSoul = false;
 
+			if (BlueSoul == null || BlueSoul.soulNPC != NPCID.EyeofCthulhu)
+				eocSoulDash = false;
+
 			this.soulDropModifier[0] = DefinedSoulDropModifier[0];
 			this.soulDropModifier[1] = DefinedSoulDropModifier[1];
 			this.soulDropModifier[2] = DefinedSoulDropModifier[2];
@@ -113,6 +117,10 @@ namespace MysticHunter
 		{
 			if (YellowSoul != null && yellowSoulCooldown == 0)
 				YellowSoul.SoulUpdate(player, YellowSoul.stack);
+
+			for (int i = 0; i < souls.Length; ++i)
+				if (souls[i] != null)
+					souls[i].PostUpdate(player);
 
 			if (redSoulCooldown > 0)
 				redSoulCooldown--;
@@ -185,6 +193,12 @@ namespace MysticHunter
 			{
 				CochinealBeetleSoul.DrawLayer.visible = true;
 				layers.Add(CochinealBeetleSoul.DrawLayer);
+			}
+
+			if (this.eocSoulDash)
+			{
+				EyeOfCthuluSoul.DrawLayer.visible = true;
+				layers.Add(EyeOfCthuluSoul.DrawLayer);
 			}
 		}
 

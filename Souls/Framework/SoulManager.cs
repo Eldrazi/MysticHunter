@@ -122,7 +122,10 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new BrainOfCthuluSoul());
 			AddNewSoul(new DarkMageSoul());
 			AddNewSoul(new DestroyerSoul());
+			AddNewSoul(new EyeOfCthuluSoul());
 			AddNewSoul(new KingSlimeSoul());
+			AddNewSoul(new QueenBeeSoul());
+			AddNewSoul(new WallOfFleshSoul());
 		}
 
 		public static void ResetSoulAcquisition(Dictionary<short, byte> acquiredSouls)
