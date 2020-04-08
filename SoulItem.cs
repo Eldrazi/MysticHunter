@@ -12,7 +12,7 @@ namespace MysticHunter
 			if (sp.undeadMinerSoul)
 			{
 				int amount = 1;
-				int stack = sp.YellowSoul.stack;
+				int stack = sp.UnlockedSouls[sp.YellowSoul.soulNPC];
 
 				if (stack >= 5)
 					amount++;

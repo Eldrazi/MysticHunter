@@ -37,7 +37,8 @@ namespace MysticHunter.Souls.Data.Bosses
 		private int dashTime = 0;
 		public override void PostUpdate(Player player)
 		{
-			if (player.GetModPlayer<SoulPlayer>().eocSoulDash && dashTime > 0)
+			SoulPlayer sp = player.GetModPlayer<SoulPlayer>();
+			if (sp.eocSoulDash && dashTime > 0)
 			{
 				Rectangle rectangle = new Rectangle((int)(player.position.X + player.velocity.X * 0.5 - 4.0), (int)(player.position.Y + player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
 
@@ -51,7 +52,7 @@ namespace MysticHunter.Souls.Data.Bosses
 						{
 							bool crit = false;
 							float knockback = 9f;
-							float damage = (25 + 3 * this.stack) * player.meleeDamage;
+							float damage = (25 + 3 * sp.UnlockedSouls[this.soulNPC]) * player.meleeDamage;
 
 							if (player.kbGlove)
 								knockback *= 2;

@@ -128,17 +128,6 @@ namespace MysticHunter.Souls.Framework
 			AddNewSoul(new WallOfFleshSoul());
 		}
 
-		public static void ResetSoulAcquisition(Dictionary<short, byte> acquiredSouls)
-		{
-			MysticHunter.Instance.SoulDict.Values.Select(v => v.acquired = false);
-
-			if (acquiredSouls != null)
-			{
-				foreach (var kvp in acquiredSouls)
-					MysticHunter.Instance.SoulDict[kvp.Key].stack = kvp.Value;
-			}
-		}
-
 		public static void ReloadSoulIndexUI()
 		{
 			MysticHunter.Instance.soulIndexUI.soulIndexPanel.soulListPanel.soulList.ReloadList();

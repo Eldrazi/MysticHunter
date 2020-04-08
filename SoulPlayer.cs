@@ -24,6 +24,9 @@ namespace MysticHunter
 	/// </summary>
 	public class SoulPlayer : ModPlayer
 	{
+		// A dictionary that keeps track of which souls the player has unlocked.
+		public Dictionary<short, byte> UnlockedSouls = new Dictionary<short, byte>();
+
 		/// <summary>
 		/// An array that keeps track of soul items.
 		/// Red, Blue and Yellow souls are stacked in the array in that order (0, 1, 2).
@@ -45,8 +48,8 @@ namespace MysticHunter
 			set { souls[(int)SoulType.Yellow] = value; }
 		}
 
-		public readonly float[] DefinedSoulDropModifier = new float[3] { .1f, .1f, .1f };
 		public float[] soulDropModifier;
+		public readonly float[] DefinedSoulDropModifier = new float[3] { .1f, .1f, .1f };
 
 		private short redSoulCooldown, blueSoulCooldown, yellowSoulCooldown;
 
@@ -66,10 +69,6 @@ namespace MysticHunter
 		public bool eocSoulDash = false;
 		public int seaSnailAnimationCounter = 0;
 
-		/// <summary>
-		/// Initializes the `souls` array.
-		/// Done in this function so every player has his/her own instance.
-		/// </summary>
 		public override void Initialize()
 		{
 			this.souls = new BaseSoul[3];
@@ -116,7 +115,7 @@ namespace MysticHunter
 		public override void PostUpdateEquips()
 		{
 			if (YellowSoul != null && yellowSoulCooldown == 0)
-				YellowSoul.SoulUpdate(player, YellowSoul.stack);
+				YellowSoul.SoulUpdate(player, UnlockedSouls[YellowSoul.soulNPC]);
 
 			for (int i = 0; i < souls.Length; ++i)
 				if (souls[i] != null)
@@ -133,13 +132,13 @@ namespace MysticHunter
 		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
 		{
 			if (lacBeetleSoul)
-				LacBeetleSoul.ModifyHit(player, ref damage, damageSource, BlueSoul.stack);
+				LacBeetleSoul.ModifyHit(player, ref damage, damageSource, UnlockedSouls[BlueSoul.soulNPC]);
 			if (cyanBeetleSoul)
-				CyanBeetleSoul.ModifyHit(player, ref damage, damageSource, BlueSoul.stack);
+				CyanBeetleSoul.ModifyHit(player, ref damage, damageSource, UnlockedSouls[BlueSoul.soulNPC]);
 			if (cochinealBeetleSoul)
-				CochinealBeetleSoul.ModifyHit(player, ref damage, damageSource, BlueSoul.stack);
+				CochinealBeetleSoul.ModifyHit(player, ref damage, damageSource, UnlockedSouls[BlueSoul.soulNPC]);
 
-			preHurtModifier?.Invoke(player, ref damage, damageSource, YellowSoul.stack);
+			preHurtModifier?.Invoke(player, ref damage, damageSource, UnlockedSouls[YellowSoul.soulNPC]);
 
 			return (true);
 		}
@@ -151,7 +150,7 @@ namespace MysticHunter
 		{
 			if (RedSoul != null && redSoulCooldown <= 0 && MysticHunter.Instance.RedSoulActive.Current)
 			{
-				if (player.CheckMana(RedSoul.ManaCost(player, RedSoul.stack), true, false) && RedSoul.SoulUpdate(player, RedSoul.stack))
+				if (player.CheckMana(RedSoul.ManaCost(player, UnlockedSouls[RedSoul.soulNPC]), true, false) && RedSoul.SoulUpdate(player, UnlockedSouls[RedSoul.soulNPC]))
 				{
 					redSoulCooldown = RedSoul.cooldown;
 					player.manaRegenDelay = (int)player.maxRegenDelay;
@@ -160,7 +159,7 @@ namespace MysticHunter
 
 			if (BlueSoul != null && blueSoulCooldown <= 0 && MysticHunter.Instance.BlueSoulActive.Current)
 			{
-				if (player.CheckMana(BlueSoul.ManaCost(player, BlueSoul.stack), true, false) && BlueSoul.SoulUpdate(player, BlueSoul.stack))
+				if (player.CheckMana(BlueSoul.ManaCost(player, UnlockedSouls[BlueSoul.soulNPC]), true, false) && BlueSoul.SoulUpdate(player, UnlockedSouls[BlueSoul.soulNPC]))
 				{
 					blueSoulCooldown = BlueSoul.cooldown;
 					player.manaRegenDelay = (int)player.maxRegenDelay;
@@ -202,6 +201,11 @@ namespace MysticHunter
 			}
 		}
 
+		public override void OnEnterWorld(Player player)
+		{
+			SoulManager.ReloadSoulIndexUI();
+		}
+
 		/// <summary>
 		/// Saving and loading for soul items.
 		/// </summary>
@@ -216,13 +220,8 @@ namespace MysticHunter
 				tag.Add("soul" + i, id);
 			}
 
-			// A simple query to get every soul that the player has unlocked and store it in a list for saving purposed.
-			Dictionary<short, byte> acquiredSouls = MysticHunter.Instance.SoulDict.Values
-				.Where(v => v.acquired == true)
-				.ToDictionary(v => v.soulNPC, v => v.stack);
-
-			tag.Add("acquiredSoulsKeys", acquiredSouls.Keys.ToList());
-			tag.Add("acquiredSoulsValues", acquiredSouls.Values.ToList());
+			tag.Add("acquiredSoulsKeys", UnlockedSouls.Keys.ToList());
+			tag.Add("acquiredSoulsValues", UnlockedSouls.Values.ToList());
 
 			return tag;
 		}
@@ -240,10 +239,79 @@ namespace MysticHunter
 
 				var keys = tag.Get<List<short>>("acquiredSoulsKeys");
 				var values = tag.Get<List<byte>>("acquiredSoulsValues");
-				SoulManager.ResetSoulAcquisition(keys.Zip(values, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value));
-				SoulManager.ReloadSoulIndexUI();
+				UnlockedSouls = keys.Zip(values, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
 			}
-			catch { }
+			catch 
+			{
+				UnlockedSouls = new Dictionary<short, byte>();
+			}
 		}
+
+		#region Player Syncing & Networking
+
+		public override void clientClone(ModPlayer clientClone)
+		{
+			SoulPlayer clone = clientClone as SoulPlayer;
+
+			for (int i = 0; i < souls.Length; ++i)
+			{
+				if (souls[i] == null)
+					clone.souls[i] = null;
+				else
+					clone.souls[i] = MysticHunter.Instance.SoulDict[souls[i].soulNPC];
+			}
+
+			clone.lacBeetleSoul = lacBeetleSoul;
+			clone.cyanBeetleSoul = cyanBeetleSoul;
+			clone.cochinealBeetleSoul = cochinealBeetleSoul;
+
+			clone.eocSoulDash = eocSoulDash;
+		}
+
+		public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
+		{
+			ModPacket packet = mod.GetPacket();
+			packet.Write((byte)MysticHunterMessageType.SyncStartSoulPlayer);
+			packet.Write((byte)player.whoAmI);
+			packet.Write((RedSoul == null) ? 0 : RedSoul.soulNPC);
+			packet.Write((BlueSoul == null) ? 0 : BlueSoul.soulNPC);
+			packet.Write((YellowSoul == null) ? 0 : YellowSoul.soulNPC);
+
+			packet.Write(lacBeetleSoul);
+			packet.Write(cyanBeetleSoul);
+			packet.Write(cochinealBeetleSoul);
+
+			packet.Write(eocSoulDash);
+
+			packet.Send(toWho, fromWho);
+		}
+
+		public override void SendClientChanges(ModPlayer clientPlayer)
+		{
+			SoulPlayer clone = clientPlayer as SoulPlayer;
+
+			if (IsSoulDifferent(clone.RedSoul, RedSoul) || IsSoulDifferent(clone.BlueSoul, BlueSoul) || IsSoulDifferent(clone.YellowSoul, YellowSoul))
+			{
+				ModPacket packet = mod.GetPacket();
+				packet.Write((byte)MysticHunterMessageType.SyncPlayerSouls);
+				packet.Write((byte)player.whoAmI);
+				packet.Write((RedSoul == null) ? 0 : RedSoul.soulNPC);
+				packet.Write((BlueSoul == null) ? 0 : BlueSoul.soulNPC);
+				packet.Write((YellowSoul == null) ? 0 : YellowSoul.soulNPC);
+				packet.Send();
+			}
+		}
+
+		private bool IsSoulDifferent(BaseSoul soul, BaseSoul otherSoul)
+		{
+			if (soul == null || otherSoul == null)
+			{
+				return !(soul == null && otherSoul == null);
+			}
+			else
+				return (soul.soulNPC != otherSoul.soulNPC);
+		}
+
+		#endregion
 	}
 }

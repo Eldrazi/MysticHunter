@@ -31,7 +31,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<BoneSerpentSoulProj>())
 					Main.projectile[i].Kill();
 			}
-
+			Main.NewText("woop");
 			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<BoneSerpentSoulProj>(), 30 + (2 * stack), .2f, p.whoAmI, -1);
 			return (true);
 		}
@@ -68,10 +68,13 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override bool PreAI()
 		{
 			Player player = Main.player[projectile.owner];
-			
+
 			// Check if the projectile should still be alive.
 			if (player.dead || player.GetModPlayer<SoulPlayer>().BlueSoul == null || player.GetModPlayer<SoulPlayer>().BlueSoul.soulNPC != NPCID.BoneSerpentHead)
+			{
+				Main.NewText("Killing bone tail, because " + (player.GetModPlayer<SoulPlayer>().BlueSoul == null ? "blue soul is null." : $"blue soul npc is: {player.GetModPlayer<SoulPlayer>().BlueSoul.soulNPC}"));
 				projectile.Kill();
+			}
 			projectile.timeLeft = 10;
 
 			// Projectile state management.

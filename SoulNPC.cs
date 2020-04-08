@@ -3,6 +3,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
+using Microsoft.Xna.Framework;
+
 using MysticHunter.Souls.Items;
 using MysticHunter.Souls.Framework;
 
@@ -12,27 +14,16 @@ namespace MysticHunter
 	/// The sole purpose of this class is that it allows us to drop souls from NPCs that have a soul drop.
 	/// </summary>
 	public class SoulNPC : GlobalNPC
-	{		
+	{
+		public static short lastKilledSoulNPC;
+
 		public override void NPCLoot(NPC npc)
 		{
-			// Soul dropping.
-			short snetID = (short)npc.netID;
-			if (MysticHunter.Instance.SoulDict.ContainsKey(snetID))
+			// If the player is playing in singleplayer, call TryDropNPCSoul directly.
+			// Otherwise the 'player' is a server and should send a message to all connected clients.
+			if (MysticHunter.Instance.SoulDict.ContainsKey((short)npc.netID))
 			{
-				float modifier = Main.LocalPlayer.GetModPlayer<SoulPlayer>().soulDropModifier[(int)MysticHunter.Instance.SoulDict[snetID].soulType];
-
-				if (Main.rand.NextFloat() <= modifier)
-				{
-					Item i = Main.item[Item.NewItem(npc.position, ItemType<BasicSoul>(), 1, true, 0, true)];
-
-					// Set the correct ID of the item drop.
-					if (i != null)
-					{
-						BasicSoul bs = i.modItem as BasicSoul;
-
-						bs.soulNPC = snetID;
-					}
-				}
+				DropSoulnstanced((short)npc.netID, npc.position);
 			}
 
 			if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.BrainofCthulhu)
@@ -57,7 +48,44 @@ namespace MysticHunter
 			SoulPlayer sp = player.GetModPlayer<SoulPlayer>();
 
 			if (sp.pinkySoul)
-				spawnRate += 5 + 2 * (sp.YellowSoul.stack);
+				spawnRate += 5 + 2 * (sp.UnlockedSouls[sp.YellowSoul.soulNPC]);
+		}
+
+		public static void DropSoulnstanced(short npcType, Vector2 position)
+		{
+			if (Main.netMode == 2)
+			{
+				int item = Item.NewItem(position, ItemType<BasicSoul>(), 1, noBroadcast: true);
+				BasicSoul bs = Main.item[item].modItem as BasicSoul;
+				bs.soulNPC = npcType;
+
+				Main.itemLockoutTime[item] = 54000;
+				for (int i = 0; i < 255; i++)
+				{
+					if (Main.player[i].active)
+					{
+						float modifier = Main.player[i].GetModPlayer<SoulPlayer>().soulDropModifier[(int)MysticHunter.Instance.SoulDict[npcType].soulType];
+						if (Main.rand.NextFloat() <= modifier)
+						{
+							NetMessage.SendData(90, i, -1, null, item);
+						}
+					}
+				}
+				Main.item[item].active = false;
+			}
+			else if (Main.netMode == 0)
+			{
+				float modifier = Main.LocalPlayer.GetModPlayer<SoulPlayer>().soulDropModifier[(int)MysticHunter.Instance.SoulDict[npcType].soulType];
+				if (Main.rand.NextFloat() <= modifier)
+				{
+					Item item = Main.item[Item.NewItem(position, ItemType<BasicSoul>())];
+					if (item != null)
+					{
+						BasicSoul bs = item.modItem as BasicSoul;
+						bs.soulNPC = npcType;
+					}
+				}
+			}
 		}
 	}
 }

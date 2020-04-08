@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.IO;
+using System.Collections.Generic;
 
 using Terraria;
+using Terraria.ID;
 using Terraria.UI;
 using Terraria.ModLoader;
 
@@ -11,6 +13,12 @@ using Microsoft.Xna.Framework;
 
 namespace MysticHunter
 {
+	public enum MysticHunterMessageType : byte
+	{
+		SyncStartSoulPlayer,
+		SyncPlayerSouls
+	}
+
 	public class MysticHunter : Mod
 	{
 		// Singleton instance for the MysticHunter class, set in `Load`.
@@ -87,5 +95,51 @@ namespace MysticHunter
 				);
 			}
 		}
+
+		#region Network Package Handling
+
+		public override void HandlePacket(BinaryReader reader, int whoAmI)
+		{
+			MysticHunterMessageType msgType = (MysticHunterMessageType)reader.ReadByte();
+			switch (msgType)
+			{
+				case MysticHunterMessageType.SyncPlayerSouls:
+				case MysticHunterMessageType.SyncStartSoulPlayer:
+					byte playerID = reader.ReadByte();
+					SoulPlayer targetPlayer = Main.player[playerID].GetModPlayer<SoulPlayer>();
+
+					short[] souls = new short[3] { reader.ReadInt16(), reader.ReadInt16(), reader.ReadInt16() };
+					for (int i = 0; i < souls.Length; ++i)
+					{
+						if (souls[i] == 0)
+							targetPlayer.souls[i] = null;
+						else
+							targetPlayer.souls[i] = MysticHunter.Instance.SoulDict[souls[i]];
+					}
+
+					if (msgType == MysticHunterMessageType.SyncPlayerSouls && Main.netMode == NetmodeID.Server)
+					{
+						var packet = GetPacket();
+						packet.Write((byte)MysticHunterMessageType.SyncPlayerSouls);
+						packet.Write(playerID);
+						packet.Write(souls[0]);
+						packet.Write(souls[1]);
+						packet.Write(souls[2]);
+						packet.Send(-1, playerID);
+					}
+
+					if (msgType == MysticHunterMessageType.SyncStartSoulPlayer)
+					{
+						targetPlayer.lacBeetleSoul = reader.ReadBoolean();
+						targetPlayer.cyanBeetleSoul = reader.ReadBoolean();
+						targetPlayer.cochinealBeetleSoul = reader.ReadBoolean();
+
+						targetPlayer.eocSoulDash = reader.ReadBoolean();
+					}
+					break;
+			}
+		}
+
+		#endregion
 	}
 }

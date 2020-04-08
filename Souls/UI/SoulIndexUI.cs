@@ -199,7 +199,7 @@ namespace MysticHunter.Souls.UI
 					drawRectangle.Y + drawRectangle.Height / 2 - soulTextures[0].Height / 2, soulTextures[0].Width, soulTextures[0].Height);
 				spriteBatch.Draw(soulTextures[(int)soulReference.soulType], soulRect, Color.White);
 
-				Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, sp.souls[(int)soulSlot].stack.ToString(), 
+				Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, sp.UnlockedSouls[sp.souls[(int)soulSlot].soulNPC].ToString(), 
 					drawRectangle.X + 6, drawRectangle.Y + drawRectangle.Height - 12, Color.White, Color.Black, Vector2.Zero, .6f);
 			}
 		}

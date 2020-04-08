@@ -72,7 +72,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.timeLeft = 10;
 
 			float maxSpeed = 2;
-			float maxRange = 50 + (10 * sp.BlueSoul.stack);
+			float maxRange = 50 + (10 * sp.UnlockedSouls[sp.BlueSoul.soulNPC]);
 			float acceleration = .055f;
 
 			// Give a bit more range every 5 seconds.

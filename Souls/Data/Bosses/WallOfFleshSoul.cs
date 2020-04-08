@@ -33,9 +33,9 @@ namespace MysticHunter.Souls.Data.Bosses
 			}
 
 			int amount = 3;
-			if (this.stack >= 5)
+			if (stack >= 5)
 				amount += 2;
-			if (this.stack >= 9)
+			if (stack >= 9)
 				amount += 2;
 			
 			for (int i = 0; i < amount; ++i)

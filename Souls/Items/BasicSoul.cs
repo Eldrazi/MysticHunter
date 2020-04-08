@@ -6,6 +6,7 @@ using MysticHunter.Souls.Framework;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 namespace MysticHunter.Souls.Items
 {
@@ -34,6 +35,8 @@ namespace MysticHunter.Souls.Items
 		/// <returns>Always returns false. This item is not actually added to the players' inventory.</returns>
 		public override bool OnPickup(Player player)
 		{
+			SoulPlayer sp = player.GetModPlayer<SoulPlayer>();
+
 			if (MysticHunter.Instance.SoulDict.ContainsKey(soulNPC))
 			{
 				BaseSoul s = MysticHunter.Instance.SoulDict[soulNPC];
@@ -44,11 +47,13 @@ namespace MysticHunter.Souls.Items
 				else if (s.soulType == SoulType.Yellow)
 					c = Color.Yellow;
 
-				if (s.stack < 9)
+				if (!sp.UnlockedSouls.ContainsKey(soulNPC))
+					sp.UnlockedSouls.Add(soulNPC, 0);
+				if (sp.UnlockedSouls[soulNPC] < 9)
 				{
-					Main.NewText($"You collected your {numberList[s.stack]} {s.SoulNPCName()} soul.", c);
+					Main.NewText($"You collected your {numberList[sp.UnlockedSouls[soulNPC]]} {s.SoulNPCName()} soul.", c);
 
-					s.stack++;
+					sp.UnlockedSouls[soulNPC]++;
 					SoulManager.ReloadSoulIndexUI();
 				}
 			}
@@ -65,20 +70,31 @@ namespace MysticHunter.Souls.Items
 
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
-			SoulType type = MysticHunter.Instance.SoulDict[soulNPC].soulType;
+			if (MysticHunter.Instance.SoulDict.ContainsKey(soulNPC))
+			{
+				SoulType type = MysticHunter.Instance.SoulDict[soulNPC].soulType;
 
-			Texture2D tex = Main.itemTexture[item.type];
-			Rectangle rect = new Rectangle(0, 0, 16, 16);
-			Vector2 origin = new Vector2(tex.Width * .5f, (tex.Height / 3) * .5f);
+				Texture2D tex = Main.itemTexture[item.type];
+				Rectangle rect = new Rectangle(0, 0, 16, 16);
+				Vector2 origin = new Vector2(tex.Width * .5f, (tex.Height / 3) * .5f);
 
-			if (type == SoulType.Blue)
-				rect.Y += 16;
-			if (type == SoulType.Yellow)
-				rect.Y += 32;
+				if (type == SoulType.Blue)
+					rect.Y += 16;
+				if (type == SoulType.Yellow)
+					rect.Y += 32;
 
-			spriteBatch.Draw(tex, item.position - Main.screenPosition + origin, rect, lightColor, 0, origin, 1, SpriteEffects.None, 0);
-
+				spriteBatch.Draw(tex, item.position - Main.screenPosition + origin, rect, lightColor, 0, origin, 1, SpriteEffects.None, 0);
+			}
 			return (false);
+		}
+
+		public override void NetSend(BinaryWriter writer)
+		{
+			writer.Write(this.soulNPC);
+		}
+		public override void NetRecieve(BinaryReader reader)
+		{
+			this.soulNPC = reader.ReadInt16();
 		}
 	}
 }

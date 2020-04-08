@@ -14,19 +14,6 @@ namespace MysticHunter.Souls.Framework
 
 	public abstract class BaseSoul
 	{
-		public bool acquired 
-		{
-			get { return stack >= 1; }
-			set 
-			{
-				if (value == false)
-					stack = 0;
-				else if (stack == 0)
-					stack = 1;
-			}
-		}
-		public byte stack { get; set; }
-
 		public abstract short soulNPC { get; }
 		public abstract string soulDescription { get; }
 
