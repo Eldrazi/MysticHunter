@@ -51,6 +51,13 @@ namespace MysticHunter
 				spawnRate += 5 + 2 * (sp.UnlockedSouls[sp.YellowSoul.soulNPC]);
 		}
 
+		/// <summary>
+		/// Tries to drop a soul instance for the specified NPC type.
+		/// If the player is in SinglePlayer mode, a local item is created.
+		/// In multiplayer mode, the server creates an instanced item and sends a net message to the relevant clients.
+		/// </summary>
+		/// <param name="npcType">The type of NPC for which the soul needs to spawn.</param>
+		/// <param name="position">The positition to spawn the soul at.</param>
 		public static void DropSoulnstanced(short npcType, Vector2 position)
 		{
 			if (Main.netMode == 2)

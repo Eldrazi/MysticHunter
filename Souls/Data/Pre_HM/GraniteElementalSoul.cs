@@ -76,8 +76,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			SoulPlayer sp = owner.GetModPlayer<SoulPlayer>();
 
 			// Check to see if the NPC should still be alive.
-			if (owner.whoAmI == Main.myPlayer && (owner.dead || sp.souls[(int)SoulType.Blue] == null || sp.souls[(int)SoulType.Blue].soulNPC != NPCID.GraniteFlyer))
-					npc.active = false;
+			if (owner.dead  || sp.activeSouls[(int)SoulType.Blue].soulNPC != NPCID.GraniteFlyer)
+				npc.active = false;
 
 			// Start calculating the correct position of the elemental.
 			Vector2 newPos = owner.Center + new Vector2(0, 16);

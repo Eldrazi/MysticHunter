@@ -18,6 +18,7 @@
     <None Remove="Souls\Data\BoneSerpentSoulProj_Chain.png" />
     <None Remove="Souls\Data\Bosses\DestroyerSoulProj.png" />
     <None Remove="Souls\Data\Bosses\DestroyerSoulProj_Chain.png" />
+    <None Remove="Souls\Data\Bosses\EyeOfCthuluSoul.png" />
     <None Remove="Souls\Data\CochinealBeetleSoul_Proj.png" />
     <None Remove="Souls\Data\DevourerSoulProj.png" />
     <None Remove="Souls\Data\DevourerSoulProj_Chain.png" />
@@ -33,6 +34,7 @@
     <None Remove="Souls\Data\JungleBatSoulProj.png" />
     <None Remove="Souls\Data\JungleSlimeSoulProj.png" />
     <None Remove="Souls\Data\LavaSlimeSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\AntlionSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\BeetleShell.png" />
     <None Remove="Souls\Data\Pre_HM\BloodCrawlerSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\BlueSlimeSoulProj.png" />
@@ -55,6 +57,8 @@
     <None Remove="Souls\Data\Pre_HM\LavaSlimeSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\PurpleSlimeSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\SandSlimeSoulProj.png" />
+    <None Remove="Souls\Data\Pre_HM\SeaSnailShell.png" />
+    <None Remove="Souls\Data\Pre_HM\SharkSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\SnowFlinxSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\TombCrawlerSoulProj.png" />
     <None Remove="Souls\Data\Pre_HM\TombCrawlerSoulProj_Chain.png" />

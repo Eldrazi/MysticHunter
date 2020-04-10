@@ -31,7 +31,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<BoneSerpentSoulProj>())
 					Main.projectile[i].Kill();
 			}
-			Main.NewText("woop");
 			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<BoneSerpentSoulProj>(), 30 + (2 * stack), .2f, p.whoAmI, -1);
 			return (true);
 		}
@@ -70,11 +69,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Player player = Main.player[projectile.owner];
 
 			// Check if the projectile should still be alive.
-			if (player.dead || player.GetModPlayer<SoulPlayer>().BlueSoul == null || player.GetModPlayer<SoulPlayer>().BlueSoul.soulNPC != NPCID.BoneSerpentHead)
-			{
-				Main.NewText("Killing bone tail, because " + (player.GetModPlayer<SoulPlayer>().BlueSoul == null ? "blue soul is null." : $"blue soul npc is: {player.GetModPlayer<SoulPlayer>().BlueSoul.soulNPC}"));
+			if (player.dead || player.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC != NPCID.BoneSerpentHead)
 				projectile.Kill();
-			}
 			projectile.timeLeft = 10;
 
 			// Projectile state management.
@@ -158,7 +154,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				spriteBatch.Draw(tailPartTex, startPos - Main.screenPosition, null, lightColor, startRot + (float)Math.PI, origin, tailScale, SpriteEffects.None, 0);
 
 				// Calculate two rotational options:
-				// 1. A remi-preset rotation which is dependant on the index of the current tail piece.
+				// 1. A semi-preset rotation which is dependant on the index of the current tail piece.
 				// 2. A calculated rotation, based on the position of the last tail piece in relation to the end-piece of the tail.
 				float rotOpt1 = (float)Math.PI / Math.Abs(8 - i);
 				float rotOpt2 = (endPos - startPos).ToRotation();

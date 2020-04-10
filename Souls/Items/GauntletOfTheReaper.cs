@@ -26,14 +26,9 @@ namespace MysticHunter.Souls.Items
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			// TODO: Remove always spawn modifier.
-			player.GetModPlayer<SoulPlayer>().soulDropModifier[(int)SoulType.Red] = 1;
-			player.GetModPlayer<SoulPlayer>().soulDropModifier[(int)SoulType.Blue] = 1;
-			player.GetModPlayer<SoulPlayer>().soulDropModifier[(int)SoulType.Yellow] = 1;
-
-			/*player.GetModPlayer<SoulPlayer>().soulDropModifier[(int)SoulType.Red] += 0.05f;
+			player.GetModPlayer<SoulPlayer>().soulDropModifier[(int)SoulType.Red] += 0.05f;
 			player.GetModPlayer<SoulPlayer>().soulDropModifier[(int)SoulType.Blue] += 0.05f;
-			player.GetModPlayer<SoulPlayer>().soulDropModifier[(int)SoulType.Yellow] += 0.05f;*/
+			player.GetModPlayer<SoulPlayer>().soulDropModifier[(int)SoulType.Yellow] += 0.05f;
 		}
 
 		public override void AddRecipes()

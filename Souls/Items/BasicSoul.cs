@@ -49,11 +49,15 @@ namespace MysticHunter.Souls.Items
 
 				if (!sp.UnlockedSouls.ContainsKey(soulNPC))
 					sp.UnlockedSouls.Add(soulNPC, 0);
+
 				if (sp.UnlockedSouls[soulNPC] < 9)
 				{
 					Main.NewText($"You collected your {numberList[sp.UnlockedSouls[soulNPC]]} {s.SoulNPCName()} soul.", c);
 
 					sp.UnlockedSouls[soulNPC]++;
+
+					// Update the local player and UI.
+					sp.UpdateActiveSoulData();
 					SoulManager.ReloadSoulIndexUI();
 				}
 			}

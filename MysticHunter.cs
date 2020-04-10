@@ -107,24 +107,25 @@ namespace MysticHunter
 				case MysticHunterMessageType.SyncStartSoulPlayer:
 					byte playerID = reader.ReadByte();
 					SoulPlayer targetPlayer = Main.player[playerID].GetModPlayer<SoulPlayer>();
-
-					short[] souls = new short[3] { reader.ReadInt16(), reader.ReadInt16(), reader.ReadInt16() };
-					for (int i = 0; i < souls.Length; ++i)
-					{
-						if (souls[i] == 0)
-							targetPlayer.souls[i] = null;
-						else
-							targetPlayer.souls[i] = MysticHunter.Instance.SoulDict[souls[i]];
-					}
+					
+					targetPlayer.activeSouls[0].soulNPC = reader.ReadInt16();
+					targetPlayer.activeSouls[1].soulNPC = reader.ReadInt16();
+					targetPlayer.activeSouls[2].soulNPC = reader.ReadInt16();
+					targetPlayer.activeSouls[0].stack = reader.ReadByte();
+					targetPlayer.activeSouls[1].stack = reader.ReadByte();
+					targetPlayer.activeSouls[2].stack = reader.ReadByte();
 
 					if (msgType == MysticHunterMessageType.SyncPlayerSouls && Main.netMode == NetmodeID.Server)
 					{
 						var packet = GetPacket();
 						packet.Write((byte)MysticHunterMessageType.SyncPlayerSouls);
 						packet.Write(playerID);
-						packet.Write(souls[0]);
-						packet.Write(souls[1]);
-						packet.Write(souls[2]);
+						packet.Write(targetPlayer.activeSouls[0].soulNPC);
+						packet.Write(targetPlayer.activeSouls[1].soulNPC);
+						packet.Write(targetPlayer.activeSouls[2].soulNPC);
+						packet.Write(targetPlayer.activeSouls[0].stack);
+						packet.Write(targetPlayer.activeSouls[1].stack);
+						packet.Write(targetPlayer.activeSouls[2].stack);
 						packet.Send(-1, playerID);
 					}
 

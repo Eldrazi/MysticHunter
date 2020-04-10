@@ -70,7 +70,7 @@ namespace MysticHunter.Souls.Data.Bosses
 			Player player = Main.player[projectile.owner];
 			
 			// Check if the projectile should still be alive.
-			if (player.dead || player.GetModPlayer<SoulPlayer>().souls[1] == null || player.GetModPlayer<SoulPlayer>().souls[1].soulNPC != NPCID.TheDestroyer)
+			if (player.dead || player.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC != NPCID.TheDestroyer)
 				projectile.Kill();
 			projectile.timeLeft = 10;
 

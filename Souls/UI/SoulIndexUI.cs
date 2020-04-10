@@ -173,7 +173,8 @@ namespace MysticHunter.Souls.UI
 		private void RightClick(UIMouseEvent evt, UIElement e)
 		{
 			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
-			sp.souls[(int)soulSlot] = null;
+			sp.activeSouls[(int)soulSlot].soulNPC = 0;
+			sp.activeSouls[(int)soulSlot].stack = 0;
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
@@ -182,7 +183,7 @@ namespace MysticHunter.Souls.UI
 
 			spriteBatch.Draw(itemPanel, drawRectangle, Color.White);
 
-			BaseSoul soulReference = sp.souls[(int)soulSlot];
+			BaseSoul soulReference = SoulManager.GetSoul(sp.activeSouls[(int)soulSlot].soulNPC);
 
 			if (base.IsMouseHovering)
 			{
@@ -199,7 +200,7 @@ namespace MysticHunter.Souls.UI
 					drawRectangle.Y + drawRectangle.Height / 2 - soulTextures[0].Height / 2, soulTextures[0].Width, soulTextures[0].Height);
 				spriteBatch.Draw(soulTextures[(int)soulReference.soulType], soulRect, Color.White);
 
-				Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, sp.UnlockedSouls[sp.souls[(int)soulSlot].soulNPC].ToString(), 
+				Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, sp.activeSouls[(int)soulSlot].stack.ToString(), 
 					drawRectangle.X + 6, drawRectangle.Y + drawRectangle.Height - 12, Color.White, Color.Black, Vector2.Zero, .6f);
 			}
 		}

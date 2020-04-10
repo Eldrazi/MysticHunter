@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using MysticHunter.Souls.Data.HM;
 using MysticHunter.Souls.Data.Event;
@@ -15,125 +14,122 @@ namespace MysticHunter.Souls.Framework
 			MysticHunter.Instance.SoulDict = new Dictionary<short, BaseSoul>();
 
 			// Pre-hardmode souls.
-			AddNewSoul(new AngryBonesSoul());
-			AddNewSoul(new AnomuraFungusSoul());
-			AddNewSoul(new AntlionSoul());
-			AddNewSoul(new AntlionChargerSoul());
-			AddNewSoul(new AntlionSwarmerSoul());
-			AddNewSoul(new BabySlimeSoul());
-			AddNewSoul(new BeeSoul());
-			AddNewSoul(new BlackSlimeSoul());
-			AddNewSoul(new BloodCrawlerSoul());
-			AddNewSoul(new BlueJellyfishSoul());
-			AddNewSoul(new BlueSlimeSoul());
-			AddNewSoul(new BoneSerpentSoul());
-			AddNewSoul(new CaveBatSoul());
-			AddNewSoul(new CochinealBeetleSoul());
-			AddNewSoul(new CrabSoul());
-			AddNewSoul(new CrawdadSoul());
-			AddNewSoul(new CrimeraSoul());
-			AddNewSoul(new CursedSkullSoul());
-			AddNewSoul(new CyanBeetleSoul());
-			AddNewSoul(new DarkCasterSoul());
-			AddNewSoul(new DemonSoul());
-			AddNewSoul(new DemonEyeSoul());
-			AddNewSoul(new DevourerSoul());
-			AddNewSoul(new DoctorBonesSoul());
-			AddNewSoul(new DungeonGuardianSoul());
-			AddNewSoul(new DungeonSlimeSoul());
-			AddNewSoul(new EaterOfSoulsSoul());
-			AddNewSoul(new FaceMonsterSoul());
-			AddNewSoul(new FireImpSoul());
-			AddNewSoul(new FungiBulbSoul());
-			AddNewSoul(new GiantShellySoul());
-			AddNewSoul(new GiantWormSoul());
-			AddNewSoul(new GoblinScoutSoul());
-			AddNewSoul(new GraniteElementalSoul());
-			AddNewSoul(new GraniteGolemSoul());
-			AddNewSoul(new GreenSlimeSoul());
-			AddNewSoul(new HarpySoul());
-			AddNewSoul(new HellbatSoul());
-			AddNewSoul(new HopliteSoul());
-			AddNewSoul(new HornetSoul());
-			AddNewSoul(new IceBatSoul());
-			AddNewSoul(new IceSlimeSoul());
-			AddNewSoul(new JungleBatSoul());
-			AddNewSoul(new JungleSlimeSoul());
-			AddNewSoul(new LacBeetleSoul());
-			AddNewSoul(new LavaSlimeSoul());
-			AddNewSoul(new ManEaterSoul());
-			AddNewSoul(new MeteorHeadSoul());
-			AddNewSoul(new MotherSlimeSoul());
-			AddNewSoul(new MushiLadybugSoul());
-			AddNewSoul(new MushroomZombieSoul());
-			AddNewSoul(new NymphSoul());
-			AddNewSoul(new PinkySoul());
-			AddNewSoul(new PinkJellyfishSoul());
-			AddNewSoul(new PiranhaSoul());
-			AddNewSoul(new PurpleSlimeSoul());
-			AddNewSoul(new RavenSoul());
-			AddNewSoul(new RedSlimeSoul());
-			AddNewSoul(new SalamanderSoul());
-			AddNewSoul(new SandSlimeSoul());
-			AddNewSoul(new SeaSnailSoul());
-			AddNewSoul(new SharkSoul());
-			AddNewSoul(new SkeletonSoul());
-			AddNewSoul(new SnatcherSoul());
-			AddNewSoul(new SnowFlinxSoul());
-			AddNewSoul(new SpikedIceSlimeSoul());
-			AddNewSoul(new SpikedJungleSlimeSoul());
-			AddNewSoul(new SquidSoul());
-			AddNewSoul(new TimSoul());
-			AddNewSoul(new TombCrawlerSoul());
-			AddNewSoul(new UndeadMinerSoul());
-			AddNewSoul(new UndeadVikingSoul());
-			AddNewSoul(new VoodooDemonSoul());
-			AddNewSoul(new YellowSlimeSoul());
-			AddNewSoul(new VultureSoul());
-			AddNewSoul(new WallCreeperSoul());
-			AddNewSoul(new ZombieSoul());
-			AddNewSoul(new ZombieEskimoSoul());
+			AddSoul(new AngryBonesSoul());
+			AddSoul(new AnomuraFungusSoul());
+			AddSoul(new AntlionSoul());
+			AddSoul(new AntlionChargerSoul());
+			AddSoul(new AntlionSwarmerSoul());
+			AddSoul(new BabySlimeSoul());
+			AddSoul(new BeeSoul());
+			AddSoul(new BlackSlimeSoul());
+			AddSoul(new BloodCrawlerSoul());
+			AddSoul(new BlueJellyfishSoul());
+			AddSoul(new BlueSlimeSoul());
+			AddSoul(new BoneSerpentSoul());
+			AddSoul(new CaveBatSoul());
+			AddSoul(new CochinealBeetleSoul());
+			AddSoul(new CrabSoul());
+			AddSoul(new CrawdadSoul());
+			AddSoul(new CrimeraSoul());
+			AddSoul(new CursedSkullSoul());
+			AddSoul(new CyanBeetleSoul());
+			AddSoul(new DarkCasterSoul());
+			AddSoul(new DemonSoul());
+			AddSoul(new DemonEyeSoul());
+			AddSoul(new DevourerSoul());
+			AddSoul(new DoctorBonesSoul());
+			AddSoul(new DungeonGuardianSoul());
+			AddSoul(new DungeonSlimeSoul());
+			AddSoul(new EaterOfSoulsSoul());
+			AddSoul(new FaceMonsterSoul());
+			AddSoul(new FireImpSoul());
+			AddSoul(new FungiBulbSoul());
+			AddSoul(new GiantShellySoul());
+			AddSoul(new GiantWormSoul());
+			AddSoul(new GoblinScoutSoul());
+			AddSoul(new GraniteElementalSoul());
+			AddSoul(new GraniteGolemSoul());
+			AddSoul(new GreenSlimeSoul());
+			AddSoul(new HarpySoul());
+			AddSoul(new HellbatSoul());
+			AddSoul(new HopliteSoul());
+			AddSoul(new HornetSoul());
+			AddSoul(new IceBatSoul());
+			AddSoul(new IceSlimeSoul());
+			AddSoul(new JungleBatSoul());
+			AddSoul(new JungleSlimeSoul());
+			AddSoul(new LacBeetleSoul());
+			AddSoul(new LavaSlimeSoul());
+			AddSoul(new ManEaterSoul());
+			AddSoul(new MeteorHeadSoul());
+			AddSoul(new MotherSlimeSoul());
+			AddSoul(new MushiLadybugSoul());
+			AddSoul(new MushroomZombieSoul());
+			AddSoul(new NymphSoul());
+			AddSoul(new PinkySoul());
+			AddSoul(new PinkJellyfishSoul());
+			AddSoul(new PiranhaSoul());
+			AddSoul(new PurpleSlimeSoul());
+			AddSoul(new RavenSoul());
+			AddSoul(new RedSlimeSoul());
+			AddSoul(new SalamanderSoul());
+			AddSoul(new SandSlimeSoul());
+			AddSoul(new SeaSnailSoul());
+			AddSoul(new SharkSoul());
+			AddSoul(new SkeletonSoul());
+			AddSoul(new SnatcherSoul());
+			AddSoul(new SnowFlinxSoul());
+			AddSoul(new SpikedIceSlimeSoul());
+			AddSoul(new SpikedJungleSlimeSoul());
+			AddSoul(new SquidSoul());
+			AddSoul(new TimSoul());
+			AddSoul(new TombCrawlerSoul());
+			AddSoul(new UndeadMinerSoul());
+			AddSoul(new UndeadVikingSoul());
+			AddSoul(new VoodooDemonSoul());
+			AddSoul(new YellowSlimeSoul());
+			AddSoul(new VultureSoul());
+			AddSoul(new WallCreeperSoul());
+			AddSoul(new ZombieSoul());
+			AddSoul(new ZombieEskimoSoul());
 
 			// Hardmode souls.
-			AddNewSoul(new AngryTrapperSoul());
-			AddNewSoul(new ArmoredVikingSoul());
-			AddNewSoul(new BasiliskSoul());
-			AddNewSoul(new DreamerGhoulSoul());
-			AddNewSoul(new FloatyGrossSoul());
-			AddNewSoul(new HellArmoredBonesSoul());
-			AddNewSoul(new IceElementalSoul());
-			AddNewSoul(new NecromancerSoul());
-			AddNewSoul(new RustyArmoredBonesSoul());
-			AddNewSoul(new SandPoacherSoul());
-			AddNewSoul(new TaintedGhoulSoul());
-			AddNewSoul(new UnicornSoul());
-			AddNewSoul(new VileGhoulSoul());
-			AddNewSoul(new WyvernSoul());
+			/*AddSoul(new AngryTrapperSoul());
+			AddSoul(new ArmoredVikingSoul());
+			AddSoul(new BasiliskSoul());
+			AddSoul(new DreamerGhoulSoul());
+			AddSoul(new FloatyGrossSoul());
+			AddSoul(new HellArmoredBonesSoul());
+			AddSoul(new IceElementalSoul());
+			AddSoul(new NecromancerSoul());
+			AddSoul(new RustyArmoredBonesSoul());
+			AddSoul(new SandPoacherSoul());
+			AddSoul(new TaintedGhoulSoul());
+			AddSoul(new UnicornSoul());
+			AddSoul(new VileGhoulSoul());
+			AddSoul(new WyvernSoul());*/
 
 			// Event souls.
-			AddNewSoul(new GoblinArcherSoul());
-			AddNewSoul(new GoblinPeonSoul());
-			AddNewSoul(new GoblinSorcererSoul());
-			AddNewSoul(new GoblinSummonerSoul());
-			AddNewSoul(new GoblinThiefSoul());
-			AddNewSoul(new GoblinWarriorSoul());
+			AddSoul(new GoblinArcherSoul());
+			AddSoul(new GoblinPeonSoul());
+			AddSoul(new GoblinSorcererSoul());
+			AddSoul(new GoblinSummonerSoul());
+			AddSoul(new GoblinThiefSoul());
+			AddSoul(new GoblinWarriorSoul());
 
 			// Boss souls.
-			AddNewSoul(new BrainOfCthuluSoul());
-			AddNewSoul(new DarkMageSoul());
-			AddNewSoul(new DestroyerSoul());
-			AddNewSoul(new EyeOfCthuluSoul());
-			AddNewSoul(new KingSlimeSoul());
-			AddNewSoul(new QueenBeeSoul());
-			AddNewSoul(new WallOfFleshSoul());
+			AddSoul(new BrainOfCthuluSoul());
+			//AddSoul(new DarkMageSoul());
+			//AddSoul(new DestroyerSoul());
+			AddSoul(new EaterOfWorldsSoul());
+			AddSoul(new EyeOfCthuluSoul());
+			AddSoul(new KingSlimeSoul());
+			AddSoul(new QueenBeeSoul());
+			AddSoul(new SkeletronSoul());
+			AddSoul(new WallOfFleshSoul());
 		}
 
-		public static void ReloadSoulIndexUI()
-		{
-			MysticHunter.Instance.soulIndexUI.soulIndexPanel.soulListPanel.soulList.ReloadList();
-		}
-
-		private static void AddNewSoul(BaseSoul data)
+		public static void AddSoul(BaseSoul data)
 		{
 			if (MysticHunter.Instance.SoulDict.ContainsKey(data.soulNPC))
 			{
@@ -141,6 +137,12 @@ namespace MysticHunter.Souls.Framework
 				return;
 			}
 			MysticHunter.Instance.SoulDict.Add(data.soulNPC, data);
+		}
+		public static BaseSoul GetSoul(short soulNPC) => MysticHunter.Instance.SoulDict.TryGetValue(soulNPC, out BaseSoul result) ? result : null;
+
+		public static void ReloadSoulIndexUI()
+		{
+			MysticHunter.Instance.soulIndexUI.soulIndexPanel.soulListPanel.soulList.ReloadList();
 		}
 
 		public static void UnloadSouls()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 using Terraria;
 using Terraria.ID;
@@ -158,6 +159,17 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Main.PlaySound(SoundID.NPCDeath1, projectile.position);
 			for (int i = 0; i < 10; i++)
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.t_Slime, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 180, Color.Yellow);
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(this.bounceVelocity.X);
+			writer.Write(this.bounceVelocity.Y);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			this.bounceVelocity.X = reader.ReadSingle();
+			this.bounceVelocity.Y = reader.ReadSingle();
 		}
 	}
 }

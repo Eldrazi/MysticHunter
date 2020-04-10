@@ -70,7 +70,7 @@ namespace MysticHunter.Souls.Data.HM
 			Player player = Main.player[projectile.owner];
 			
 			// Check if the projectile should still be alive.
-			if (player.dead || player.GetModPlayer<SoulPlayer>().souls[1] == null || player.GetModPlayer<SoulPlayer>().souls[1].soulNPC != NPCID.DesertScorpionWalk)
+			if (player.dead || player.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC != NPCID.DesertScorpionWalk)
 				projectile.Kill();
 
 			// Projectile state management.

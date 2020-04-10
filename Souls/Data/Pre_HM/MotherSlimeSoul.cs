@@ -60,10 +60,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			SoulPlayer sp = owner.GetModPlayer<SoulPlayer>();
 
 			// Check to see if the NPC should still be alive.
-			if (owner.whoAmI == Main.myPlayer && (owner.dead || sp.souls[(int)SoulType.Blue] == null || sp.souls[(int)SoulType.Blue].soulNPC != NPCID.MotherSlime))
+			if (owner.dead || sp.activeSouls[(int)SoulType.Blue].soulNPC != NPCID.MotherSlime)
 				projectile.Kill();
-			else
-				projectile.timeLeft = 10;
+			projectile.timeLeft = 10;
 
 			// A cooldown of 20 seconds (1200 ticks) - 1 second per soul stack (minimum of 720 ticks/12 seconds).
 			float summonCooldown = 1260 - (60 * projectile.ai[0]);

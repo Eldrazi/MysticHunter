@@ -116,8 +116,10 @@ namespace MysticHunter.Souls.UI
 		private void SetSoulSlot(UIMouseEvent evt, UIElement e)
 		{
 			int soulIndex = (int)this.soulReference.soulType;
+			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
 
-			Main.LocalPlayer.GetModPlayer<SoulPlayer>().souls[soulIndex] = soulReference;
+			sp.activeSouls[soulIndex].soulNPC = soulReference.soulNPC;
+			sp.UpdateActiveSoulData();
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)

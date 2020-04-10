@@ -8,6 +8,7 @@ using static Terraria.ModLoader.ModContent;
 using MysticHunter.Souls.Framework;
 
 using Microsoft.Xna.Framework;
+using System.IO;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -125,6 +126,17 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Main.PlaySound(SoundID.NPCDeath1, projectile.position);
 			for (int i = 0; i < 10; i++)
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.t_Slime, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 180, Color.AliceBlue);
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(bounceVelocity.X);
+			writer.Write(bounceVelocity.Y);
+		}
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			this.bounceVelocity.X = reader.ReadSingle();
+			this.bounceVelocity.Y = reader.ReadSingle();
 		}
 	}
 }
