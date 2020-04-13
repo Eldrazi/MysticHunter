@@ -29,6 +29,7 @@ namespace MysticHunter.Souls.Framework
 		/// </summary>
 		/// <param name="player">The player that has this soul equipped.</param>
 		public virtual void PostUpdate(Player player) { }
+		public virtual void OnHitNPC(Player player, NPC npc, Entity hitEntity, byte stack) { }
 	}
 
 	public static class ISoulExtensions

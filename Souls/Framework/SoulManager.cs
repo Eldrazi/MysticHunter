@@ -11,7 +11,7 @@ namespace MysticHunter.Souls.Framework
 {
 	public class SoulManager
 	{
-		public static void SetupSouls()
+		public static void LoadSouls()
 		{
 			MysticHunter.Instance.SoulDict = new Dictionary<short, BaseSoul>();
 
@@ -96,23 +96,25 @@ namespace MysticHunter.Souls.Framework
 			AddSoul(new ZombieEskimoSoul());
 
 			// Hardmode souls.
-			AddSoul(new AngryTrapperSoul());
+			/*AddSoul(new AngryTrapperSoul());
 			AddSoul(new ArmoredVikingSoul());
 			AddSoul(new BasiliskSoul());
 			AddSoul(new BloodJellySoul());
 			AddSoul(new BlueArmoredBonesSoul(), new short[] { NPCID.BlueArmoredBonesMace, NPCID.BlueArmoredBonesNoPants, NPCID.BlueArmoredBonesSword });
+			AddSoul(new BigMimicSoul(), new short[] { NPCID.BigMimicCrimson, NPCID.BigMimicHallow, NPCID.BigMimicJungle });
 			AddSoul(new DreamerGhoulSoul());
 			AddSoul(new FloatyGrossSoul());
 			AddSoul(new HellArmoredBonesSoul(), new short[] { NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesSword });
 			AddSoul(new IceElementalSoul());
 			AddSoul(new LihzahrdSoul());
+			AddSoul(new MimicSoul());
 			AddSoul(new NecromancerSoul());
 			AddSoul(new RustyArmoredBonesSoul(), new short[] { NPCID.RustyArmoredBonesFlail, NPCID.RustyArmoredBonesSword, NPCID.RustyArmoredBonesSwordNoArmor });
 			AddSoul(new SandPoacherSoul());
 			AddSoul(new TaintedGhoulSoul());
 			AddSoul(new UnicornSoul());
 			AddSoul(new VileGhoulSoul());
-			AddSoul(new WyvernSoul());
+			AddSoul(new WyvernSoul());*/
 
 			// Event souls.
 			AddSoul(new GoblinArcherSoul());
@@ -124,8 +126,8 @@ namespace MysticHunter.Souls.Framework
 
 			// Boss souls.
 			AddSoul(new BrainOfCthuluSoul());
-			AddSoul(new DarkMageSoul());
-			AddSoul(new DestroyerSoul());
+			//AddSoul(new DarkMageSoul());
+			//AddSoul(new DestroyerSoul());
 			AddSoul(new EaterOfWorldsSoul());
 			AddSoul(new EyeOfCthuluSoul());
 			AddSoul(new KingSlimeSoul());
@@ -133,7 +135,16 @@ namespace MysticHunter.Souls.Framework
 			AddSoul(new SkeletronSoul());
 			AddSoul(new WallOfFleshSoul());
 		}
+		public static void UnloadSouls()
+		{
+			MysticHunter.Instance.SoulDict.Clear();
+		}
 
+		/// <summary>
+		/// Tries to add the <paramref name="data"/> to the <see cref="MysticHunter.SoulDict"/> dictionary.
+		/// </summary>
+		/// <param name="data">The <see cref="BaseSoul"/> to add to the dictionary.</param>
+		/// <param name="alternateKeys">If set will try to add more keys to the same <paramref name="data"/> value.</param>
 		public static void AddSoul(BaseSoul data, short[] alternateKeys = null)
 		{
 			AddSoulWithKey(data.soulNPC, data);
@@ -141,9 +152,7 @@ namespace MysticHunter.Souls.Framework
 			if (alternateKeys != null)
 			{
 				for (int i = 0; i < alternateKeys.Length; ++i)
-				{
 					AddSoulWithKey(alternateKeys[i], data);
-				}
 			}
 		}
 		private static bool AddSoulWithKey(short key, BaseSoul data)
@@ -165,11 +174,6 @@ namespace MysticHunter.Souls.Framework
 		public static void ReloadSoulIndexUI()
 		{
 			MysticHunter.Instance.soulIndexUI.soulIndexPanel.soulListPanel.soulList.ReloadList();
-		}
-
-		public static void UnloadSouls()
-		{
-			MysticHunter.Instance.SoulDict.Clear();
 		}
 	}
 }

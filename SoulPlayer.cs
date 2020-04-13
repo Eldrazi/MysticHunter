@@ -35,7 +35,7 @@ namespace MysticHunter
 
 		public BaseSoul RedSoul
 		{
-			get { return SoulManager.GetSoul(activeSouls[(int)SoulType.Red].soulNPC); }
+			get { return activeSouls[(int)SoulType.Red].soulNPC == 0 ? null : SoulManager.GetSoul(activeSouls[(int)SoulType.Red].soulNPC); }
 			set
 			{
 				if (value == null)
@@ -49,7 +49,7 @@ namespace MysticHunter
 		}
 		public BaseSoul BlueSoul
 		{
-			get { return SoulManager.GetSoul(activeSouls[(int)SoulType.Blue].soulNPC); }
+			get { return activeSouls[(int)SoulType.Blue].soulNPC == 0 ? null : SoulManager.GetSoul(activeSouls[(int)SoulType.Blue].soulNPC); }
 			set
 			{
 				if (value == null)
@@ -63,7 +63,7 @@ namespace MysticHunter
 		}
 		public BaseSoul YellowSoul
 		{
-			get { return SoulManager.GetSoul(activeSouls[(int)SoulType.Yellow].soulNPC); }
+			get { return activeSouls[(int)SoulType.Yellow].soulNPC == 0 ? null : SoulManager.GetSoul(activeSouls[(int)SoulType.Yellow].soulNPC); }
 			set
 			{
 				if (value == null)
@@ -77,7 +77,7 @@ namespace MysticHunter
 		}
 
 		public float[] soulDropModifier;
-		public readonly float[] DefinedSoulDropModifier = new float[3] { .02f, .02f, .02f };
+		public readonly float[] DefinedSoulDropModifier = new float[3] { .015f, .015f, .015f };
 
 		private short redSoulCooldown, blueSoulCooldown, yellowSoulCooldown;
 
@@ -173,6 +173,15 @@ namespace MysticHunter
 			preHurtModifier?.Invoke(player, ref damage, damageSource, activeSouls[(int)SoulType.Yellow].stack);
 
 			return (true);
+		}
+
+		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+		{
+			YellowSoul?.OnHitNPC(player, target, item, activeSouls[(int)SoulType.Yellow].stack);
+		}
+		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
+		{
+			YellowSoul?.OnHitNPC(player, target, proj, activeSouls[(int)SoulType.Yellow].stack);
 		}
 
 		/// <summary>

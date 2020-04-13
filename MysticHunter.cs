@@ -34,7 +34,7 @@ namespace MysticHunter
 
 		/// <summary>
 		/// A dictionary that keeps track of all soul data.
-		/// Set in the `Load` method via `SoulManager.SetupSouls`.
+		/// Set in the `Load` method via `SoulManager.LoadSouls`.
 		/// </summary>
 		public Dictionary<short, BaseSoul> SoulDict;
 
@@ -42,7 +42,7 @@ namespace MysticHunter
 		{
 			Instance = this;
 
-			SoulManager.SetupSouls();
+			SoulManager.LoadSouls();
 
 			if (!Main.dedServ)
 			{

@@ -8,16 +8,17 @@ namespace MysticHunter.Souls.Data.HM
 	public class MimicSoul : BaseSoul
 	{
 		public override short soulNPC => NPCID.Mimic;
-		public override string soulDescription => "Grants resistance to Petrification.";
+		public override string soulDescription => "Grants increased gold drops.";
 
 		public override short cooldown => 0;
 
 		public override SoulType soulType => SoulType.Yellow;
 
 		public override short ManaCost(Player p, short stack) => 0;
-		public override bool SoulUpdate(Player p, short stack)
+		public override bool SoulUpdate(Player p, short stack) => true;
+		public override void OnHitNPC(Player player, NPC npc, Entity hitEntity, byte stack)
 		{
-			return (true);
+			npc.AddBuff(BuffID.Midas, 30 * stack);
 		}
 	}
 }

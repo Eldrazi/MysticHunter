@@ -24,7 +24,7 @@ namespace MysticHunter.Souls.Items
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.GetModPlayer<SoulPlayer>().soulDropModifier[(int)SoulType.Blue] += 0.05f;
+			player.GetModPlayer<SoulPlayer>().soulDropModifier[(int)SoulType.Blue] += 0.015f;
 		}
 	}
 }
