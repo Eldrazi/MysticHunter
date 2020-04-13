@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 
 using Terraria;
+using Terraria.ID;
 using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
 using static Terraria.ModLoader.ModContent;
@@ -118,12 +119,16 @@ namespace MysticHunter.Souls.UI
 			int soulIndex = (int)this.soulReference.soulType;
 			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
 
+			// TODO: Eldrazi - Maybe change the sound?
+			Main.PlaySound(SoundID.Item37);
 			sp.activeSouls[soulIndex].soulNPC = soulReference.soulNPC;
 			sp.UpdateActiveSoulData();
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
+			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
+
 			Rectangle hitbox = GetInnerDimensions().ToRectangle();
 
 			// Draw the borders for this list item.
@@ -140,8 +145,9 @@ namespace MysticHunter.Souls.UI
 			soulSlotRect.Height = soulTextures[(int)soulReference.soulType].Height;
 			spriteBatch.Draw(soulTextures[(int)soulReference.soulType], soulSlotRect, Color.White);
 
-			// Draw the name of the soul/associated NPC next to the Soul Slot.
-			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, soulReference.SoulNPCName() + " soul", hitbox.X + 40, hitbox.Y + 12, Color.White, Color.Black, Vector2.Zero, .8f);
+			// Draw the name of the soul/associated NPC next to the Soul Slot, along with the stacksize.
+			int stackAmount = sp.UnlockedSouls[soulReference.soulNPC];
+			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, soulReference.SoulNPCName() + " soul - " + stackAmount, hitbox.X + 40, hitbox.Y + 12, Color.White, Color.Black, Vector2.Zero, .8f);
 
 			// Draw the description of the soul under the Soul Slot.
 			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, soulReference.soulDescription, hitbox.X + 12, hitbox.Y + 38, Color.White, Color.Black, Vector2.Zero, .8f);

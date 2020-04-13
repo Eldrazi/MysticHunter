@@ -77,7 +77,7 @@ namespace MysticHunter
 		}
 
 		public float[] soulDropModifier;
-		public readonly float[] DefinedSoulDropModifier = new float[3] { .01f, .01f, .01f };
+		public readonly float[] DefinedSoulDropModifier = new float[3] { .02f, .02f, .02f };
 
 		private short redSoulCooldown, blueSoulCooldown, yellowSoulCooldown;
 
@@ -144,7 +144,10 @@ namespace MysticHunter
 		public override void PostUpdateEquips()
 		{
 			if (activeSouls[(int)SoulType.Yellow].soulNPC != 0 && yellowSoulCooldown == 0)
+			{
+				yellowSoulCooldown = YellowSoul.cooldown;
 				YellowSoul.SoulUpdate(player, activeSouls[(int)SoulType.Yellow].stack);
+			}
 
 			RedSoul?.PostUpdate(player);
 			BlueSoul?.PostUpdate(player);

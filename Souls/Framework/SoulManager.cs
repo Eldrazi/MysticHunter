@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Terraria.ID;
+
 using MysticHunter.Souls.Data.HM;
 using MysticHunter.Souls.Data.Event;
 using MysticHunter.Souls.Data.Pre_HM;
@@ -14,13 +16,13 @@ namespace MysticHunter.Souls.Framework
 			MysticHunter.Instance.SoulDict = new Dictionary<short, BaseSoul>();
 
 			// Pre-hardmode souls.
-			AddSoul(new AngryBonesSoul());
+			AddSoul(new AngryBonesSoul(), new short[] { NPCID.AngryBonesBig, NPCID.AngryBonesBigHelmet, NPCID.AngryBonesBigMuscle });
 			AddSoul(new AnomuraFungusSoul());
 			AddSoul(new AntlionSoul());
 			AddSoul(new AntlionChargerSoul());
 			AddSoul(new AntlionSwarmerSoul());
 			AddSoul(new BabySlimeSoul());
-			AddSoul(new BeeSoul());
+			AddSoul(new BeeSoul(), new short[] { NPCID.BeeSmall });
 			AddSoul(new BlackSlimeSoul());
 			AddSoul(new BloodCrawlerSoul());
 			AddSoul(new BlueJellyfishSoul());
@@ -29,22 +31,22 @@ namespace MysticHunter.Souls.Framework
 			AddSoul(new CaveBatSoul());
 			AddSoul(new CochinealBeetleSoul());
 			AddSoul(new CrabSoul());
-			AddSoul(new CrawdadSoul());
-			AddSoul(new CrimeraSoul());
+			AddSoul(new CrawdadSoul(), new short[] { NPCID.Crawdad2 });
+			AddSoul(new CrimeraSoul(), new short[] { NPCID.LittleCrimera, NPCID.BigCrimera });
 			AddSoul(new CursedSkullSoul());
 			AddSoul(new CyanBeetleSoul());
 			AddSoul(new DarkCasterSoul());
 			AddSoul(new DemonSoul());
-			AddSoul(new DemonEyeSoul());
+			AddSoul(new DemonEyeSoul(), new short[] { NPCID.DemonEye2, NPCID.DemonEyeOwl, NPCID.DemonEyeSpaceship });
 			AddSoul(new DevourerSoul());
 			AddSoul(new DoctorBonesSoul());
 			AddSoul(new DungeonGuardianSoul());
 			AddSoul(new DungeonSlimeSoul());
-			AddSoul(new EaterOfSoulsSoul());
+			AddSoul(new EaterOfSoulsSoul(), new short[] { NPCID.BigEater, NPCID.LittleEater });
 			AddSoul(new FaceMonsterSoul());
 			AddSoul(new FireImpSoul());
 			AddSoul(new FungiBulbSoul());
-			AddSoul(new GiantShellySoul());
+			AddSoul(new GiantShellySoul(), new short[] { NPCID.GiantShelly2 });
 			AddSoul(new GiantWormSoul());
 			AddSoul(new GoblinScoutSoul());
 			AddSoul(new GraniteElementalSoul());
@@ -72,11 +74,11 @@ namespace MysticHunter.Souls.Framework
 			AddSoul(new PurpleSlimeSoul());
 			AddSoul(new RavenSoul());
 			AddSoul(new RedSlimeSoul());
-			AddSoul(new SalamanderSoul());
+			AddSoul(new SalamanderSoul(), new short[] { NPCID.Salamander2, NPCID.Salamander3, NPCID.Salamander4 });
 			AddSoul(new SandSlimeSoul());
 			AddSoul(new SeaSnailSoul());
 			AddSoul(new SharkSoul());
-			AddSoul(new SkeletonSoul());
+			AddSoul(new SkeletonSoul(), new short[] { NPCID.BigSkeleton, NPCID.SmallSkeleton });
 			AddSoul(new SnatcherSoul());
 			AddSoul(new SnowFlinxSoul());
 			AddSoul(new SpikedIceSlimeSoul());
@@ -90,24 +92,27 @@ namespace MysticHunter.Souls.Framework
 			AddSoul(new YellowSlimeSoul());
 			AddSoul(new VultureSoul());
 			AddSoul(new WallCreeperSoul());
-			AddSoul(new ZombieSoul());
+			AddSoul(new ZombieSoul(), new short[] { NPCID.SmallZombie, NPCID.BigZombie });
 			AddSoul(new ZombieEskimoSoul());
 
 			// Hardmode souls.
-			/*AddSoul(new AngryTrapperSoul());
+			AddSoul(new AngryTrapperSoul());
 			AddSoul(new ArmoredVikingSoul());
 			AddSoul(new BasiliskSoul());
+			AddSoul(new BloodJellySoul());
+			AddSoul(new BlueArmoredBonesSoul(), new short[] { NPCID.BlueArmoredBonesMace, NPCID.BlueArmoredBonesNoPants, NPCID.BlueArmoredBonesSword });
 			AddSoul(new DreamerGhoulSoul());
 			AddSoul(new FloatyGrossSoul());
-			AddSoul(new HellArmoredBonesSoul());
+			AddSoul(new HellArmoredBonesSoul(), new short[] { NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesSword });
 			AddSoul(new IceElementalSoul());
+			AddSoul(new LihzahrdSoul());
 			AddSoul(new NecromancerSoul());
-			AddSoul(new RustyArmoredBonesSoul());
+			AddSoul(new RustyArmoredBonesSoul(), new short[] { NPCID.RustyArmoredBonesFlail, NPCID.RustyArmoredBonesSword, NPCID.RustyArmoredBonesSwordNoArmor });
 			AddSoul(new SandPoacherSoul());
 			AddSoul(new TaintedGhoulSoul());
 			AddSoul(new UnicornSoul());
 			AddSoul(new VileGhoulSoul());
-			AddSoul(new WyvernSoul());*/
+			AddSoul(new WyvernSoul());
 
 			// Event souls.
 			AddSoul(new GoblinArcherSoul());
@@ -119,8 +124,8 @@ namespace MysticHunter.Souls.Framework
 
 			// Boss souls.
 			AddSoul(new BrainOfCthuluSoul());
-			//AddSoul(new DarkMageSoul());
-			//AddSoul(new DestroyerSoul());
+			AddSoul(new DarkMageSoul());
+			AddSoul(new DestroyerSoul());
 			AddSoul(new EaterOfWorldsSoul());
 			AddSoul(new EyeOfCthuluSoul());
 			AddSoul(new KingSlimeSoul());
@@ -129,15 +134,32 @@ namespace MysticHunter.Souls.Framework
 			AddSoul(new WallOfFleshSoul());
 		}
 
-		public static void AddSoul(BaseSoul data)
+		public static void AddSoul(BaseSoul data, short[] alternateKeys = null)
 		{
-			if (MysticHunter.Instance.SoulDict.ContainsKey(data.soulNPC))
+			AddSoulWithKey(data.soulNPC, data);
+
+			if (alternateKeys != null)
+			{
+				for (int i = 0; i < alternateKeys.Length; ++i)
+				{
+					AddSoulWithKey(alternateKeys[i], data);
+				}
+			}
+		}
+		private static bool AddSoulWithKey(short key, BaseSoul data)
+		{
+			try
+			{
+				MysticHunter.Instance.SoulDict.Add(key, data);
+				return (true);
+			}
+			catch
 			{
 				MysticHunter.Instance.Logger.Warn("ID '" + data.soulNPC + "' - from class '" + data.GetType().ToString() + "' already exists under name '" + MysticHunter.Instance.SoulDict[data.soulNPC].SoulNPCName() + "'.");
-				return;
+				return (false);
 			}
-			MysticHunter.Instance.SoulDict.Add(data.soulNPC, data);
 		}
+
 		public static BaseSoul GetSoul(short soulNPC) => MysticHunter.Instance.SoulDict.TryGetValue(soulNPC, out BaseSoul result) ? result : null;
 
 		public static void ReloadSoulIndexUI()

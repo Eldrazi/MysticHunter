@@ -19,12 +19,14 @@ namespace MysticHunter
 
 		public override void NPCLoot(NPC npc)
 		{
-			// If the player is playing in singleplayer, call TryDropNPCSoul directly.
-			// Otherwise the 'player' is a server and should send a message to all connected clients.
-			if (MysticHunter.Instance.SoulDict.ContainsKey((short)npc.netID))
-			{
-				DropSoulnstanced((short)npc.netID, npc.position);
-			}
+			if (npc.type == NPCID.EaterofWorldsHead && !npc.boss)
+				return;
+
+			// Try to get a value for the current NPC from the Soul Dictionary.
+			// If it exists, drop a soul with the `soulNPC` member from the BaseSoul object.
+			// This is done in the case the current NPC is an alternate npc for the referenced soul.
+			if (MysticHunter.Instance.SoulDict.TryGetValue((short)npc.netID, out BaseSoul soul))
+				DropSoulnstanced(soul.soulNPC, npc.position);
 
 			if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.BrainofCthulhu)
 			{
