@@ -14,7 +14,28 @@
 			this.stack = stack;
 		}
 
-		public static bool operator ==(NetSoulData data, NetSoulData other) => (data.soulNPC == other.soulNPC && data.stack == other.stack);
+        public override bool Equals(object other)
+        {
+            return Equals(other as NetSoulData);
+        }
+        public virtual bool Equals(NetSoulData other)
+        {
+            if (other == null) return (false);
+            if (object.ReferenceEquals(this, other)) return (true);
+            return (this.soulNPC == other.soulNPC && this.stack == other.stack);
+        }
+
+        public override int GetHashCode()
+        {
+            return (this.soulNPC + this.stack);
+        }
+
+        public static bool operator ==(NetSoulData item1, NetSoulData item2)
+        {
+            if (object.ReferenceEquals(item1, item2)) return (true);
+            if ((object)item1 == null || (object)item2 == null) return (false);
+            return (item1.soulNPC == item2.soulNPC && item1.stack == item2.stack);
+        }
 		public static bool operator !=(NetSoulData data, NetSoulData other) => !(data == other);
 	}
 }

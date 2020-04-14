@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class SnowFlinxSoul : BaseSoul
+	public class SnowFlinxSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.SnowFlinx;
 		public override string soulDescription => "Summons a rolling snowball.";

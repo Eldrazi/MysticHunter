@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class TimSoul : BaseSoul
+	public class TimSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Tim;
 		public override string soulDescription => "Teleport to a random location.";

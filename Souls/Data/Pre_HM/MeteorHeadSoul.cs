@@ -8,7 +8,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class MeteorHeadSoul : BaseSoul
+	public class MeteorHeadSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.MeteorHead;
 		public override string soulDescription => "Reduces damage from fire attacks.";

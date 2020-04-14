@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class RustyArmoredBonesSoul : BaseSoul
+	public class RustyArmoredBonesSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.RustyArmoredBonesAxe;
 		public override string soulDescription => "Grants resistance to Bleeding.";
@@ -34,5 +34,8 @@ namespace MysticHunter.Souls.Data.HM
 			}
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.RustyArmoredBonesFlail, NPCID.RustyArmoredBonesSword, NPCID.RustyArmoredBonesSwordNoArmor };
 	}
 }

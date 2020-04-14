@@ -7,7 +7,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class BloodJellySoul : BaseSoul
+	public class BloodJellySoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.BloodJelly;
 		public override string soulDescription => "Occasionally suck blood from enemies.";

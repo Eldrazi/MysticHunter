@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class CochinealBeetleSoul : BaseSoul
+	public class CochinealBeetleSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.CochinealBeetle;
 		public override string soulDescription => "Summons melee damage shield.";

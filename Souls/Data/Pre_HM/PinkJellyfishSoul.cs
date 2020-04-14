@@ -12,7 +12,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class PinkJellyfishSoul : BaseSoul
+	public class PinkJellyfishSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.PinkJellyfish;
 		public override string soulDescription => "Summons a shocking jellyfish.";

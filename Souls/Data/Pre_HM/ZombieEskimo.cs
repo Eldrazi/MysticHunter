@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class ZombieEskimoSoul : BaseSoul
+	public class ZombieEskimoSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.ZombieEskimo;
 		public override string soulDescription => "Summons a lumbering zombie eskimo.";

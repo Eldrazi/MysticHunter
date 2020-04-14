@@ -9,7 +9,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class SnatcherSoul : BaseSoul
+	public class SnatcherSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Snatcher;
 		public override string soulDescription => "Summons a snatching vine.";

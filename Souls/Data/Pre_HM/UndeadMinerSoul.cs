@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class UndeadMinerSoul : BaseSoul
+	public class UndeadMinerSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.UndeadMiner;
 		public override string soulDescription => "Increase extractinator yield.";

@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class SeaSnailSoul : BaseSoul
+	public class SeaSnailSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.SeaSnail;
 		public override string soulDescription => "Wear a thorny snail house.";

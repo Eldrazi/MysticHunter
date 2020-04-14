@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class DreamerGhoulSoul : BaseSoul
+	public class DreamerGhoulSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.DesertGhoulHallow;
 		public override string soulDescription => "Grants resistance to Confusion.";

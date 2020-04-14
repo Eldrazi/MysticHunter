@@ -10,7 +10,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class BloodCrawlerSoul : BaseSoul
+	public class BloodCrawlerSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.BloodCrawler;
 		public override string soulDescription => "Summon flesh ripping teeth.";

@@ -9,7 +9,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class FaceMonsterSoul : BaseSoul
+	public class FaceMonsterSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.FaceMonster;
 		public override string soulDescription => "Summons a charging face monster.";

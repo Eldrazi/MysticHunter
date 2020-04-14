@@ -12,7 +12,7 @@ using System.IO;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class BlueSlimeSoul : BaseSoul
+	public class BlueSlimeSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.BlueSlime;
 		public override string soulDescription => "Fires a bouncing slime blob.";

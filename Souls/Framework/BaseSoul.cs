@@ -15,6 +15,7 @@ namespace MysticHunter.Souls.Framework
 	public abstract class BaseSoul
 	{
 		public abstract short soulNPC { get; }
+
 		public abstract string soulDescription { get; }
 
 		public abstract short cooldown { get; }
@@ -30,6 +31,10 @@ namespace MysticHunter.Souls.Framework
 		/// <param name="player">The player that has this soul equipped.</param>
 		public virtual void PostUpdate(Player player) { }
 		public virtual void OnHitNPC(Player player, NPC npc, Entity hitEntity, byte stack) { }
+		public virtual void ModifyHitByNPC(Player player, NPC npc, ref int damage, ref bool crit, byte stack) { }
+
+		// TODO: Rewrite this method to instead use statically available memory, instead of loading onto heap.
+		public virtual short[] GetAdditionalTypes() => null;
 	}
 
 	public static class ISoulExtensions

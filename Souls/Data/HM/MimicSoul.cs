@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class MimicSoul : BaseSoul
+	public class MimicSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.Mimic;
 		public override string soulDescription => "Grants increased gold drops.";

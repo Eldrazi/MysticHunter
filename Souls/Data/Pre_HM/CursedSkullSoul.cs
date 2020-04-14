@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class CursedSkullSoul : BaseSoul
+	public class CursedSkullSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.CursedSkull;
 		public override string soulDescription => "Fires a homing skull.";

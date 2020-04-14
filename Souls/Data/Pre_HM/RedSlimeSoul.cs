@@ -9,7 +9,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class RedSlimeSoul : BaseSoul
+	public class RedSlimeSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.RedSlime;
 		public override string soulDescription => "Fires a spray of red slime.";

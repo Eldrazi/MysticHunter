@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class HopliteSoul : BaseSoul
+	public class HopliteSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.GreekSkeleton;
 		public override string soulDescription => "Summons a hoplite.";

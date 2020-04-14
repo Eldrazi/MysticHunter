@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class AngryTrapperSoul : BaseSoul
+	public class AngryTrapperSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.AngryTrapper;
 		public override string soulDescription => "Summons a friendly Angry Trapper";

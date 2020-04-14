@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class GraniteElementalSoul : BaseSoul
+	public class GraniteElementalSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.GraniteFlyer;
 		public override string soulDescription => "Summons a protective granite elemental.";

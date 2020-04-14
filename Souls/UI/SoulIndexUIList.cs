@@ -59,11 +59,11 @@ namespace MysticHunter.Souls.UI
 			this.Clear();
 
 			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
-			foreach (short s in sp.UnlockedSouls.Keys)
+			foreach (short key in sp.UnlockedSouls.Keys)
 			{
-				if (MysticHunter.Instance.SoulDict[s].soulType != filter)
+				if (!MysticHunter.Instance.SoulDict.TryGetValue(key, out BaseSoul value) || value.soulType != filter)
 					continue;
-				this.Add(new SoulIndexUIListItem(MysticHunter.Instance.SoulDict[s]));
+				this.Add(new SoulIndexUIListItem(value));
 			}
 		}
 	}

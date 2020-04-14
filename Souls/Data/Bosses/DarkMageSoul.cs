@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Bosses
 {
-	public class DarkMageSoul : BaseSoul
+	public class DarkMageSoul : PreHMSoul, IBossSoul
 	{
 		public override short soulNPC => NPCID.DD2DarkMageT1;
 		public override string soulDescription => "Increases summon damage at the cost of defense.";

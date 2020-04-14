@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class BasiliskSoul : BaseSoul
+	public class BasiliskSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.DesertBeast;
 		public override string soulDescription => "Grants resistance to Petrification.";

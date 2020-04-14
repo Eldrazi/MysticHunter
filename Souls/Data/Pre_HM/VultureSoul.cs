@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class VultureSoul : BaseSoul
+	public class VultureSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Vulture;
 		public override string soulDescription => "Summons a swooping vulture.";

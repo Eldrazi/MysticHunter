@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class BlackSlimeSoul : BaseSoul
+	public class BlackSlimeSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.BlackSlime;
 		public override string soulDescription => "Boosts stats while underground.";

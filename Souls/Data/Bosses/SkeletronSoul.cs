@@ -11,7 +11,7 @@ using System.IO;
 
 namespace MysticHunter.Souls.Data.Bosses
 {
-	public class SkeletronSoul : BaseSoul
+	public class SkeletronSoul : PreHMSoul, IBossSoul
 	{
 		public override short soulNPC => NPCID.SkeletronHead;
 		public override string soulDescription => "Summon protective arms.";

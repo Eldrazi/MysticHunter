@@ -2,8 +2,5 @@ Mystic Hunter is an inspiration taken out of the Castlevania series more promine
 
 Various systems in place will allow you to experience a variety of play styles to enhance your vanilla experience and give you new reasons to explore and fight your way to the moon lord and back again.
 
-Update v0.1.2
-	- Added UI/UX upgrades.
-	- Increased default soul drop chance (1.5% instead of 1%).
-	- Increased soul-accessory drop chance (from 1/50 to 1/10), but lowered its added soul drop chance (from 5% to 1.5%).
-	- Added shared-soul npcs (zombie, etc).
+Update v0.1.3
+	- 

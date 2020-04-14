@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class AntlionSoul : BaseSoul
+	public class AntlionSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Antlion;
 		public override string soulDescription => "Summons a projectile shield.";

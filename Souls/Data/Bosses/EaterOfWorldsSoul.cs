@@ -14,7 +14,7 @@ using System;
 
 namespace MysticHunter.Souls.Data.Bosses
 {
-	public class EaterOfWorldsSoul : BaseSoul
+	public class EaterOfWorldsSoul : PreHMSoul, IBossSoul
 	{
 		public override short soulNPC => NPCID.EaterofWorldsHead;
 		public override string soulDescription => "Summons a hungry eater of worlds.";

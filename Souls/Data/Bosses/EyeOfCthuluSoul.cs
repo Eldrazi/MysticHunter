@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Bosses
 {
-	public class EyeOfCthuluSoul : BaseSoul
+	public class EyeOfCthuluSoul : PreHMSoul, IBossSoul
 	{
 		public override short soulNPC => NPCID.EyeofCthulhu;
 		public override string soulDescription => "Dash through enemies.";

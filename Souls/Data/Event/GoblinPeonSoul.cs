@@ -5,10 +5,8 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Event
 {
-	public class GoblinPeonSoul : BaseSoul
+	public class GoblinPeonSoul : PreHMSoul, IEventSoul
 	{
-		
-
 		public override short soulNPC => NPCID.GoblinPeon;
 		public override string soulDescription => "Increases movespeed.";
 

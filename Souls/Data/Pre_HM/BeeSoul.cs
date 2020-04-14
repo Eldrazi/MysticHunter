@@ -9,7 +9,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class BeeSoul : BaseSoul
+	public class BeeSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Bee;
 		public override string soulDescription => "Fires a small horde of bees.";
@@ -37,6 +37,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			}
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.BeeSmall };
 	}
 
 	public class BeeSoulProj : ModProjectile

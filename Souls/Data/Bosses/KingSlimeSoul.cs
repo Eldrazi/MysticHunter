@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Bosses
 {
-	public class KingSlimeSoul : BaseSoul
+	public class KingSlimeSoul : PreHMSoul, IBossSoul
 	{
 		public override short soulNPC => NPCID.KingSlime;
 		public override string soulDescription => "Increases throwing damage at the cost of defense.";

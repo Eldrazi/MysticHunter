@@ -7,7 +7,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class SkeletonSoul : BaseSoul
+	public class SkeletonSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Skeleton;
 		public override string soulDescription => "Fires a small horde of bees.";
@@ -38,5 +38,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Main.projectile[proj].netUpdate = true;
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.BigSkeleton, NPCID.SmallSkeleton };
 	}
 }

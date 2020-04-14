@@ -175,6 +175,10 @@ namespace MysticHunter
 			return (true);
 		}
 
+		public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
+		{
+			YellowSoul?.ModifyHitByNPC(player, npc, ref damage, ref crit, activeSouls[(int)SoulType.Yellow].stack);
+		}
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
 		{
 			YellowSoul?.OnHitNPC(player, target, item, activeSouls[(int)SoulType.Yellow].stack);
@@ -278,8 +282,9 @@ namespace MysticHunter
 						UnlockedSouls.TryGetValue(soulNPC, out byte result) ? result : (byte)0);
 				}
 			}
-			catch 
+			catch
 			{
+				activeSouls = new NetSoulData[3] { new NetSoulData(), new NetSoulData(), new NetSoulData() };
 				UnlockedSouls = new Dictionary<short, byte>();
 			}
 		}
@@ -290,10 +295,10 @@ namespace MysticHunter
 		{
 			SoulPlayer clone = clientClone as SoulPlayer;
 
-			for (int i = 0; i < activeSouls.Length; ++i)
+			for (int i = 0; i < this.activeSouls.Length; ++i)
 			{
-				if (activeSouls[i] == null)
-					activeSouls[i] = new NetSoulData();
+				if (this.activeSouls[i] == null)
+					this.activeSouls[i] = new NetSoulData();
 
 				clone.activeSouls[i].soulNPC = this.activeSouls[i].soulNPC;
 				clone.activeSouls[i].stack = this.activeSouls[i].stack;

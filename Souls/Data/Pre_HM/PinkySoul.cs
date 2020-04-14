@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class PinkySoul : BaseSoul
+	public class PinkySoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Pinky;
 		public override string soulDescription => "Decrease enemy spawn rate.";

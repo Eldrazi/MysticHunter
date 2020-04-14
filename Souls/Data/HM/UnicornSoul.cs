@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class UnicornSoul : BaseSoul
+	public class UnicornSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.Unicorn;
 		public override string soulDescription => "Boosts stats while in hallow.";

@@ -9,11 +9,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using System.Collections.Generic;
 
 namespace MysticHunter.Souls.Data.Bosses
 {
-	public class WallOfFleshSoul : BaseSoul
+	public class WallOfFleshSoul : PreHMSoul, IBossSoul
 	{
 		public override short soulNPC => NPCID.WallofFlesh;
 		public override string soulDescription => "Summon devouring hungries.";

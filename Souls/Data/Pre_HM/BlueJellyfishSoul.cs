@@ -10,7 +10,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class BlueJellyfishSoul : BaseSoul
+	public class BlueJellyfishSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.BlueJellyfish;
 		public override string soulDescription => "Shoot a light emitting blob.";

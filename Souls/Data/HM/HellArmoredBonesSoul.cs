@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class HellArmoredBonesSoul : BaseSoul
+	public class HellArmoredBonesSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.HellArmoredBones;
 		public override string soulDescription => "Grants resistance to On Fire!.";
@@ -34,5 +34,8 @@ namespace MysticHunter.Souls.Data.HM
 			}
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.HellArmoredBonesMace, NPCID.HellArmoredBonesSpikeShield, NPCID.HellArmoredBonesSword };
 	}
 }

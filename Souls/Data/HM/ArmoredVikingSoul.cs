@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class ArmoredVikingSoul : BaseSoul
+	public class ArmoredVikingSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.ArmoredViking;
 		public override string soulDescription => "Summons an icy axe.";

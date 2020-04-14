@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class ZombieSoul : BaseSoul
+	public class ZombieSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Zombie;
 		public override string soulDescription => "Summons a lumbering zombie.";
@@ -44,6 +44,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			}
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.SmallZombie, NPCID.BigZombie };
 	}
 
 	public class ZombieSoulProj : ModProjectile

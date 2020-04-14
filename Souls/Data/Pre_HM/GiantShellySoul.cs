@@ -10,7 +10,7 @@ using MysticHunter.Souls.Framework;
 namespace MysticHunter.Souls.Data.Pre_HM
 {
 	// TODO: Add custom sprite to projectile to make it look better.
-	public class GiantShellySoul : BaseSoul
+	public class GiantShellySoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.GiantShelly;
 		public override string soulDescription => "Summons a bouncing shell.";
@@ -27,6 +27,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Projectile.NewProjectile(p.Center, velocity, ProjectileType<GiantShellySoulProj>(), 15 + stack, .1f, p.whoAmI, 2 + stack);
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.GiantShelly2 };
 	}
 
 	public class GiantShellySoulProj : ModProjectile

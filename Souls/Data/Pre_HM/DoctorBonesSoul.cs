@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class DoctorBonesSoul : BaseSoul
+	public class DoctorBonesSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.DoctorBones;
 		public override string soulDescription => "Boosts stats while in the jungle.";

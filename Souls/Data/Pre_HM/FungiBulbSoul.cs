@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class FungiBulbSoul : BaseSoul
+	public class FungiBulbSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.FungiBulb;
 		public override string soulDescription => "Summons a friendly Fungi Bulb";

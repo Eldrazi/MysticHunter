@@ -9,7 +9,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class FireImpSoul : BaseSoul
+	public class FireImpSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.FireImp;
 		public override string soulDescription => "Boosts stats while in the underworld.";

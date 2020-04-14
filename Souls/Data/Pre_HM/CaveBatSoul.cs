@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class CaveBatSoul : BaseSoul
+	public class CaveBatSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.CaveBat;
 		public override string soulDescription => "Shout for radial damage.";

@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class NymphSoul : BaseSoul
+	public class NymphSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Nymph;
 		public override string soulDescription => "Grants spelunker effects.";

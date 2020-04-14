@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class TombCrawlerSoul : BaseSoul
+	public class TombCrawlerSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.TombCrawlerHead;
 		public override string soulDescription => "Grow a spiny tail.";

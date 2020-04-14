@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class YellowSlimeSoul : BaseSoul
+	public class YellowSlimeSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.YellowSlime;
 		public override string soulDescription => "Fires a bouncing slime blob.";

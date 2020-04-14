@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class IceBatSoul : BaseSoul
+	public class IceBatSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.IceBat;
 		public override string soulDescription => "Fire a spread of icy bats.";

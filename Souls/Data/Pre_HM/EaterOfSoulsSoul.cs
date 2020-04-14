@@ -13,7 +13,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class EaterOfSoulsSoul : BaseSoul
+	public class EaterOfSoulsSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.EaterofSouls;
 		public override string soulDescription => "Summons a friendly eater of souls.";
@@ -33,6 +33,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<EaterOfSoulsSoulProj>(), 20 + stack, .1f + .02f * stack, p.whoAmI);
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.LittleEater, NPCID.BigEater };
 	}
 
 	public class EaterOfSoulsSoulProj : ModProjectile

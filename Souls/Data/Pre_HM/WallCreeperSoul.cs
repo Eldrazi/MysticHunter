@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class WallCreeperSoul : BaseSoul
+	public class WallCreeperSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.WallCreeper;
 		public override string soulDescription => "Fires an entangling web.";

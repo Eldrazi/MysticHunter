@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class GiantWormSoul : BaseSoul
+	public class GiantWormSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.GiantWormHead;
 		public override string soulDescription => "Grow a whip-like tail.";

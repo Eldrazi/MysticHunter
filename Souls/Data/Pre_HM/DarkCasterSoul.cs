@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class DarkCasterSoul : BaseSoul
+	public class DarkCasterSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.DarkCaster;
 		public override string soulDescription => "Summons a bolt of cursed water.";

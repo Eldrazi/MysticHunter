@@ -6,7 +6,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class GoblinScoutSoul : BaseSoul
+	public class GoblinScoutSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.GoblinScout;
 		public override string soulDescription => "Increased chance for a goblin invasion.";
