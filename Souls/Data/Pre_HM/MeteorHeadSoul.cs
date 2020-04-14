@@ -62,14 +62,15 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			ItemID.MonkStaffT2
 		};
 
-		private void ModifyHit(Player p, ref int damage, PlayerDeathReason damageSource, int stack)
+		private bool ModifyHit(Player p, ref int damage, PlayerDeathReason damageSource, byte soulStack)
 		{
-			int damageReduction = 5 * stack;
+			int damageReduction = 5 * soulStack;
 
 			if ((damageSource.SourceProjectileType != 0 && fireProjectiles.Contains(damageSource.SourceProjectileType)) ||
 				 (damageSource.SourceNPCIndex != 0 && fireNPCs.Contains(Main.npc[damageSource.SourceNPCIndex].type)) ||
 				 (damageSource.SourceItemType != 0 && fireItems.Contains(damageSource.SourceItemType)))
 				damage -= damageReduction;
+			return (true);
 		}
 	}
 }

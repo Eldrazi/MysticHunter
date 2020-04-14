@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
+using Terraria.DataStructures;
 
 using MysticHunter.Souls.Framework;
 
@@ -17,12 +18,20 @@ namespace MysticHunter.Souls.Data.HM
 		public override short ManaCost(Player p, short stack) => 0;
 		public override bool SoulUpdate(Player p, short stack)
 		{
+			p.GetModPlayer<SoulPlayer>().preHurtModifier += OnHitModifier;
 			return (true);
 		}
 
-		public override void ModifyHitByNPC(Player player, NPC npc, ref int damage, ref bool crit, byte stack)
+		private bool OnHitModifier(Player player, ref int damage, PlayerDeathReason damageSource, byte soulStack)
 		{
-
+			if (player.CheckMana(10, true))
+			{
+				player.immune = true;
+				player.immuneTime = 10 + 5 * soulStack;
+				player.manaRegenDelay = (int)player.maxRegenDelay;
+				return (false);
+			}
+			return (true);
 		}
 	}
 }
