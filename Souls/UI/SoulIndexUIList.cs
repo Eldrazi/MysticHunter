@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
@@ -13,21 +11,36 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MysticHunter.Souls.UI
 {
-	internal class SoulIndexUIListPanel : UIElement
+	internal class SoulIndexUIListPanel : GenericUIPanel
 	{
+		private SoulIndexPanel soulPanel;
+		private readonly int height = 100;
+
 		public SoulIndexUIList soulList;
 
-		public SoulItemBox[] soulItemBoxReferences;
+		private SoulIndexUITitleBar titleBar;
+
+		public SoulIndexUIListPanel(SoulIndexPanel soulPanel, Texture2D panelTexture, Vector2 panelDimensions) : base(panelTexture, panelDimensions)
+		{
+			this.soulPanel = soulPanel;
+		}
 
 		public override void OnInitialize()
 		{
 			this.SetPadding(0);
 
-			this.Top.Pixels = 8;
-			this.Left.Pixels = 8;
+			this.Top.Pixels = this.Parent.Height.Pixels - height;
 
-			soulList = new SoulIndexUIList();
+			this.Height.Pixels = height;
+			this.Width.Pixels = this.Parent.Width.Pixels;
+
+			soulList = new SoulIndexUIList(soulPanel);
 			this.Append(soulList);
+
+			titleBar = new SoulIndexUITitleBar(GetTexture("MysticHunter/Souls/UI/SoulIndex_TitleBar"), "");
+			titleBar.Top.Pixels = -12;
+			titleBar.Left.Pixels = 60;
+			this.Append(titleBar);
 
 			SoulIndexUIScrollbar listScrollbar = new SoulIndexUIScrollbar();
 			listScrollbar.SetView(100f, 1000f);
@@ -37,21 +50,41 @@ namespace MysticHunter.Souls.UI
 			this.Append(listScrollbar);
 			soulList.SetScrollbar(listScrollbar);
 		}
+
+		/// <summary>
+		/// Updates the Title Bar content/string depending on the <see cref="SoulIndexUIList"/> filter.
+		/// </summary>
+		/// <param name="gameTime"></param>
+		public override void Update(GameTime gameTime)
+		{
+			string requiredString = this.soulList.filter.ToString() + " Souls";
+			if (requiredString != titleBar.content)
+				titleBar.SetContent(requiredString);
+
+			base.Update(gameTime);
+		}
 	}
 
 	internal class SoulIndexUIList : GenericUIList
 	{
-		public SoulType filter;
+		private SoulIndexPanel soulPanel;
+
+		public SoulType filter = SoulType.Red;
+
+		public SoulIndexUIList(SoulIndexPanel soulPanel)
+		{
+			this.soulPanel = soulPanel;
+		}
 
 		public override void OnInitialize()
 		{
-			this.Top.Pixels = 8;
-			this.Left.Pixels = 8;
-			this.Width.Pixels = Parent.Width.Pixels - 22;
-			this.Height.Pixels = Parent.Height.Pixels - 16;
+			this.ListWidth = 2;
+			this.ListPaddingX = 12;
 
-			// Auto-set soul filter to red.
-			filter = SoulType.Red;
+			this.Top.Pixels = 16;
+			this.Left.Pixels = 16;
+			this.Width.Pixels = Parent.Width.Pixels - 32;
+			this.Height.Pixels = Parent.Height.Pixels - 32;
 		}
 
 		public void ReloadList()
@@ -63,94 +96,51 @@ namespace MysticHunter.Souls.UI
 			{
 				if (!MysticHunter.Instance.SoulDict.TryGetValue(key, out BaseSoul value) || value.soulType != filter)
 					continue;
-				this.Add(new SoulIndexUIListItem(value));
+
+				SoulIndexUISoulSlot newSoulSlot = new SoulIndexUISoulSlot(value);
+
+				newSoulSlot.Height.Pixels = 18;
+				newSoulSlot.Width.Pixels = this.Width.Pixels / 2 - 12;
+
+				newSoulSlot.OnClick += SetSoulSlot;
+				newSoulSlot.OnMouseOver += SetDescriptionPanelContent;
+				newSoulSlot.OnMouseOut += ResetDescriptionPanelContent;
+				this.Add(newSoulSlot);
 			}
 		}
+
+		private void SetSoulSlot(UIMouseEvent evt, UIElement e)
+		{
+			if (!(e is SoulIndexUISoulSlot slot))
+				return;
+
+			int soulIndex = (int)slot.soulReference.soulType;
+			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
+
+			// TODO: Eldrazi - Maybe change the sound?
+			Main.PlaySound(SoundID.Item37);
+			sp.activeSouls[soulIndex].soulNPC = slot.soulReference.soulNPC;
+			sp.UpdateActiveSoulData();
+		}
+
+		private void SetDescriptionPanelContent(UIMouseEvent evt, UIElement e)
+		{
+			if (!(e is SoulIndexUISoulSlot slot))
+				return;
+
+			soulPanel.soulDescriptionPanel.SetSoulReference(slot.soulReference);
+		}
+		private void ResetDescriptionPanelContent(UIMouseEvent evt, UIElement e)
+			=> soulPanel.soulDescriptionPanel.SetSoulReference(null);
 	}
 
 	internal class SoulIndexUIScrollbar : GenericUIScrollbar
 	{
 		public SoulIndexUIScrollbar() : base()
 		{
-			thumb = GetTexture("MysticHunter/Souls/UI/SoulIndex_ScrollThumb");
-			background = GetTexture("MysticHunter/Souls/UI/SoulIndex_ScrollBackground");
-
 			thumbStumpSize = 10;
-		}
-	}
 
-	internal class SoulIndexUIListItem : UIPanel
-	{
-		private BaseSoul soulReference;
-
-		private Texture2D panelTexture;
-
-		private Texture2D[] soulTextures;
-		private Texture2D soulSlotTexture;
-
-		public SoulIndexUIListItem(BaseSoul soulReference)
-		{
-			this.soulReference = soulReference;
-
-			panelTexture = GetTexture("MysticHunter/Souls/UI/SoulIndex_GenericPanel");
-
-			soulTextures = new Texture2D[3];
-			soulTextures[0] = GetTexture("MysticHunter/Souls/UI/SoulIndex_SoulRed");
-			soulTextures[1] = GetTexture("MysticHunter/Souls/UI/SoulIndex_SoulBlue");
-			soulTextures[2] = GetTexture("MysticHunter/Souls/UI/SoulIndex_SoulYellow");
-
-			soulSlotTexture = GetTexture("MysticHunter/Souls/UI/SoulIndex_ItemPanel");
-
-			this.OnDoubleClick += SetSoulSlot;
-
-			this.SetPadding(5);
-			this.Width = StyleDimension.Fill;
-			this.Height.Pixels = 80;
-		}
-
-		public override void Update(GameTime gameTime)
-		{
-			if (IsMouseHovering)
-				Main.LocalPlayer.mouseInterface = true;
-		}
-
-		private void SetSoulSlot(UIMouseEvent evt, UIElement e)
-		{
-			int soulIndex = (int)this.soulReference.soulType;
-			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
-
-			// TODO: Eldrazi - Maybe change the sound?
-			Main.PlaySound(SoundID.Item37);
-			sp.activeSouls[soulIndex].soulNPC = soulReference.soulNPC;
-			sp.UpdateActiveSoulData();
-		}
-
-		protected override void DrawSelf(SpriteBatch spriteBatch)
-		{
-			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
-
-			Rectangle hitbox = GetInnerDimensions().ToRectangle();
-
-			// Draw the borders for this list item.
-			UIUtilities.DrawPanelBorders(spriteBatch, panelTexture, hitbox, 14, 2, true);
-
-			// Draw the Soul Slot.
-			Rectangle soulSlotRect = new Rectangle(hitbox.X + 8, hitbox.Y + 8, soulSlotTexture.Width, soulSlotTexture.Height);
-			spriteBatch.Draw(soulSlotTexture, soulSlotRect, Color.White);
-
-			// Draw the corresponding soul inside the Soul Slot.
-			soulSlotRect.X += (soulSlotRect.Width / 2) - soulTextures[(int)soulReference.soulType].Width / 2;
-			soulSlotRect.Y += (soulSlotRect.Height / 2) - soulTextures[(int)soulReference.soulType].Height / 2;
-			soulSlotRect.Width = soulTextures[(int)soulReference.soulType].Width;
-			soulSlotRect.Height = soulTextures[(int)soulReference.soulType].Height;
-			spriteBatch.Draw(soulTextures[(int)soulReference.soulType], soulSlotRect, Color.White);
-
-			// Draw the name of the soul/associated NPC next to the Soul Slot, along with the stacksize.
-			int stackAmount = sp.UnlockedSouls[soulReference.soulNPC];
-			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, soulReference.SoulNPCName() + " soul - " + stackAmount, hitbox.X + 40, hitbox.Y + 12, Color.White, Color.Black, Vector2.Zero, .8f);
-
-			// Draw the description of the soul under the Soul Slot.
-			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, soulReference.soulDescription, hitbox.X + 12, hitbox.Y + 38, Color.White, Color.Black, Vector2.Zero, .8f);
+			this.smoothScroll = true;
 		}
 	}
 }

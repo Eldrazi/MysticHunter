@@ -1,8 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 
-using Microsoft.Xna.Framework;
-
 using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM

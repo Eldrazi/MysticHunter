@@ -5,8 +5,8 @@
 	/// </summary>
 	public class NetSoulData
 	{
-		public short soulNPC;
 		public byte stack;
+		public short soulNPC;
 
 		public NetSoulData(short soulNPC = 0, byte stack = 0)
 		{
@@ -27,13 +27,13 @@
 
         public override int GetHashCode()
         {
-            return (this.soulNPC + this.stack);
+            return (int)soulNPC | (int)(stack << 16);
         }
 
         public static bool operator ==(NetSoulData item1, NetSoulData item2)
         {
             if (object.ReferenceEquals(item1, item2)) return (true);
-            if ((object)item1 == null || (object)item2 == null) return (false);
+            if (item1 is null || item2 is null) return (false);
             return (item1.soulNPC == item2.soulNPC && item1.stack == item2.stack);
         }
 		public static bool operator !=(NetSoulData data, NetSoulData other) => !(data == other);

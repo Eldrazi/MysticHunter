@@ -13,7 +13,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 	public class BloodCrawlerSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.BloodCrawler;
-		public override string soulDescription => "Summon flesh ripping teeth.";
+		public override string soulDescription => "Attack with razor sharp teeth.";
 
 		public override short cooldown => 120;
 
@@ -25,6 +25,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<BloodCrawlerSoulProj>(), 20 + stack, .1f, p.whoAmI, stack);
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.BloodCrawlerWall };
 	}
 
 	public class BloodCrawlerSoulProj : ModProjectile

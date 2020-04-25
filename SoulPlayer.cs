@@ -76,17 +76,19 @@ namespace MysticHunter
 			}
 		}
 
+		public short[] soulCooldowns;
+
 		public float[] soulDropModifier;
 		public readonly float[] DefinedSoulDropModifier = new float[3] { .015f, .015f, .015f };
-
-		public short[] soulCooldowns;
 
 		public PreHurtModifier preHurtModifier = null;
 
 		// Yellow soul booleans.
 		public bool pinkySoul = false;
+		public bool lamiaSoul = false;
 		public bool seaSnailSoul = false;
 		public bool undeadMinerSoul = false;
+		public bool dungeonSpiritSoul = false;
 
 		// Blue soul booleans.
 		public bool lacBeetleSoul = false;
@@ -113,8 +115,10 @@ namespace MysticHunter
 			preHurtModifier = null;
 
 			pinkySoul = false;
+			lamiaSoul = false;
 			seaSnailSoul = false;
 			undeadMinerSoul = false;
+			dungeonSpiritSoul = false;
 
 			if (BlueSoul == null || BlueSoul.soulNPC != NPCID.LacBeetle)
 				lacBeetleSoul = false;
@@ -129,16 +133,6 @@ namespace MysticHunter
 			this.soulDropModifier[0] = DefinedSoulDropModifier[0];
 			this.soulDropModifier[1] = DefinedSoulDropModifier[1];
 			this.soulDropModifier[2] = DefinedSoulDropModifier[2];
-		}
-
-		/// <summary>
-		/// Used to add the Soul Index item to starting characters.
-		/// </summary>
-		public override void SetupStartInventory(IList<Item> items, bool mediumcoreDeath)
-		{
-			Item item = new Item();
-			item.SetDefaults(ItemType<SoulIndex>());
-			items.Add(item);
 		}
 
 		/// <summary>
@@ -177,14 +171,10 @@ namespace MysticHunter
 			return (preHurtModifier?.Invoke(player, ref damage, damageSource, activeSouls[(int)SoulType.Yellow].stack) ?? true);
 		}
 
-		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
-		{
-			YellowSoul?.OnHitNPC(player, target, item, activeSouls[(int)SoulType.Yellow].stack);
-		}
-		public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
-		{
-			YellowSoul?.OnHitNPC(player, target, proj, activeSouls[(int)SoulType.Yellow].stack);
-		}
+		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+			=> YellowSoul?.OnHitNPC(player, target, item, ref damage, activeSouls[(int)SoulType.Yellow].stack);
+		public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+			=> YellowSoul?.OnHitNPC(player, target, proj, ref damage, activeSouls[(int)SoulType.Yellow].stack);
 
 		/// <summary>
 		/// Used to process Red and Blue soul active triggers/hotkeys, if available.
@@ -214,6 +204,20 @@ namespace MysticHunter
 					player.manaRegenDelay = (int)player.maxRegenDelay;
 					soulCooldowns[(int)SoulType.Blue] = tmpSoulRef.cooldown;
 				}
+			}
+		}
+
+		public override void FrameEffects()
+		{
+			if (this.lamiaSoul)
+			{
+				if (player.Male)
+					player.head = ArmorIDs.Head.LamiaMale;
+				else
+					player.head = ArmorIDs.Head.LamiaFemale;
+
+				player.body = ArmorIDs.Body.Lamia;
+				player.legs = ArmorIDs.Legs.Lamia;
 			}
 		}
 
@@ -261,14 +265,14 @@ namespace MysticHunter
 		/// </summary>
 		public override TagCompound Save()
 		{
-			TagCompound tag = new TagCompound();
-
-			tag.Add("acquiredSoulsKeys", UnlockedSouls.Keys.ToList());
-			tag.Add("acquiredSoulsValues", UnlockedSouls.Values.ToList());
+			TagCompound tag = new TagCompound
+			{
+				{ "acquiredSoulsKeys", UnlockedSouls.Keys.ToList() },
+				{ "acquiredSoulsValues", UnlockedSouls.Values.ToList() }
+			};
 
 			for (int i = 0; i < activeSouls.Length; ++i)
 				tag.Add("soul" + i, activeSouls[i].soulNPC);
-
 			return tag;
 		}
 		public override void Load(TagCompound tag)
@@ -283,14 +287,22 @@ namespace MysticHunter
 				for (int i = 0; i < activeSouls.Length; i++)
 				{
 					short soulNPC = tag.GetShort("soul" + i);
-					activeSouls[i] = new NetSoulData(soulNPC, 
-						UnlockedSouls.TryGetValue(soulNPC, out byte result) ? result : (byte)0);
+
+					activeSouls[i] = new NetSoulData();
+					if (SoulManager.GetSoul(soulNPC) != null)
+					{
+						if (UnlockedSouls.TryGetValue(soulNPC, out byte result))
+						{
+							activeSouls[i].stack = result;
+							activeSouls[i].soulNPC = soulNPC;
+						}
+					}
 				}
 			}
 			catch
 			{
-				activeSouls = new NetSoulData[3] { new NetSoulData(), new NetSoulData(), new NetSoulData() };
 				UnlockedSouls = new Dictionary<short, byte>();
+				activeSouls = new NetSoulData[3] { new NetSoulData(), new NetSoulData(), new NetSoulData() };
 			}
 		}
 

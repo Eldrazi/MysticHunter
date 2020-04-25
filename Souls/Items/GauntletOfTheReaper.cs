@@ -36,7 +36,7 @@ namespace MysticHunter.Souls.Items
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemType<BraceOfEvil>(), 1);
 			recipe.AddIngredient(ItemType<CursedHand>(), 1);
-			recipe.AddIngredient(ItemType<OccularCharm>(), 1);
+			recipe.AddIngredient(ItemType<OcularCharm>(), 1);
 			recipe.AddTile(TileID.TinkerersWorkbench);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

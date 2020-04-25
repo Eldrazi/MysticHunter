@@ -10,6 +10,7 @@ using MysticHunter.Souls.UI;
 using MysticHunter.Souls.Framework;
 
 using Microsoft.Xna.Framework;
+using MysticHunter.API.Loading;
 
 namespace MysticHunter
 {
@@ -32,49 +33,53 @@ namespace MysticHunter
 		internal SoulIndexUI soulIndexUI;
 		internal UserInterface siUserInterface;
 
+		internal SoulIndexUIOpenClose soulIndexUIOpenClose;
+		internal UserInterface siOpenButtonUserInterface;
+
 		/// <summary>
 		/// A dictionary that keeps track of all soul data.
 		/// Set in the `Load` method via `SoulManager.LoadSouls`.
 		/// </summary>
-		public Dictionary<short, BaseSoul> SoulDict;
+		private Dictionary<short, BaseSoul> _soulDict;
+		public Dictionary<short, BaseSoul> SoulDict
+		{
+			get
+			{
+				if (_soulDict == null)
+					_soulDict = new Dictionary<short, BaseSoul>();
+				return _soulDict;
+			}
+			set
+			{
+				_soulDict = value;
+			}
+		}
 
 		public override void Load()
 		{
 			Instance = this;
 
-			SoulManager.LoadSouls();
-
-			if (!Main.dedServ)
-			{
-				SetupSoulHotkeys();
-				SetupSoulUI();
-			}
+			// Initialize the loading funneler and subscribe this mod to the registry.
+			LoadingFunneler.Load();
+			RegistryLoader.RegisterMod(this);
 		}
 		public override void Unload()
 		{
-			SoulManager.UnloadSouls();
+			LoadingFunneler.Unload();
 
 			Instance = null;
 		}
 
-		internal void SetupSoulHotkeys()
-		{
-			RedSoulActive = RegisterHotKey("Red Soul Active", "Z");
-			BlueSoulActive = RegisterHotKey("Blue Soul Active", "X");
-		}
-		internal void SetupSoulUI()
-		{
-			siUserInterface = new UserInterface();
-			soulIndexUI = new SoulIndexUI();
-
-			soulIndexUI.Activate();
-			siUserInterface.SetState(soulIndexUI);
-		}
+		public override void PostAddRecipes()
+			=> LoadingFunneler.PostLoad();
 
 		public override void UpdateUI(GameTime gameTime)
 		{
 			if (siUserInterface != null && SoulIndexUI.visible)
 				siUserInterface.Update(gameTime);
+
+			if (siOpenButtonUserInterface != null && SoulIndexUIOpenClose.visible)
+				siOpenButtonUserInterface.Update(gameTime);
 		}
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
@@ -89,6 +94,17 @@ namespace MysticHunter
 					{
 						if (SoulIndexUI.visible)
 							siUserInterface.Draw(Main.spriteBatch, new GameTime());
+						return true;
+					},
+					InterfaceScaleType.UI)
+				);
+
+				layers.Insert(InventoryIndex + 1, new LegacyGameInterfaceLayer(
+					"Mystic Hunter: Soul Index UI Open Close",
+					delegate
+					{
+						if (SoulIndexUIOpenClose.visible)
+							siOpenButtonUserInterface.Draw(Main.spriteBatch, new GameTime());
 						return true;
 					},
 					InterfaceScaleType.UI)

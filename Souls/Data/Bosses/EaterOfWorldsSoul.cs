@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -37,7 +35,8 @@ namespace MysticHunter.Souls.Data.Bosses
 			if (stack >= 9)
 				amount += 2;
 
-			Projectile.NewProjectile(p.Center, Vector2.One * 4, ProjectileType<EaterOfWorlsSoulProj>(), 25 + stack, .2f, p.whoAmI, amount);
+			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 4;
+			Projectile.NewProjectile(p.Center, velocity, ProjectileType<EaterOfWorlsSoulProj>(), 25 + stack, .2f, p.whoAmI, amount);
 			return (true);
 		}
 	}
@@ -222,10 +221,7 @@ namespace MysticHunter.Souls.Data.Bosses
 			return (false);
 		}
 
-		public override bool CanDamage()
-		{
-			return (false);
-		}
+		public override bool CanDamage() => false;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

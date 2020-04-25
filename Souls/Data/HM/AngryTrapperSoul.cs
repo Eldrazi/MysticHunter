@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 using MysticHunter.Souls.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MysticHunter.Souls.Data.Pre_HM
+namespace MysticHunter.Souls.Data.HM
 {
 	public class AngryTrapperSoul : PostHMSoul
 	{
@@ -67,13 +67,13 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			SoulPlayer sp = player.GetModPlayer<SoulPlayer>();
 
 			// Kill the projectile if the soul is no longer available.
-			if (Main.myPlayer == player.whoAmI && (sp.BlueSoul == null || sp.BlueSoul.soulNPC != NPCID.AngryTrapper))
+			if (player.dead || sp.activeSouls[(int)SoulType.Blue].soulNPC != NPCID.AngryTrapper)
 				projectile.Kill();
 			// If we do not kill the projectile, we want to always keep it active.
 			projectile.timeLeft = 10;
 
 			float maxSpeed = 2;
-			float maxRange = 50 + (10 * sp.UnlockedSouls[sp.BlueSoul.soulNPC]);
+			float maxRange = 50 + (10 * sp.activeSouls[(int)SoulType.Blue].stack);
 			float acceleration = .055f;
 
 			// Give a bit more range every 5 seconds.

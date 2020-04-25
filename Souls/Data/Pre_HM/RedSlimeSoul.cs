@@ -84,7 +84,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (Main.rand.Next(10) == 0)
-				target.AddBuff(BuffID.Slow, 60);
+				target.AddBuff(BuffID.Slow, 90);
 		}
 	}
 }

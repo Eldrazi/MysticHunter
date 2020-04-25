@@ -3,4 +3,8 @@ Mystic Hunter is an inspiration taken out of the Castlevania series more promine
 Various systems in place will allow you to experience a variety of play styles to enhance your vanilla experience and give you new reasons to explore and fight your way to the moon lord and back again.
 
 Update v0.1.3
-	- 
+	- Added new UI.
+	- Fixed minor typos.
+	- More optimizations!
+	- Added cross mod compatibility.
+	- Added better soul overview to new UI (smooth scrolling).

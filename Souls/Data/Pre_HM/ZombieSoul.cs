@@ -69,6 +69,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.hide = true;
 			projectile.melee = true;
 			projectile.friendly = true;
+			projectile.manualDirectionChange = true;
 		}
 
 		public override bool PreAI()

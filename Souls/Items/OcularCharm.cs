@@ -5,11 +5,11 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Items
 {
-	public class OccularCharm : ModItem
+	public class OcularCharm : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Occular Charm");
+			DisplayName.SetDefault("Ocular Charm");
 			Tooltip.SetDefault("Increases the chance of dropping red souls.");
 		}
 		public override void SetDefaults()

@@ -40,8 +40,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			ProjectileID.HelFire, ProjectileID.Daybreak,
 			ProjectileID.GeyserTrap, ProjectileID.SpiritFlame,
 			ProjectileID.DD2BetsyFireball, ProjectileID.DD2BetsyFlameBreath,
-			ProjectileID.MonkStaffT2Ghast, ProjectileID.DD2PhoenixBowShot}
-		;
+			ProjectileID.MonkStaffT2Ghast, ProjectileID.DD2PhoenixBowShot
+		};
 
 		private readonly int[] fireNPCs = new int[]
 		{

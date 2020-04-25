@@ -13,7 +13,7 @@ namespace MysticHunter.Souls.Items
 	/// <summary>
 	/// The basic class for a soul item.
 	/// </summary>
-	public class BasicSoul : ModItem
+	public class BasicSoulItem : ModItem
 	{
 		public short soulNPC = 0;
 
@@ -79,13 +79,8 @@ namespace MysticHunter.Souls.Items
 				SoulType type = MysticHunter.Instance.SoulDict[soulNPC].soulType;
 
 				Texture2D tex = Main.itemTexture[item.type];
-				Rectangle rect = new Rectangle(0, 0, 16, 16);
+				Rectangle rect = new Rectangle(0, (int)type * 16, 16, 16);
 				Vector2 origin = new Vector2(tex.Width * .5f, (tex.Height / 3) * .5f);
-
-				if (type == SoulType.Blue)
-					rect.Y += 16;
-				if (type == SoulType.Yellow)
-					rect.Y += 32;
 
 				spriteBatch.Draw(tex, item.position - Main.screenPosition + origin, rect, lightColor, 0, origin, 1, SpriteEffects.None, 0);
 			}
