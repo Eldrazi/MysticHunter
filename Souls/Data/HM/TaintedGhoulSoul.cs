@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class TaintedGhoulSoul : BaseSoul
+	public class TaintedGhoulSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.DesertGhoulCrimson;
 		public override string soulDescription => "Grants resistance to Ichor.";

@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class BrainOfCthuluSoul : BaseSoul
+	public class BrainOfCthuluSoul : PreHMSoul, IBossSoul
 	{
 		public override short soulNPC => NPCID.BrainofCthulhu;
 		public override string soulDescription => "Summon protective creepers.";

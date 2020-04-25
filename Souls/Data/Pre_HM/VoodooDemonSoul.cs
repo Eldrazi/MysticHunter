@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class VoodooDemonSoul : BaseSoul
+	public class VoodooDemonSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.VoodooDemon;
 		public override string soulDescription => "Increases magic damage at the cost of defense.";

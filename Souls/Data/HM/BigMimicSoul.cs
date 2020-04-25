@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class BigMimicSoul : BaseSoul
+	public class BigMimicSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.BigMimicCorruption;
 		public override string soulDescription => "Grants increased soul droprate.";
@@ -34,5 +34,8 @@ namespace MysticHunter.Souls.Data.HM
 
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.BigMimicCrimson, NPCID.BigMimicHallow, NPCID.BigMimicJungle };
 	}
 }

@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class CrabSoul : BaseSoul
+	public class CrabSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Crab;
 		public override string soulDescription => "Boosts stats while at the ocean.";

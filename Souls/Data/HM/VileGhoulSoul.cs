@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class VileGhoulSoul : BaseSoul
+	public class VileGhoulSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.DesertGhoulCorruption;
 		public override string soulDescription => "Grants resistance to Cursed Fire.";

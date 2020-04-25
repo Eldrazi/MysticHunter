@@ -2,7 +2,7 @@
 
 using Terraria;
 using Terraria.UI;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent.UI.Elements;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -44,9 +44,12 @@ namespace MysticHunter.Souls.UI
 
 		private float _innerListHeight;
 
-		public float ListPadding = 5f;
+		public float ListPaddingX = 5f;
+		public float ListPaddingY = 5f;
 
 		public int Count => _items.Count;
+
+		public int ListWidth = 1;
 
 		public float ViewPosition
 		{
@@ -64,9 +67,7 @@ namespace MysticHunter.Souls.UI
 		}
 
 		public float GetTotalHeight()
-		{
-			return _innerListHeight;
-		}
+			=> _innerListHeight;
 
 		public void Goto(ElementSearchMethod searchMethod)
 		{
@@ -130,21 +131,35 @@ namespace MysticHunter.Souls.UI
 			base.ScrollWheel(evt);
 			if (_scrollbar != null)
 			{
-				_scrollbar.ViewPosition -= evt.ScrollWheelValue;
+				_scrollbar.SetViewPosition(_scrollbar.ViewPosition - (evt.ScrollWheelValue / this.ListWidth));
 			}
 		}
 
 		public override void RecalculateChildren()
 		{
 			base.RecalculateChildren();
-			float num = 0f;
+
+			float currentY = 0f;
+			float currentX = 0f;
 			for (int i = 0; i < _items.Count; i++)
 			{
-				_items[i].Top.Set(num, 0f);
+				_items[i].Top.Set(currentY, 0f);
+				_items[i].Left.Set(currentX, 0f);
 				_items[i].Recalculate();
-				num += _items[i].GetOuterDimensions().Height + ListPadding;
+
+				if ((i + 1) % this.ListWidth == 0)
+				{
+					currentX = 0;
+					currentY += _items[i].GetOuterDimensions().Height + ListPaddingY;
+				}
+				else
+					currentX += _items[i].GetOuterDimensions().Width + ListPaddingX;
 			}
-			_innerListHeight = num;
+
+			if (_items.Count != 0 && _items.Count % this.ListWidth != 0)
+				currentY += _items[0].GetOuterDimensions().Height + ListPaddingY;
+
+			_innerListHeight = currentY;
 		}
 
 		private void UpdateScrollbar()
@@ -199,6 +214,7 @@ namespace MysticHunter.Souls.UI
 	internal class GenericUIScrollbar : UIElement
 	{
 		private float viewPosition;
+		private float smoothViewPosition;
 
 		private float viewSize = 1f;
 
@@ -212,6 +228,8 @@ namespace MysticHunter.Souls.UI
 
 		protected int thumbStumpSize, backgroundStumpSize;
 		protected Texture2D thumb, background;
+
+		public bool smoothScroll;
 
 		public float ViewPosition
 		{
@@ -227,6 +245,8 @@ namespace MysticHunter.Souls.UI
 			PaddingBottom = 5f;
 
 			thumbStumpSize = backgroundStumpSize = 6;
+
+			smoothScroll = false;
 		}
 
 		public void SetView(float viewSize, float maxViewSize)
@@ -235,6 +255,27 @@ namespace MysticHunter.Souls.UI
 			viewPosition = MathHelper.Clamp(viewPosition, 0f, maxViewSize - viewSize);
 			this.viewSize = viewSize;
 			this.maxViewSize = maxViewSize;
+		}
+		public void SetViewPosition(float viewPosition)
+		{
+			if (this.smoothScroll)
+				this.smoothViewPosition = MathHelper.Clamp(viewPosition, 0f, maxViewSize - viewSize);
+			else
+				this.ViewPosition = viewPosition;
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			if (this.smoothScroll)
+			{
+				if (this.viewPosition < this.smoothViewPosition - .1f || this.viewPosition > this.smoothViewPosition + .1f)
+				{
+					this.viewPosition = MathHelper.Lerp(this.viewPosition, this.smoothViewPosition, .1f);
+				}
+				else
+					this.viewPosition = this.smoothViewPosition;
+			}
+			base.Update(gameTime);
 		}
 
 		public float GetValue() => viewPosition;
@@ -265,7 +306,11 @@ namespace MysticHunter.Souls.UI
 			if (isDragging)
 			{
 				float num = UserInterface.ActiveInstance.MousePosition.Y - innerDimensions.Y - dragYOffset;
-				viewPosition = MathHelper.Clamp(num / innerDimensions.Height * maxViewSize, 0f, maxViewSize - viewSize);
+
+				if (smoothScroll)
+					smoothViewPosition = MathHelper.Clamp(num / innerDimensions.Height * maxViewSize, 0f, maxViewSize - viewSize);
+				else
+					viewPosition = MathHelper.Clamp(num / innerDimensions.Height * maxViewSize, 0f, maxViewSize - viewSize);
 			}
 
 			Rectangle handleRectangle = GetHandleRectangle();
@@ -277,8 +322,10 @@ namespace MysticHunter.Souls.UI
 			if (!isHovering && isHoveringOverHandle && Main.hasFocus)
 				Main.PlaySound(12);
 
-			DrawBar(spriteBatch, background, dimensions.ToRectangle(), backgroundStumpSize, Color.White);
-			DrawBar(spriteBatch, thumb, handleRectangle, thumbStumpSize, Color.White * ((isDragging || isHoveringOverHandle) ? 1f : 0.85f));
+			if (background != null)
+				DrawBar(spriteBatch, background, dimensions.ToRectangle(), backgroundStumpSize, Color.White);
+			if (thumb != null)
+				DrawBar(spriteBatch, thumb, handleRectangle, thumbStumpSize, Color.White * ((isDragging || isHoveringOverHandle) ? 1f : 0.85f));
 		}
 
 		public override void MouseDown(UIMouseEvent evt)
@@ -295,8 +342,12 @@ namespace MysticHunter.Souls.UI
 				else
 				{
 					CalculatedStyle innerDimensions = GetInnerDimensions();
-					float num = UserInterface.ActiveInstance.MousePosition.Y - innerDimensions.Y - (float)(handleRectangle.Height >> 1);
-					viewPosition = MathHelper.Clamp(num / innerDimensions.Height * maxViewSize, 0f, maxViewSize - viewSize);
+					float num = UserInterface.ActiveInstance.MousePosition.Y - innerDimensions.Y - (handleRectangle.Height >> 1);
+
+					if (smoothScroll)
+						smoothViewPosition = MathHelper.Clamp(num / innerDimensions.Height * maxViewSize, 0f, maxViewSize - viewSize);
+					else
+						viewPosition = MathHelper.Clamp(num / innerDimensions.Height * maxViewSize, 0f, maxViewSize - viewSize);
 				}
 			}
 		}
@@ -304,6 +355,25 @@ namespace MysticHunter.Souls.UI
 		{
 			base.MouseUp(evt);
 			isDragging = false;
+		}
+	}
+
+	internal class GenericUIPanel : UIPanel
+	{
+		internal Texture2D panelTexture;
+
+		internal Vector2 panelDimensions;
+
+		public GenericUIPanel(Texture2D panelTexture, Vector2 panelDimensions)
+		{
+			this.panelTexture = panelTexture;
+			this.panelDimensions = panelDimensions;
+		}
+
+		protected override void DrawSelf(SpriteBatch spriteBatch)
+		{
+			Rectangle panelRectangle = this.GetDimensions().ToRectangle();
+			UIUtilities.DrawPanelBorders(spriteBatch, panelTexture, panelRectangle, (int)panelDimensions.X, (int)panelDimensions.Y, true);
 		}
 	}
 }

@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class BabySlimeSoul : BaseSoul
+	public class BabySlimeSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.BabySlime;
 		public override string soulDescription => "Makes slime less aggressive.";

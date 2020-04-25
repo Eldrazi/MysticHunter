@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class BoneSerpentSoul : BaseSoul
+	public class BoneSerpentSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.BoneSerpentHead;
 		public override string soulDescription => "Grow a bone tail.";

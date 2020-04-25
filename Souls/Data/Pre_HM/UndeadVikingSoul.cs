@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class UndeadVikingSoul : BaseSoul
+	public class UndeadVikingSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.UndeadViking;
 		public override string soulDescription => "Increases melee damage at the cost of defense.";

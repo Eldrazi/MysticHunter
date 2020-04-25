@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class GraniteGolemSoul : BaseSoul
+	public class GraniteGolemSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.GraniteGolem;
 		public override string soulDescription => "Increases base defense";

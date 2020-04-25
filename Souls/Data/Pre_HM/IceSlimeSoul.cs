@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class IceSlimeSoul : BaseSoul
+	public class IceSlimeSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.IceSlime;
 		public override string soulDescription => "Boosts stats while in icy lands.";

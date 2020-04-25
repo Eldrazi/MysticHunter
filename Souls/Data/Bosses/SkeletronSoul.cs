@@ -11,7 +11,7 @@ using System.IO;
 
 namespace MysticHunter.Souls.Data.Bosses
 {
-	public class SkeletronSoul : BaseSoul
+	public class SkeletronSoul : PreHMSoul, IBossSoul
 	{
 		public override short soulNPC => NPCID.SkeletronHead;
 		public override string soulDescription => "Summon protective arms.";
@@ -73,7 +73,7 @@ namespace MysticHunter.Souls.Data.Bosses
 
 		private int target;
 
-		private readonly float yAcceleration = .07f, xAcceleration = .1f;
+		private readonly float yAcceleration = .12f, xAcceleration = .2f;
 		private readonly float maxTargetingDistance = 320;
 
 		public override void SetStaticDefaults()

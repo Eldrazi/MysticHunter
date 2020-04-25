@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class MushiLadybugSoul : BaseSoul
+	public class MushiLadybugSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.MushiLadybug;
 		public override string soulDescription => "Boosts stats while in mushroom biome.";

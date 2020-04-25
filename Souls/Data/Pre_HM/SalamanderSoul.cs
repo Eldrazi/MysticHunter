@@ -9,7 +9,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class SalamanderSoul : BaseSoul
+	public class SalamanderSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Salamander;
 		public override string soulDescription => "Spit a random debuff ball.";
@@ -40,6 +40,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Projectile.NewProjectile(spawnPos, velocity, ProjectileType<SalamanderSoulProj>(), 4 + stack, .1f, p.whoAmI, randomBuffs[Main.rand.Next(randBuffMax)], debuffTime);
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.Salamander2, NPCID.Salamander3, NPCID.Salamander4, NPCID.Salamander5 };
 	}
 
 	public class SalamanderSoulProj : ModProjectile

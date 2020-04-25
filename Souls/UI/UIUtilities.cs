@@ -54,7 +54,7 @@ namespace MysticHunter.Souls.UI
 			destinationRect = new Rectangle(x + width - cornerSize, y + height - cornerSize, cornerSize, cornerSize);
 			spriteBatch.Draw(tex, destinationRect, sourceRect, Color.White);
 
-			if (fillPanel != false)
+			if (fillPanel)
 			{
 				sourceRect = new Rectangle(cornerSize, cornerSize, midsectionSize, midsectionSize);
 				destinationRect = new Rectangle(x + cornerSize, y + cornerSize, width - 2 * cornerSize, height - 2 * cornerSize);

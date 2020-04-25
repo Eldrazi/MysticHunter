@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class DungeonSlimeSoul : BaseSoul
+	public class DungeonSlimeSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.DungeonSlime;
 		public override string soulDescription => "Boosts stats while in the dungeon.";

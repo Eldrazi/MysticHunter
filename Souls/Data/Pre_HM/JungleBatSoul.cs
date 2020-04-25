@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class JungleBatSoul : BaseSoul
+	public class JungleBatSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.JungleBat;
 		public override string soulDescription => "Fire a spread of poisonous bats.";

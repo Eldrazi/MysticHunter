@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class CyanBeetleSoul : BaseSoul
+	public class CyanBeetleSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.CyanBeetle;
 		public override string soulDescription => "Summons ranged damage shield.";

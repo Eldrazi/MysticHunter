@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class PiranhaSoul : BaseSoul
+	public class PiranhaSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Piranha;
 		public override string soulDescription => "Summons a latching piranha.";

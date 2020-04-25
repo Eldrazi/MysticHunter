@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class HarpySoul : BaseSoul
+	public class HarpySoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Harpy;
 		public override string soulDescription => "Fires a spread of feathers.";

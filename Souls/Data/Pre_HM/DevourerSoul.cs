@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class DevourerSoul : BaseSoul
+	public class DevourerSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.DevourerHead;
 		public override string soulDescription => "Grow a poisonous stinger.";

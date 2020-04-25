@@ -9,7 +9,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class MotherSlimeSoul : BaseSoul
+	public class MotherSlimeSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.MotherSlime;
 		public override string soulDescription => "Summons a massive slime blob.";

@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class FloatyGrossSoul : BaseSoul
+	public class FloatyGrossSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.FloatyGross;
 		public override string soulDescription => "Grants resistance to Weakness.";

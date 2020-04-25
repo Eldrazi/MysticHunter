@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class FungiBulbSoul : BaseSoul
+	public class FungiBulbSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.FungiBulb;
 		public override string soulDescription => "Summons a friendly Fungi Bulb";
@@ -66,13 +66,13 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			SoulPlayer sp = player.GetModPlayer<SoulPlayer>();
 
 			// Kill the projectile if the soul is no longer available.
-			if (Main.myPlayer == player.whoAmI && (sp.BlueSoul == null || sp.BlueSoul.soulNPC != NPCID.FungiBulb))
+			if (player.dead || sp.activeSouls[(int)SoulType.Blue].soulNPC != NPCID.FungiBulb)
 				projectile.Kill();
 			// If we do not kill the projectile, we want to always keep it active.
 			projectile.timeLeft = 10;
 
 			float maxSpeed = 2;
-			float maxRange = 50 + (10 * sp.UnlockedSouls[sp.BlueSoul.soulNPC]);
+			float maxRange = 50 + (10 * sp.activeSouls[(int)SoulType.Blue].stack);
 			float acceleration = .055f;
 
 			// Give a bit more range every 5 seconds.
@@ -84,7 +84,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 					projectile.localAI[0] = 0;
 			}
 
-			int targetIndex = 0;
+			int targetIndex = 255;
 			float currentTargetRange = Int32.MaxValue;
 			// Fetch a target.
 			for (int i = 0; i < Main.maxNPCs; ++i)
@@ -99,7 +99,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			// Target following behavior.
 			Vector2 targetDir;
-			if (targetIndex != 0)
+			if (targetIndex != 255)
 			{
 				projectile.ai[0] = 0;
 				projectile.ai[1] = 0;

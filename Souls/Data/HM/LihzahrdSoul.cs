@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class LihzahrdSoul : BaseSoul
+	public class LihzahrdSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.Lihzahrd;
 		public override string soulDescription => "Massive buff to all stats in temple.";

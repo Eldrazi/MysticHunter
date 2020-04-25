@@ -9,7 +9,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class AnomuraFungusSoul : BaseSoul
+	public class AnomuraFungusSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.AnomuraFungus;
 		public override string soulDescription => "Summons a heavy anomura fungus.";

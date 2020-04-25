@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class DemonEyeSoul : BaseSoul
+	public class DemonEyeSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.DemonEye;
 		public override string soulDescription => "Fires a rebounding eyeball.";
@@ -28,6 +28,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Projectile.NewProjectile(p.Center, velocity, ProjectileType<DemonEyeSoulProj>(), 5 + stack, .1f, p.whoAmI, 1 + (stack / 2));
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.DemonEye2, NPCID.DemonEyeOwl, NPCID.DemonEyeSpaceship };
 	}
 
 	public class DemonEyeSoulProj : ModProjectile

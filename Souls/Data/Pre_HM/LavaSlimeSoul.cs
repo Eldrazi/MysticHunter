@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class LavaSlimeSoul : BaseSoul
+	public class LavaSlimeSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.LavaSlime;
 		public override string soulDescription => "Fires a burning, bouncing slime blob.";

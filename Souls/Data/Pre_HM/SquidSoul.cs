@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class SquidSoul : BaseSoul
+	public class SquidSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Squid;
 		public override string soulDescription => "Grants extra mobility in water.";

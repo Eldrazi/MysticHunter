@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class RavenSoul : BaseSoul
+	public class RavenSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Raven;
 		public override string soulDescription => "Summons a swooping raven.";

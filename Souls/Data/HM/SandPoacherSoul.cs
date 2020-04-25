@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class SandPoacherSoul : BaseSoul
+	public class SandPoacherSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.DesertScorpionWalk;
 		public override string soulDescription => "Grow a venomous stinger.";

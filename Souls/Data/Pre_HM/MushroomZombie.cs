@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class MushroomZombieSoul : BaseSoul
+	public class MushroomZombieSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.ZombieMushroom;
 		public override string soulDescription => "Summons a lumbering mushroom zombie.";

@@ -5,10 +5,8 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Event
 {
-	public class GoblinWarriorSoul : BaseSoul
+	public class GoblinWarriorSoul : PreHMSoul, IEventSoul
 	{
-		
-
 		public override short soulNPC => NPCID.GoblinWarrior;
 		public override string soulDescription => "Increases melee damage.";
 

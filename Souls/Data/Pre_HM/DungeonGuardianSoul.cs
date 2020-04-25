@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class DungeonGuardianSoul : BaseSoul
+	public class DungeonGuardianSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.DungeonGuardian;
 		public override string soulDescription => "Boosts invincibility time.";

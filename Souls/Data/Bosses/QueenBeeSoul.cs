@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Bosses
 {
-	public class QueenBeeSoul : BaseSoul
+	public class QueenBeeSoul : PreHMSoul, IBossSoul
 	{
 		public override short soulNPC => NPCID.QueenBee;
 		public override string soulDescription => "Summon an army of hornets.";

@@ -13,7 +13,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class CrimeraSoul : BaseSoul
+	public class CrimeraSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Crimera;
 		public override string soulDescription => "Summons a friendly crimera.";
@@ -33,6 +33,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<CrimeraSoulProj>(), 20 + stack, .1f + .02f * stack, p.whoAmI);
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.LittleCrimera, NPCID.BigCrimera };
 	}
 
 	public class CrimeraSoulProj : ModProjectile

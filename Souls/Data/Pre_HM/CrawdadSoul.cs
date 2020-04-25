@@ -9,7 +9,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class CrawdadSoul : BaseSoul
+	public class CrawdadSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Crawdad;
 		public override string soulDescription => "Claw at your enemies.";
@@ -37,6 +37,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<CrawdadSoulProj>(), damage, .2f + .1f * stack, p.whoAmI, clawState);
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.Crawdad2 };
 	}
 	
 	public class CrawdadSoulProj : ModProjectile

@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class AntlionSwarmerSoul : BaseSoul
+	public class AntlionSwarmerSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.FlyingAntlion;
 		public override string soulDescription => "Boosts stats while in desert.";

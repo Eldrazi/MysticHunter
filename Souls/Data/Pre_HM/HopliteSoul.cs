@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class HopliteSoul : BaseSoul
+	public class HopliteSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.GreekSkeleton;
 		public override string soulDescription => "Summons a hoplite.";
@@ -123,7 +123,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			for (int i = 0; i < 20; ++i)
 			{
-				Dust d = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 31, 0f, 0f, 100, default, 1f)];
+				Dust d = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 31, 0f, 0f, 100, default, .8f)];
 				if (Main.rand.Next(2) == 0)
 				{
 					d.scale = .5f;

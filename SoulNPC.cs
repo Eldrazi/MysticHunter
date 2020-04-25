@@ -36,7 +36,7 @@ namespace MysticHunter
 			else if (npc.type == NPCID.EyeofCthulhu)
 			{
 				if (Main.rand.Next(10) == 0)
-					Item.NewItem(npc.position, ItemType<OccularCharm>());
+					Item.NewItem(npc.position, ItemType<OcularCharm>());
 			}
 			else if (npc.type == NPCID.SkeletronHead)
 			{
@@ -54,10 +54,10 @@ namespace MysticHunter
 		/// <param name="position">The positition to spawn the soul at.</param>
 		public static void DropSoulnstanced(BaseSoul soul, Vector2 position)
 		{
-			if (Main.netMode == 2)
+			if (Main.netMode == NetmodeID.Server)
 			{
-				int item = Item.NewItem(position, ItemType<BasicSoul>(), 1, noBroadcast: true);
-				BasicSoul bs = Main.item[item].modItem as BasicSoul;
+				int item = Item.NewItem(position, ItemType<BasicSoulItem>(), 1, noBroadcast: true);
+				BasicSoulItem bs = Main.item[item].modItem as BasicSoulItem;
 				bs.soulNPC = soul.soulNPC;
 
 				Main.itemLockoutTime[item] = 54000;
@@ -74,15 +74,15 @@ namespace MysticHunter
 				}
 				Main.item[item].active = false;
 			}
-			else if (Main.netMode == 0)
+			else if (Main.netMode == NetmodeID.SinglePlayer)
 			{
 				float modifier = Main.LocalPlayer.GetModPlayer<SoulPlayer>().soulDropModifier[(int)soul.soulType];
 				if (Main.rand.NextFloat() <= modifier)
 				{
-					Item item = Main.item[Item.NewItem(position, ItemType<BasicSoul>())];
+					Item item = Main.item[Item.NewItem(position, ItemType<BasicSoulItem>())];
 					if (item != null)
 					{
-						BasicSoul bs = item.modItem as BasicSoul;
+						BasicSoulItem bs = item.modItem as BasicSoulItem;
 						bs.soulNPC = soul.soulNPC;
 					}
 				}
@@ -96,7 +96,11 @@ namespace MysticHunter
 			SoulPlayer sp = player.GetModPlayer<SoulPlayer>();
 
 			if (sp.pinkySoul)
-				spawnRate += 5 + 2 * (sp.UnlockedSouls[sp.YellowSoul.soulNPC]);
+			{
+				spawnRate -= 5 * (sp.UnlockedSouls[sp.YellowSoul.soulNPC]);
+				if (spawnRate < 5)
+					spawnRate = 5;
+			}
 		}
 	}
 }

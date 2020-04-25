@@ -1,5 +1,5 @@
-﻿using Terraria.UI;
-
+﻿using Terraria;
+using Terraria.UI;
 using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
@@ -9,53 +9,76 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.UI
 {
-	/// <summary>
-	/// A visual 'Soul Slot' that can display a soul inside of it.
-	/// Consists of two images: a 'slot' image (border) and a soul image.
-	/// </summary>
 	public class SoulIndexUISoulSlot : UIElement
 	{
-		private Texture2D slotTexture;
-		private Texture2D[] soulTextures;
+		public BaseSoul soulReference;
+		public SoulType soulType;
 
-		public BaseSoul soulTarget = null;
+		private readonly Texture2D soulTexture;
 
-		public SoulIndexUISoulSlot(BaseSoul soulTarget = null)
+		public SoulIndexUISoulSlot(BaseSoul soulReference = null)
 		{
-			slotTexture = GetTexture("MysticHunter/Souls/UI/SoulIndex_ItemPanel");
+			this.soulReference = soulReference;
+			this.soulType = this.soulReference?.soulType ?? SoulType.Red;
 
-			soulTextures = new Texture2D[3]
-			{
-				GetTexture("MysticHunter/Souls/UI/SoulIndex_SoulRed"),
-				GetTexture("MysticHunter/Souls/UI/SoulIndex_SoulBlue"),
-				GetTexture("MysticHunter/Souls/UI/SoulIndex_SoulYellow")
-			};
-
-			this.Width.Pixels = slotTexture.Width;
-			this.Height.Pixels = slotTexture.Height;
-
-			this.soulTarget = soulTarget;
+			this.soulTexture = GetTexture("MysticHunter/Souls/Items/BasicSoulItem");
 		}
 
-		public void SetSoulTarget(BaseSoul soulTarget)
+		public void SetSoulReference(BaseSoul soul, bool overrideType = true)
 		{
-			this.soulTarget = soulTarget;
+			this.soulReference = soul;
+			if (overrideType)
+				this.soulType = this.soulReference?.soulType ?? SoulType.Red;
 		}
 
-		// Ignore the DrawSelf functionality.
-		// This class is supposed to be drawn manually by calling `DrawSlot`.
+		public override void Update(GameTime gameTime)
+		{
+			if (IsMouseHovering)
+				Main.LocalPlayer.mouseInterface = true;
+		}
+
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
-			Rectangle drawRect = this.GetDimensions().ToRectangle();
+			// Draw corresponding soul texture.
+			Vector2 drawPos = this.GetDimensions().Position();
+			Rectangle sourceRectangle = new Rectangle(0, 16 * (int)this.soulType, 16, 16);
 
-			spriteBatch.Draw(slotTexture, drawRect, Color.White);
+			spriteBatch.Draw(soulTexture, drawPos, sourceRectangle, Color.White);
 
-			if (soulTarget != null && soulTarget.soulNPC != 0)
+			if (soulReference == null)
+				return;
+
+			string nameString = this.soulReference.SoulNPCName();
+
+			// Draw the name of the referenced soul.
+			if (nameString.Length >= 15)
+				nameString = nameString.Substring(0, 15) + "...";
+
+			drawPos.X += 20;
+			Color color = !this.IsMouseHovering ? Color.White : new Color(Main.mouseTextColor, (int)(Main.mouseTextColor / 1.1F), Main.mouseTextColor / 2, Main.mouseTextColor);
+			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontItemStack, nameString, drawPos.X, drawPos.Y, color, Color.Black, Vector2.Zero, 1);
+
+			// Draw the stack amount of the referenced soul.
+			Main.LocalPlayer.GetModPlayer<SoulPlayer>().UnlockedSouls.TryGetValue(soulReference.soulNPC, out byte soulStack);
+			nameString = "- " + soulStack;
+
+			drawPos.X += this.Width.Pixels - 40;
+			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontItemStack, nameString, drawPos.X, drawPos.Y, Color.White, Color.Black, Vector2.Zero, 1);
+		}
+
+		public override int CompareTo(object obj)
+		{
+			if (this.soulReference == null)
+				return (-1);
+			if (obj == null)
+				return (1);
+			if (obj is SoulIndexUISoulSlot other)
 			{
-				drawRect = new Rectangle(drawRect.X + drawRect.Width / 2 - soulTextures[0].Width / 2,
-					drawRect.Y + drawRect.Height / 2 - soulTextures[0].Height / 2, soulTextures[0].Width, soulTextures[0].Height);
-				spriteBatch.Draw(soulTextures[(int)soulTarget.soulType], drawRect, Color.White);
+				if (other.soulReference == null)
+					return (1);
+				return (soulReference.SoulNPCName().CompareTo(other.soulReference.SoulNPCName()));
 			}
+			return (1);
 		}
 	}
 }

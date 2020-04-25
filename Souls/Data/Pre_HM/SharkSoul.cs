@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class SharkSoul : BaseSoul
+	public class SharkSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Shark;
 		public override string soulDescription => "Summons a friendly shark";

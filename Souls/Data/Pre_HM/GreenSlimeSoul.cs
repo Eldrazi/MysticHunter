@@ -9,7 +9,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class GreenSlimeSoul : BaseSoul
+	public class GreenSlimeSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.GreenSlime;
 		public override string soulDescription => "Summons a little slimy friend.";

@@ -11,7 +11,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class SpikedIceSlimeSoul : BaseSoul
+	public class SpikedIceSlimeSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.SpikedIceSlime;
 		public override string soulDescription => "Fires frosty spikes.";

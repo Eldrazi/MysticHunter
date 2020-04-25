@@ -5,7 +5,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class MimicSoul : BaseSoul
+	public class MimicSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.Mimic;
 		public override string soulDescription => "Grants increased gold drops.";
@@ -16,9 +16,7 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override short ManaCost(Player p, short stack) => 0;
 		public override bool SoulUpdate(Player p, short stack) => true;
-		public override void OnHitNPC(Player player, NPC npc, Entity hitEntity, byte stack)
-		{
-			npc.AddBuff(BuffID.Midas, 30 * stack);
-		}
+		public override void OnHitNPC(Player player, NPC npc, Entity hitEntity, ref int damage, byte stack)
+			=> npc.AddBuff(BuffID.Midas, 30 * stack);
 	}
 }

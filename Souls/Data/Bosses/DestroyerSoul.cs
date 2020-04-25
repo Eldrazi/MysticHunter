@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace MysticHunter.Souls.Data.Bosses
 {
-	public class DestroyerSoul : BaseSoul
+	public class DestroyerSoul : PostHMSoul, IBossSoul
 	{
 		public override short soulNPC => NPCID.TheDestroyer;
 		public override string soulDescription => "Grow a laser shooting tail.";

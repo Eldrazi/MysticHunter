@@ -5,10 +5,8 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Event
 {
-	public class GoblinArcherSoul : BaseSoul
+	public class GoblinArcherSoul : PreHMSoul, IEventSoul
 	{
-		
-
 		public override short soulNPC => NPCID.GoblinArcher;
 		public override string soulDescription => "Increases ranged damage.";
 

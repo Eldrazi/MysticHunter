@@ -9,7 +9,7 @@ using MysticHunter.Souls.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class AngryBonesSoul : BaseSoul
+	public class AngryBonesSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.AngryBones;
 		public override string soulDescription => "Summons a charging skeleton.";
@@ -26,6 +26,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Projectile.NewProjectile(p.Center, velocity, ProjectileType<AngryBonesSoulProj>(), 20 + stack, .1f, p.whoAmI);
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.AngryBonesBig, NPCID.AngryBonesBigHelmet, NPCID.AngryBonesBigMuscle };
 	}
 
 	public class AngryBonesSoulProj : ModProjectile
