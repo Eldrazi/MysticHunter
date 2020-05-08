@@ -42,14 +42,13 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.width = 18;
 			projectile.height = 36;
 
+			projectile.scale = .8f;
 			projectile.penetrate = -1;
 
 			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.tileCollide = true;
 			projectile.ignoreWater = false;
-
-			projectile.scale = .8f;
 		}
 
 		public override bool PreAI()

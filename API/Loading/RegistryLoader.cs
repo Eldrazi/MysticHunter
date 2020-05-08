@@ -45,7 +45,7 @@ namespace MysticHunter.API.Loading
 		{
 			foreach (var kvp in Mods)
 			{
-				MysticHunter.Instance.Logger.Info($"RegistryLoader - Loading quest content for mod '{kvp.Key}'.");
+				MysticHunter.Instance.Logger.Info($"RegistryLoader - Loading MysticHunter content for mod '{kvp.Key}'.");
 				ContentLoader.LoadModContent(kvp.Value);
 			}
 		}

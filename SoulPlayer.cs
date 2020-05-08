@@ -7,11 +7,9 @@ using Terraria.GameInput;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.DataStructures;
-using static Terraria.ModLoader.ModContent;
 
 using MysticHunter.Souls.Framework;
 
-using MysticHunter.Souls.Items;
 using MysticHunter.Souls.Data.Pre_HM;
 using MysticHunter.Souls.Data.Bosses;
 
@@ -79,7 +77,7 @@ namespace MysticHunter
 		public short[] soulCooldowns;
 
 		public float[] soulDropModifier;
-		public readonly float[] DefinedSoulDropModifier = new float[3] { .015f, .015f, .015f };
+		public readonly float[] DefinedSoulDropModifier = new float[3] { 1.015f, 1.015f, 1.015f };
 
 		public PreHurtModifier preHurtModifier = null;
 

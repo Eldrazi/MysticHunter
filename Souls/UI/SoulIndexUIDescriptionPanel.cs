@@ -34,9 +34,6 @@ namespace MysticHunter.Souls.UI
 		public void SetSoulReference(BaseSoul soul)
 		{
 			this.soulReference = soul;
-
-			if (this.soulReference != null)
-				drawNPC.SetDefaults(this.soulReference.soulNPC);
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)
@@ -44,8 +41,11 @@ namespace MysticHunter.Souls.UI
 			// Draw the base panel.
 			base.DrawSelf(spriteBatch);
 
-			if (this.soulReference == null)
+			if (this.soulReference == null || this.soulReference.soulNPC <= 0)
 				return;
+
+			if (drawNPC.type != this.soulReference.soulNPC)
+				drawNPC.SetDefaults(this.soulReference.soulNPC);
 
 			Main.instance.LoadNPC(drawNPC.type);
 
