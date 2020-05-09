@@ -86,6 +86,7 @@ namespace MysticHunter
 		public bool lamiaSoul = false;
 		public bool seaSnailSoul = false;
 		public bool undeadMinerSoul = false;
+		public bool torturedSoulSoul = false;
 		public bool dungeonSpiritSoul = false;
 
 		// Blue soul booleans.
@@ -116,6 +117,7 @@ namespace MysticHunter
 			lamiaSoul = false;
 			seaSnailSoul = false;
 			undeadMinerSoul = false;
+			torturedSoulSoul = false;
 			dungeonSpiritSoul = false;
 
 			if (BlueSoul == null || BlueSoul.soulNPC != NPCID.LacBeetle)
@@ -167,6 +169,13 @@ namespace MysticHunter
 				CochinealBeetleSoul.ModifyHit(player, ref damage, damageSource, activeSouls[(int)SoulType.Blue].stack);
 
 			return (preHurtModifier?.Invoke(player, ref damage, damageSource, activeSouls[(int)SoulType.Yellow].stack) ?? true);
+		}
+
+		public override bool? CanHitNPC(Item item, NPC target)
+		{
+			if (target.friendly)
+				return (this.torturedSoulSoul);
+			return (null);
 		}
 
 		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
