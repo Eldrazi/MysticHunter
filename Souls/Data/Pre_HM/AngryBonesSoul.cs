@@ -87,6 +87,11 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			return (false);
 		}
 
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		{
+			fallThrough = false;
+			return (true);
+		}
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (projectile.velocity.X != oldVelocity.X)

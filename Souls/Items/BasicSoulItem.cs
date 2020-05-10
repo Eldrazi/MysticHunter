@@ -85,6 +85,25 @@ namespace MysticHunter.Souls.Items
 
 		public override bool ItemSpace(Player player) => true;
 
+		public override void GrabRange(Player player, ref int grabRange)
+			=> grabRange += 50;
+
+		public override void Update(ref float gravity, ref float maxFallSpeed)
+		{
+			if (soulNPC == 0)
+				return;
+
+			BaseSoul s = MysticHunter.Instance.SoulDict[soulNPC];
+
+			Vector3 c = new Vector3(.6f, .3f, .2f);
+			if (s.soulType == SoulType.Blue)
+				c = new Vector3(.2f, .6f, .3f);
+			else if (s.soulType == SoulType.Yellow)
+				c = new Vector3(.2f, .5f, .5f);
+
+			Lighting.AddLight(item.position, c);
+		}
+
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
 			if (MysticHunter.Instance.SoulDict.ContainsKey(soulNPC))
