@@ -16,10 +16,10 @@ namespace MysticHunter.API.Loading
 				SoulManager.AddSoul((BaseSoul)Activator.CreateInstance(soul));
 			}
 
-			foreach (var soul in ReflectUtils.GetPostHMSouls(mod))
+			/*foreach (var soul in ReflectUtils.GetPostHMSouls(mod))
 			{
 				SoulManager.AddSoul((BaseSoul)Activator.CreateInstance(soul));
-			}
+			}*/
 		}
 
 		// TODO: Eldrazi - Do we want to be able to unload specific mod content?

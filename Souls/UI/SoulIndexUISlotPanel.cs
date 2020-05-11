@@ -37,10 +37,10 @@ namespace MysticHunter.Souls.UI
 					soulType = (SoulType)i
 				};
 
-				soulSlots[i].Top.Pixels = 20 + 32 * i;
+				soulSlots[i].Top.Pixels = 19 + 30 * i;
 				soulSlots[i].Left.Pixels = 10;
 
-				soulSlots[i].Width.Pixels = this.Width.Pixels - 28;
+				soulSlots[i].Width.Pixels = this.Width.Pixels - 20;
 
 				soulSlots[i].OnClick += SoulSlotLeftClick;
 				soulSlots[i].OnRightClick += SoulSlotRightClick;

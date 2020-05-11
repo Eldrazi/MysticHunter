@@ -77,7 +77,7 @@ namespace MysticHunter
 		}
 
 		public float[] soulDropModifier;
-		public readonly float[] DefinedSoulDropModifier = new float[3] { 1.015f, 1.015f, 1.015f };
+		public readonly float[] DefinedSoulDropModifier = new float[3] { 0.015f, 0.015f, 0.015f };
 
 		public PreHurtModifier preHurtModifier = null;
 

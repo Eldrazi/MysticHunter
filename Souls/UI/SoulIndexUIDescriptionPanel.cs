@@ -41,10 +41,10 @@ namespace MysticHunter.Souls.UI
 			// Draw the base panel.
 			base.DrawSelf(spriteBatch);
 
-			if (this.soulReference == null || this.soulReference.soulNPC <= 0)
+			if (this.soulReference == null || this.soulReference.soulNPC == 0)
 				return;
 
-			if (drawNPC.type != this.soulReference.soulNPC)
+			if (drawNPC.netID != this.soulReference.soulNPC)
 				drawNPC.SetDefaults(this.soulReference.soulNPC);
 
 			Main.instance.LoadNPC(drawNPC.type);
@@ -59,7 +59,7 @@ namespace MysticHunter.Souls.UI
 			float npcScale = 1;
 			float maxNPCSize = 50;
 			Texture2D npcTexture = Main.npcTexture[drawNPC.type];
-			Rectangle npcRectangle = new Rectangle(0, 0, npcTexture.Width, npcTexture.Height / Main.npcFrameCount[soulReference.soulNPC]);
+			Rectangle npcRectangle = new Rectangle(0, 0, npcTexture.Width, npcTexture.Height / Main.npcFrameCount[drawNPC.type]);
 
 			if (npcRectangle.Width > maxNPCSize || npcRectangle.Height > maxNPCSize)
 			{
