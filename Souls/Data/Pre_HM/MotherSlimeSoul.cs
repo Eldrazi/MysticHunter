@@ -68,7 +68,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			float summonCooldown = 1260 - (60 * projectile.ai[0]);
 
 			// Spawn a new mini slime.
-			if (Main.netMode != NetmodeID.MultiplayerClient && projectile.ai[1]++ >= summonCooldown)
+			if (Main.myPlayer == projectile.owner && projectile.ai[1]++ >= summonCooldown)
 			{
 				int damage = (int)(20 + projectile.ai[0] * 2);
 				Vector2 velocity = new Vector2(Main.rand.Next(7) - 3, -4);

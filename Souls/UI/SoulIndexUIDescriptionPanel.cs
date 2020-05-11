@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-
-using Terraria;
-using Terraria.UI.Chat;
+﻿using Terraria;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,7 +22,7 @@ namespace MysticHunter.Souls.UI
 			this.Left.Pixels = this.Parent.Width.Pixels / 2 + 8;
 
 			this.Width.Pixels = this.Parent.Width.Pixels / 2 - 8;
-			this.Height.Pixels = this.Parent.Height.Pixels - 108;
+			this.Height.Pixels = this.Parent.Height.Pixels - SoulIndexUIListPanel.height - 8;
 
 			drawNPC = new NPC();
 			this.soulReference = null;

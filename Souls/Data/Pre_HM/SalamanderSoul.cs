@@ -16,7 +16,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override short cooldown => 120;
 
-		public override SoulType soulType => SoulType.Blue;
+		public override SoulType soulType => SoulType.Red;
 
 		public override short ManaCost(Player p, short stack) => 6;
 

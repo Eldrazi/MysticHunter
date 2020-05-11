@@ -18,7 +18,7 @@ namespace MysticHunter.Souls.Data.Bosses
 
 		public override short cooldown => 3600;
 
-		public override SoulType soulType => SoulType.Red;
+		public override SoulType soulType => SoulType.Blue;
 
 		public override short ManaCost(Player p, short stack) => 40;
 		public override bool SoulUpdate(Player p, short stack)

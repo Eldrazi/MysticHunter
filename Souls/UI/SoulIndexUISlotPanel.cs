@@ -27,7 +27,7 @@ namespace MysticHunter.Souls.UI
 			this.Left.Pixels = 0;
 
 			this.Width.Pixels = this.Parent.Width.Pixels / 2 - 8;
-			this.Height.Pixels = this.Parent.Height.Pixels - 118 - this.Top.Pixels;
+			this.Height.Pixels = this.Parent.Height.Pixels - SoulIndexUIListPanel.height - 18 - this.Top.Pixels;
 
 			soulSlots = new SoulIndexUISoulSlot[3];
 			for (int i = 0; i < soulSlots.Length; ++i)

@@ -17,7 +17,8 @@ namespace MysticHunter
 	public enum MysticHunterMessageType : byte
 	{
 		SyncStartSoulPlayer,
-		SyncPlayerSouls
+		SyncPlayerSouls,
+		SyncPlayerSoulExtras
 	}
 
 	public class MysticHunter : Mod
@@ -28,6 +29,9 @@ namespace MysticHunter
 		// Two hotkeys for use with active souls.
 		public ModHotKey RedSoulActive;
 		public ModHotKey BlueSoulActive;
+
+		// Hotkey to open the Soul Index UI.
+		public ModHotKey SoulIndexUIHotkey;
 
 		// UI components required for the Soul Index UI.
 		internal SoulIndexUI soulIndexUI;
@@ -80,6 +84,13 @@ namespace MysticHunter
 
 			if (siOpenButtonUserInterface != null && SoulIndexUIOpenClose.visible)
 				siOpenButtonUserInterface.Update(gameTime);
+
+			if (SoulIndexUIHotkey.JustPressed)
+			{
+				SoulIndexUI.visible = !SoulIndexUI.visible;
+				if (!Main.playerInventory)
+					Main.playerInventory = true;
+			}
 		}
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
@@ -152,6 +163,28 @@ namespace MysticHunter
 						targetPlayer.cochinealBeetleSoul = reader.ReadBoolean();
 
 						targetPlayer.eocSoulDash = reader.ReadBoolean();
+					}
+					break;
+
+				case MysticHunterMessageType.SyncPlayerSoulExtras:
+					byte playerID2 = reader.ReadByte();
+					SoulPlayer targetPlayer2 = Main.player[playerID2].GetModPlayer<SoulPlayer>();
+
+					targetPlayer2.seaSnailSoul = reader.ReadBoolean();
+					targetPlayer2.lacBeetleSoul = reader.ReadBoolean();
+					targetPlayer2.cyanBeetleSoul = reader.ReadBoolean();
+					targetPlayer2.cochinealBeetleSoul = reader.ReadBoolean();
+
+					if (msgType == MysticHunterMessageType.SyncPlayerSouls && Main.netMode == NetmodeID.Server)
+					{
+						var packet = GetPacket();
+						packet.Write((byte)MysticHunterMessageType.SyncPlayerSoulExtras);
+						packet.Write(playerID2);
+						packet.Write(targetPlayer2.seaSnailSoul);
+						packet.Write(targetPlayer2.lacBeetleSoul);
+						packet.Write(targetPlayer2.cyanBeetleSoul);
+						packet.Write(targetPlayer2.cochinealBeetleSoul);
+						packet.Send(-1, playerID2);
 					}
 					break;
 			}

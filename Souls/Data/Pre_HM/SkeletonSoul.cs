@@ -10,7 +10,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 	public class SkeletonSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Skeleton;
-		public override string soulDescription => "Fires a small horde of bees.";
+		public override string soulDescription => "Throw a bone.";
 
 		public override short cooldown => 180;
 
@@ -36,6 +36,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			int proj = Projectile.NewProjectile(p.Center, velocity, ProjectileID.Bone, damage, .1f, p.whoAmI);
 			Main.projectile[proj].scale = size;
 			Main.projectile[proj].netUpdate = true;
+			Main.projectile[proj].noDropItem = true;
 			return (true);
 		}
 

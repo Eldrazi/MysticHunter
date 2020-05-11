@@ -49,6 +49,12 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override bool PreAI()
 		{
+			if (projectile.ai[0] == 0)
+			{
+				projectile.ai[0] = 1;
+				Main.PlaySound(SoundID.Item8, projectile.position);
+			}
+
 			// Spawn a dust trail.
 			for (int i = 0; i < 2; i++)
 			{

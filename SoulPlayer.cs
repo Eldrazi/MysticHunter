@@ -364,6 +364,23 @@ namespace MysticHunter
 				packet.Write(activeSouls[2].stack);
 				packet.Send();
 			}
+			else
+			{
+				if (clone.seaSnailSoul != this.seaSnailSoul ||
+					clone.lacBeetleSoul != this.lacBeetleSoul ||
+					clone.cyanBeetleSoul != this.cyanBeetleSoul ||
+					clone.cochinealBeetleSoul != this.cochinealBeetleSoul)
+				{
+					ModPacket packet = mod.GetPacket();
+					packet.Write((byte)MysticHunterMessageType.SyncPlayerSouls);
+					packet.Write((byte)player.whoAmI);
+					packet.Write(seaSnailSoul);
+					packet.Write(lacBeetleSoul);
+					packet.Write(cyanBeetleSoul);
+					packet.Write(cochinealBeetleSoul);
+					packet.Send();
+				}
+			}
 		}
 
 		#endregion

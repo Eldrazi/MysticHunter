@@ -56,11 +56,15 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.width = 22;
 			projectile.height = 30;
 
+			projectile.timeLeft *= 5;
 			projectile.penetrate = -1;
+			projectile.minionSlots = 0;
 
+			projectile.minion = true;
 			projectile.friendly = true;
-			projectile.hostile = false;
+			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
+			projectile.netImportant = true;
 
 			projectile.scale = .8f;
 		}
@@ -68,11 +72,12 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override bool PreAI()
 		{
 			Player player = Main.player[projectile.owner];
-			
+
 			// Check if the projectile should still be alive.
-			if (player.dead || player.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC != NPCID.TombCrawlerHead)
-				projectile.Kill();
-			projectile.timeLeft = 10;
+			if (!player.active)
+				projectile.active = false;
+			if (!player.dead && player.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.TombCrawlerHead)
+				projectile.timeLeft = 2;
 
 			// Projectile state management.
 			float maxSpeed = .5f;
@@ -98,6 +103,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 						{
 							projectile.ai[0] = i;
 							projectile.ai[1] = 0;
+							projectile.netUpdate = true;
 							break;
 						}
 					}
@@ -108,11 +114,22 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			{
 				// Check if target NPC is still alive and in-range.
 				NPC target = Main.npc[(int)projectile.ai[0]];
-				if (!target.active || Vector2.Distance(player.Center, target.Center) > TailLength)
+				if (Main.myPlayer == projectile.owner && (!target.active || Vector2.Distance(player.Center, target.Center) > TailLength))
+				{
 					projectile.ai[0] = -1;
+					projectile.netUpdate = true;
+				}
 
 				targetPosition = target.Center;
 				projectile.rotation = MathHelper.PiOver2 + (float)(targetPosition.X > projectile.Center.X ? Math.PI : 0);
+			}
+
+			// Teleport in case there's too much distance between projectile and owner.
+			if (Vector2.Distance(projectile.Center, player.Center) > TailLength * 1.5f)
+			{
+				Vector2 teleportDir = Vector2.Normalize(player.Center - projectile.Center);
+				projectile.Center = player.Center + teleportDir * (TailLength * .75f);
+				projectile.netUpdate = true;
 			}
 
 			targetPosition = (targetPosition - projectile.Center);
@@ -128,14 +145,12 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			if (projectile.ai[0] != -1)
 			{
 				projectile.ai[0] = -1;
-				target.AddBuff(BuffID.BrokenArmor, 180);
+				projectile.netUpdate = true;
 			}
 		}
 
 		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
-		{
-			drawCacheProjsBehindNPCsAndTiles.Add(index);
-		}
+			=> drawCacheProjsBehindNPCsAndTiles.Add(index);
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
@@ -150,23 +165,23 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			int dir = projectile.rotation == MathHelper.PiOver2 ? 1 : -1;
 			Vector2 startPos = projectile.position + new Vector2(dir == 1 ? projectile.width + 8 : 0, projectile.height / 2);
 			Vector2 endPos = player.Center + new Vector2(0, 10);
+			Rectangle drawRect = tailPartTex.Bounds;
 
 			int maxLen = 1;
-
 			for (int i = 0; i < maxLen; ++i)
 			{
 				// Draw the current tail part/piece.
-				spriteBatch.Draw(tailPartTex, startPos - Main.screenPosition, null, lightColor, startRot + (float)Math.PI, origin, tailScale, SpriteEffects.None, 0);
+				spriteBatch.Draw(tailPartTex, startPos - Main.screenPosition, drawRect, lightColor, startRot + (float)Math.PI, origin, tailScale, SpriteEffects.None, 0);
 
 				// Calculate two rotational options:
-				// 1. A remi-preset rotation which is dependant on the index of the current tail piece.
+				// 1. A semi-preset rotation which is dependant on the index of the current tail piece.
 				// 2. A calculated rotation, based on the position of the last tail piece in relation to the end-piece of the tail.
 				float rotOpt1 = (float)Math.PI / Math.Abs(8 - i);
 				float rotOpt2 = (endPos - startPos).ToRotation();
 
 				// Check which rotation we're going to use by checking if the desired angle (opt2) is within rotation range for this tail part.
 				float currentRotStep = rotOpt1;
-				float rotDiff = (float)((rotOpt2 - startRot + 2.5f * Math.PI) % (2*Math.PI) - Math.PI);
+				float rotDiff = (float)((rotOpt2 - startRot + 2.5f * Math.PI) % (2 * Math.PI) - Math.PI);
 				if (rotDiff <= rotOpt1 && rotDiff >= -rotOpt1)
 					startRot += rotDiff;
 				else
@@ -174,8 +189,13 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 				startPos -= ((startRot - MathHelper.PiOver2).ToRotationVector2() * tailPartLength) * tailScale;
 
-				if (i == maxLen - 1 && maxLen < tailParts && Vector2.Distance(startPos, endPos) > (tailPartLength/2) * tailScale)
+				float distanceToEndpoint = Vector2.Distance(startPos, endPos);
+				if (i == maxLen - 1 && maxLen < tailParts && distanceToEndpoint > (tailPartLength / 2) * tailScale)
 					maxLen++;
+
+				// Check to see if the draw rectangle needs to be shortened.
+				if (Vector2.Distance(startPos, endPos) < distanceToEndpoint)
+					drawRect.Height = (int)distanceToEndpoint;
 			}
 
 			return (true);

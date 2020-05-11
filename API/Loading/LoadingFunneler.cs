@@ -66,6 +66,8 @@ namespace MysticHunter.API.Loading
 			MysticHunter.Instance.RedSoulActive = MysticHunter.Instance.RegisterHotKey("Red Soul Active", "Z");
 			MysticHunter.Instance.BlueSoulActive = MysticHunter.Instance.RegisterHotKey("Blue Soul Active", "X");
 
+			MysticHunter.Instance.SoulIndexUIHotkey = MysticHunter.Instance.RegisterHotKey("Soul Index UI", "I");
+
 			// Initialize UI.
 			MysticHunter.Instance.soulIndexUI = new SoulIndexUI();
 			MysticHunter.Instance.siUserInterface = new UserInterface();
