@@ -37,13 +37,13 @@ namespace MysticHunter.Souls.UI
 					soulType = (SoulType)i
 				};
 
-				soulSlots[i].Top.Pixels = 20 + 32 * i;
+				soulSlots[i].Top.Pixels = 19 + 30 * i;
 				soulSlots[i].Left.Pixels = 10;
 
-				soulSlots[i].Width.Pixels = this.Width.Pixels - 28;
-				soulSlots[i].Height.Pixels = 18;
+				soulSlots[i].Width.Pixels = this.Width.Pixels - 20;
 
-				soulSlots[i].OnClick += LeftClick;
+				soulSlots[i].OnClick += SoulSlotLeftClick;
+				soulSlots[i].OnRightClick += SoulSlotRightClick;
 
 				this.Append(soulSlots[i]);
 			}
@@ -57,7 +57,7 @@ namespace MysticHunter.Souls.UI
 			soulSlots[2].SetSoulReference(sp.YellowSoul, false);
 		}
 
-		private void LeftClick(UIMouseEvent evt, UIElement e)
+		private void SoulSlotLeftClick(UIMouseEvent evt, UIElement e)
 		{
 			if (parent.soulListPanel != null)
 			{
@@ -72,6 +72,14 @@ namespace MysticHunter.Souls.UI
 				parent.soulListPanel.soulList.filter = slot.soulType;
 				SoulManager.ReloadSoulIndexUI();
 			}
+		}
+		private void SoulSlotRightClick(UIMouseEvent evt, UIElement e)
+		{
+			if (!(e is SoulIndexUISoulSlot slot) || slot.soulReference == null)
+				return;
+
+			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
+			sp.activeSouls[(int)slot.soulType].soulNPC = 0;
 		}
 	}
 }

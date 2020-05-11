@@ -83,7 +83,7 @@ namespace MysticHunter.Souls.UI
 
 			this.Top.Pixels = 16;
 			this.Left.Pixels = 16;
-			this.Width.Pixels = Parent.Width.Pixels - 32;
+			this.Width.Pixels = Parent.Width.Pixels - 18;
 			this.Height.Pixels = Parent.Height.Pixels - 32;
 		}
 
@@ -99,7 +99,6 @@ namespace MysticHunter.Souls.UI
 
 				SoulIndexUISoulSlot newSoulSlot = new SoulIndexUISoulSlot(value);
 
-				newSoulSlot.Height.Pixels = 18;
 				newSoulSlot.Width.Pixels = this.Width.Pixels / 2 - 12;
 
 				newSoulSlot.OnClick += SetSoulSlot;

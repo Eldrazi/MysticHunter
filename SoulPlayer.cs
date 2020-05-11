@@ -11,7 +11,7 @@ using static Terraria.ModLoader.ModContent;
 
 using MysticHunter.Souls.Framework;
 
-using MysticHunter.Souls.Items;
+using MysticHunter.Souls.Buffs;
 using MysticHunter.Souls.Data.Pre_HM;
 using MysticHunter.Souls.Data.Bosses;
 
@@ -76,10 +76,8 @@ namespace MysticHunter
 			}
 		}
 
-		public short[] soulCooldowns;
-
 		public float[] soulDropModifier;
-		public readonly float[] DefinedSoulDropModifier = new float[3] { .015f, .015f, .015f };
+		public readonly float[] DefinedSoulDropModifier = new float[3] { 0.015f, 0.015f, 0.015f };
 
 		public PreHurtModifier preHurtModifier = null;
 
@@ -88,6 +86,7 @@ namespace MysticHunter
 		public bool lamiaSoul = false;
 		public bool seaSnailSoul = false;
 		public bool undeadMinerSoul = false;
+		public bool torturedSoulSoul = false;
 		public bool dungeonSpiritSoul = false;
 
 		// Blue soul booleans.
@@ -104,9 +103,6 @@ namespace MysticHunter
 			if (this.activeSouls == null)
 				this.activeSouls = new NetSoulData[3] { new NetSoulData(), new NetSoulData(), new NetSoulData() };
 
-			if (this.soulCooldowns == null)
-				this.soulCooldowns = new short[this.activeSouls.Length];
-
 			this.soulDropModifier = new float[3] { DefinedSoulDropModifier[0], DefinedSoulDropModifier[1], DefinedSoulDropModifier[2] };
 		}
 
@@ -118,6 +114,7 @@ namespace MysticHunter
 			lamiaSoul = false;
 			seaSnailSoul = false;
 			undeadMinerSoul = false;
+			torturedSoulSoul = false;
 			dungeonSpiritSoul = false;
 
 			if (BlueSoul == null || BlueSoul.soulNPC != NPCID.LacBeetle)
@@ -140,23 +137,15 @@ namespace MysticHunter
 		/// </summary>
 		public override void PostUpdateEquips()
 		{
-			if (activeSouls[(int)SoulType.Yellow].soulNPC != 0 && soulCooldowns[(int)SoulType.Yellow] == 0)
+			if (activeSouls[(int)SoulType.Yellow].soulNPC != 0)
 			{
 				BaseSoul soulReference = YellowSoul;
-				soulCooldowns[(int)SoulType.Yellow] = soulReference.cooldown;
 				soulReference.SoulUpdate(player, activeSouls[(int)SoulType.Yellow].stack);
 			}
 
 			RedSoul?.PostUpdate(player);
 			BlueSoul?.PostUpdate(player);
 			YellowSoul?.PostUpdate(player);
-
-			if (soulCooldowns[(int)SoulType.Red] > 0)
-				soulCooldowns[(int)SoulType.Red]--;
-			if (soulCooldowns[(int)SoulType.Blue] > 0)
-				soulCooldowns[(int)SoulType.Blue]--;
-			if (soulCooldowns[(int)SoulType.Yellow] > 0)
-				soulCooldowns[(int)SoulType.Yellow]--;
 		}
 
 		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
@@ -169,6 +158,13 @@ namespace MysticHunter
 				CochinealBeetleSoul.ModifyHit(player, ref damage, damageSource, activeSouls[(int)SoulType.Blue].stack);
 
 			return (preHurtModifier?.Invoke(player, ref damage, damageSource, activeSouls[(int)SoulType.Yellow].stack) ?? true);
+		}
+
+		public override bool? CanHitNPC(Item item, NPC target)
+		{
+			if (target.friendly)
+				return (this.torturedSoulSoul);
+			return (null);
 		}
 
 		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
@@ -184,25 +180,25 @@ namespace MysticHunter
 			// Using a temporary BaseSoul reference to diminish the amount of times we have to call 
 			BaseSoul tmpSoulRef;
 
-			if (activeSouls[(int)SoulType.Red].soulNPC != 0 && soulCooldowns[(int)SoulType.Red] <= 0 && MysticHunter.Instance.RedSoulActive.Current)
+			if (activeSouls[(int)SoulType.Red].soulNPC != 0 && !player.HasBuff(BuffType<RedSoulDebuff>()) && MysticHunter.Instance.RedSoulActive.Current)
 			{
 				tmpSoulRef = RedSoul;
 				if (player.CheckMana(tmpSoulRef.ManaCost(player, UnlockedSouls[activeSouls[(int)SoulType.Red].soulNPC]), true) &&
 					tmpSoulRef.SoulUpdate(player, UnlockedSouls[activeSouls[(int)SoulType.Red].soulNPC]))
 				{
 					player.manaRegenDelay = (int)player.maxRegenDelay;
-					soulCooldowns[(int)SoulType.Red] = tmpSoulRef.cooldown;
+					player.AddBuff(BuffType<RedSoulDebuff>(), tmpSoulRef.cooldown);
 				}
 			}
 
-			if (activeSouls[(int)SoulType.Blue].soulNPC != 0 && soulCooldowns[(int)SoulType.Blue] <= 0 && MysticHunter.Instance.BlueSoulActive.Current)
+			if (activeSouls[(int)SoulType.Blue].soulNPC != 0 && !player.HasBuff(BuffType<BlueSoulDebuff>()) && MysticHunter.Instance.BlueSoulActive.Current)
 			{
 				tmpSoulRef = BlueSoul;
 				if (player.CheckMana(tmpSoulRef.ManaCost(player, UnlockedSouls[activeSouls[(int)SoulType.Blue].soulNPC]), true) &&
 					tmpSoulRef.SoulUpdate(player, UnlockedSouls[activeSouls[(int)SoulType.Blue].soulNPC]))
 				{
 					player.manaRegenDelay = (int)player.maxRegenDelay;
-					soulCooldowns[(int)SoulType.Blue] = tmpSoulRef.cooldown;
+					player.AddBuff(BuffType<BlueSoulDebuff>(), tmpSoulRef.cooldown);
 				}
 			}
 		}

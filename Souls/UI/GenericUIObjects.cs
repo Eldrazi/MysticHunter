@@ -227,7 +227,7 @@ namespace MysticHunter.Souls.UI
 		private float dragYOffset;
 
 		protected int thumbStumpSize, backgroundStumpSize;
-		protected Texture2D thumb, background;
+		protected Texture2D thumb = null, background = null;
 
 		public bool smoothScroll;
 
