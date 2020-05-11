@@ -2,12 +2,5 @@ Mystic Hunter is an inspiration taken out of the Castlevania series more promine
 
 Various systems in place will allow you to experience a variety of play styles to enhance your vanilla experience and give you new reasons to explore and fight your way to the moon lord and back again.
 
-Update v0.1.4
-	- Adds debuff for red and blue soul active cooldowns.
-	- Adds new visuals and audio for souls.
-	- Adds increased grab range for souls.
-	- Adds new UI flair for the Soul Index.
-	- Charging souls no longer drop through platforms.
-	- Souls can now be unequipped by right-clicking on them in the UI.
-	- Fixed some issues with Pre-HM souls.
-	- Fixed bug in UI which crashes Terraria.
+Update v0.1.5
+	-
