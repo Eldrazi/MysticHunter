@@ -39,14 +39,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 18;
+			projectile.width = 26;
 			projectile.height = 48;
 
-			projectile.timeLeft = 15;
 			projectile.penetrate = -1;
 
-			projectile.minion = true;
+			projectile.magic = true;
 			projectile.friendly = true;
+			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
 		}
 
@@ -70,7 +70,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			if (projectile.frameCounter++ >= 3)
 			{
 				projectile.frameCounter = 0;
-				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+				if (projectile.frame++ >= Main.projFrames[projectile.type])
+					projectile.Kill();
 			}
 
 			return (false);
@@ -83,7 +84,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood, projectile.direction * .2f, Main.rand.Next(3) - 1, 0, default, 1.2f);
 
 			// Spawn blood projectiles, which the player can pick up.
-			if (Main.netMode != NetmodeID.MultiplayerClient && target.type != NPCID.TargetDummy)
+			if (Main.myPlayer == projectile.owner && target.type != NPCID.TargetDummy)
 			{
 				int minAmount = 1;
 				int maxAmount = 2;

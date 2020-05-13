@@ -3,6 +3,8 @@ using Terraria.UI;
 
 using MysticHunter.Souls.UI;
 using MysticHunter.Souls.Framework;
+using Terraria.ModLoader;
+using MysticHunter.Souls.Items;
 
 namespace MysticHunter.API.Loading
 {
@@ -62,6 +64,12 @@ namespace MysticHunter.API.Loading
 		/// </summary>
 		internal static void LoadModClient()
 		{
+			MysticHunter.Instance.AddEquipTexture(new PossessedArmorHead(), null, EquipType.Head, "PossessedArmorHead", "MysticHunter/Souls/Items/PossessedArmor_Head");
+			MysticHunter.Instance.AddEquipTexture(new PossessedArmorBody(), null, EquipType.Body, "PossessedArmorBody", "MysticHunter/Souls/Items/PossessedArmor_Body", "MysticHunter/Souls/Items/PossessedArmor_Arms");
+			MysticHunter.Instance.AddEquipTexture(new PossessedArmorLegs(), null, EquipType.Legs, "PossessedArmorLegs", "MysticHunter/Souls/Items/PossessedArmor_Legs");
+
+			MysticHunter.Instance.AddEquipTexture(new IceTortoiseShield(), null, EquipType.Shield, "IceTortoiseShield", "MysticHunter/Souls/Items/IceTortoiseShield_Shield");
+
 			// Bind hotkeys.
 			MysticHunter.Instance.RedSoulActive = MysticHunter.Instance.RegisterHotKey("Red Soul Active", "Z");
 			MysticHunter.Instance.BlueSoulActive = MysticHunter.Instance.RegisterHotKey("Blue Soul Active", "X");

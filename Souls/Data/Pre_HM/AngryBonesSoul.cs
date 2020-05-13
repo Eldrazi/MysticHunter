@@ -35,7 +35,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class AngryBonesSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_31";
+		public override string Texture => "Terraria/NPC_0";
 
 		public override void SetStaticDefaults()
 		{
@@ -127,8 +127,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			int selectedNPC = Main.rand.Next(new List<int>{ NPCID.AngryBones, NPCID.AngryBonesBig, NPCID.AngryBonesBigMuscle, NPCID.AngryBonesBigHelmet });
-
 			Texture2D tex = GetTexture("Terraria/NPC_" + (int)projectile.ai[1]);
 			Vector2 origin = new Vector2(tex.Width / 2, (tex.Height / Main.projFrames[projectile.type]) / 2);
 			SpriteEffects effects = projectile.spriteDirection >= 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

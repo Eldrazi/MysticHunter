@@ -12,19 +12,19 @@ using System;
 
 namespace MysticHunter.Souls.Data.HM
 {
-	public class DiggerSoul : PostHMSoul
+	public class DuneSplicerSoul : PostHMSoul
 	{
-		public override short soulNPC => NPCID.DiggerHead;
-		public override string soulDescription => "Summons a friendly Digger.";
+		public override short soulNPC => NPCID.DuneSplicerHead;
+		public override string soulDescription => "Summons a friendly Dune Splicer.";
 
 		public override short cooldown => 60;
 
 		public override SoulType soulType => SoulType.Blue;
 
-		public override short ManaCost(Player p, short stack) => 25;
+		public override short ManaCost(Player p, short stack) => 20;
 		public override bool SoulUpdate(Player p, short stack)
 		{
-			int damage = 45 + 5 * stack;
+			int damage = 55 + 5 * stack;
 
 			int amount = 3;
 			if (stack >= 5)
@@ -35,33 +35,21 @@ namespace MysticHunter.Souls.Data.HM
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<DiggerSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<DuneSplicerSoulProj>())
 					Main.projectile[i].Kill();
 			}
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 4;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<DiggerSoulProj>(), damage, .2f, p.whoAmI, amount);
+			Projectile.NewProjectile(p.Center, velocity, ProjectileType<DuneSplicerSoulProj>(), damage, .2f, p.whoAmI, amount);
 			return (true);
 		}
 	}
 
-	internal class BodyPart
+	public class DuneSplicerSoulProj : ModProjectile
 	{
-		public float rotation;
-		public Vector2 position;
+		public override string Texture => "Terraria/NPC_510";
 
-		public BodyPart(Vector2 position)
-		{
-			this.rotation = 0;
-			this.position = position;
-		}
-	}
-
-	public class DiggerSoulProj : ModProjectile
-	{
-		public override string Texture => "Terraria/NPC_95";
-
-		private int bodySize = 28;
+		private int bodySize = 36;
 		private int bodyLength => (int)projectile.ai[0];
 
 		private int target;
@@ -74,7 +62,7 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Digger");
+			DisplayName.SetDefault("Dune Splicer");
 			Main.projFrames[projectile.type] = 1;
 		}
 		public override void SetDefaults()
@@ -82,14 +70,15 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.width = projectile.height = 24;
 
 			projectile.scale = .6f;
+			projectile.timeLeft *= 5;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 300;
+			projectile.minionSlots = 0;
 
 			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 			projectile.netImportant = true;
-
 
 			this.target = 255;
 		}
@@ -98,8 +87,8 @@ namespace MysticHunter.Souls.Data.HM
 		{
 			Player owner = Main.player[projectile.owner];
 
-			if (owner.dead || owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC != NPCID.DiggerHead)
-				projectile.Kill();
+			if (owner.active && !owner.dead || owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.DuneSplicerHead)
+				projectile.timeLeft = 2;
 
 			if (projectile.ai[1] == 0)
 			{
@@ -212,8 +201,8 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D bodyTexture = GetTexture("Terraria/NPC_96");
-			Texture2D tailTexture = GetTexture("Terraria/NPC_97");
+			Texture2D bodyTexture = GetTexture("Terraria/NPC_" + NPCID.DuneSplicerBody);
+			Texture2D tailTexture = GetTexture("Terraria/NPC_" + NPCID.DuneSplicerTail);
 
 			Texture2D currentTexture = bodyTexture;
 			Vector2 origin = new Vector2(currentTexture.Width * .5f, currentTexture.Height * .5f);
@@ -258,7 +247,7 @@ namespace MysticHunter.Souls.Data.HM
 		private void SpawnKillDust(Vector2 position)
 		{
 			for (int i = 0; i < 5; i++)
-				Dust.NewDust(position, projectile.width, projectile.height, DustID.Dirt, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100);
+				Dust.NewDust(position, projectile.width, projectile.height, DustID.Sandstorm, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100);
 		}
 
 		#region Projectile Specific Logic

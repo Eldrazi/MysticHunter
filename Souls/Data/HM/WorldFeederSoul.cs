@@ -11,14 +11,14 @@ using Microsoft.Xna.Framework.Graphics;
 using MysticHunter.Souls.Framework;
 using System.Collections.Generic;
 
-namespace MysticHunter.Souls.Data.Pre_HM
+namespace MysticHunter.Souls.Data.HM
 {
-	public class BoneSerpentSoul : PreHMSoul
+	public class WorldFeederSoul : PostHMSoul
 	{
-		public override short soulNPC => NPCID.BoneSerpentHead;
-		public override string soulDescription => "Grow a bone tail.";
+		public override short soulNPC => NPCID.SeekerHead;
+		public override string soulDescription => "Grow a tail that fires cursed flames.";
 
-		public override short cooldown => 600;
+		public override short cooldown => 60;
 
 		public override SoulType soulType => SoulType.Blue;
 
@@ -28,15 +28,15 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<BoneSerpentSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<WorldFeederSoulProj>())
 					Main.projectile[i].Kill();
 			}
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<BoneSerpentSoulProj>(), 30 + (2 * stack), .2f, p.whoAmI, -1);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<WorldFeederSoulProj>(), 80 + (2 * stack), .2f, p.whoAmI, -1);
 			return (true);
 		}
 	}
 
-	public class BoneSerpentSoulProj : ModProjectile
+	public class WorldFeederSoulProj : ModProjectile
 	{
 		private readonly int tailParts= 10;
 		private readonly float tailScale = .5f;
@@ -46,14 +46,19 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			get { return (int)(tailPartLength * tailScale) * tailParts; }
 		}
 
+		private readonly float targetingDistance = 300;
+
+		private const float minFalseTargetingRot = MathHelper.PiOver4 * .5f;
+		private const float maxFalseTargetingRot = (float)Math.PI - MathHelper.PiOver4 * .5f;
+
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bone Tail");
+			DisplayName.SetDefault("Feeder Tail");
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 22;
-			projectile.height = 30;
+			projectile.width = 32;
+			projectile.height = 20;
 
 			projectile.timeLeft *= 5;
 			projectile.penetrate = -1;
@@ -73,7 +78,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Player player = Main.player[projectile.owner];
 
 			// Check if the projectile should still be alive.
-			if (player.active && !player.dead && player.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.BoneSerpentHead)
+			if (player.active && !player.dead && player.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.SeekerHead)
 				projectile.timeLeft = 2;
 
 			// Projectile state management.
@@ -92,17 +97,18 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				projectile.rotation = MathHelper.PiOver2 + (float)(player.direction == 1 ? Math.PI : 0);
 
 				// Projectile target acquisition.
-				if (projectile.ai[1]++ >= 120)
+				for (int i = 0; i < Main.maxNPCs; ++i)
 				{
-					for (int i = 0; i < Main.maxNPCs; ++i)
+					if (Main.npc[i].active &&/*Main.npc[i].CanBeChasedBy(projectile) &&*/ Vector2.Distance(projectile.Center, Main.npc[i].Center) <= targetingDistance &&
+						Collision.CanHitLine(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
 					{
-						if (Main.npc[i].CanBeChasedBy(projectile) && Vector2.Distance(player.Center, Main.npc[i].Center) <= TailLength)
-						{
-							projectile.ai[0] = i;
-							projectile.ai[1] = 0;
-							projectile.netUpdate = true;
-							break;
-						}
+						float rotationTowards = (Main.npc[i].Center - projectile.Center).ToRotation();
+						if (rotationTowards >= minFalseTargetingRot && rotationTowards <= maxFalseTargetingRot)
+							continue;
+						projectile.ai[0] = i;
+						projectile.ai[1] = 0;
+						projectile.netUpdate = true;
+						break;
 					}
 				}
 			}
@@ -111,14 +117,28 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			{
 				// Check if target NPC is still alive and in-range.
 				NPC target = Main.npc[(int)projectile.ai[0]];
-				if (Main.myPlayer == projectile.owner && (!target.active || Vector2.Distance(player.Center, target.Center) > TailLength))
-				{
-					projectile.ai[0] = -1;
-					projectile.netUpdate = true;
+				float rotationTowards = (target.Center - projectile.Center).ToRotation();
+				if (Main.myPlayer == projectile.owner)
+				{ 
+					if ((!target.active || Vector2.Distance(player.Center, target.Center) > targetingDistance) ||
+					(rotationTowards >= minFalseTargetingRot && rotationTowards <= maxFalseTargetingRot))
+					{
+						projectile.ai[0] = -1;
+						projectile.netUpdate = true;
+					}
+					else
+					{
+						if (projectile.ai[1]++ >= 120)
+						{
+							projectile.ai[1] = 0;
+							Projectile.NewProjectile(projectile.Center, rotationTowards.ToRotationVector2() * 6f, ProjectileID.CursedFlameFriendly, projectile.damage, .1f, projectile.owner);
+						}
+					}
 				}
 
-				targetPosition = target.Center;
-				projectile.rotation = MathHelper.PiOver2 + (float)(targetPosition.X > projectile.Center.X ? Math.PI : 0);
+				targetPosition.X = player.position.X + (player.width / 2) * projectile.scale;
+				targetPosition.Y = player.position.Y - 20;
+				projectile.rotation = rotationTowards - MathHelper.PiOver2;
 			}
 
 			// Teleport in case there's too much distance between projectile and owner.
@@ -145,6 +165,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			}
 		}
 
+		public override bool CanDamage() => false;
+
 		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
 			=> drawCacheProjsBehindNPCsAndTiles.Add(index);
 
@@ -152,18 +174,18 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Player player = Main.player[projectile.owner];
 
-			Texture2D tailPartTex = GetTexture("MysticHunter/Souls/Data/Pre_HM/BoneSerpentSoulProj_Chain");
+			Texture2D tailPartTex = GetTexture("MysticHunter/Souls/Data/HM/WorldFeederSoulProj_Chain");
 
 			Vector2 origin = new Vector2(tailPartTex.Width / 2, tailPartTex.Height / 2);
 
-			float startRot = -projectile.rotation;
+			float startRot = (projectile.rotation + (float)Math.PI) % MathHelper.TwoPi;
 
-			int dir = projectile.rotation == MathHelper.PiOver2 ? 1 : -1;
-			Vector2 startPos = projectile.position + new Vector2(dir == 1 ? projectile.width + 8 : 0, projectile.height / 2);
+			Vector2 startPos = projectile.Center - ((startRot - MathHelper.PiOver2).ToRotationVector2() * tailPartLength * tailScale);
 			Vector2 endPos = player.Center + new Vector2(0, 10);
 			Rectangle drawRect = tailPartTex.Bounds;
 
 			int maxLen = 1;
+			int dir = (startPos.X > player.Center.X + tailPartLength * Math.Sign(Math.Cos(startRot - MathHelper.PiOver2))) ? 1 : -1;
 			for (int i = 0; i < maxLen; ++i)
 			{
 				// Draw the current tail part/piece.

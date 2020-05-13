@@ -28,6 +28,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				amount++;
 			if (stack >= 9)
 				amount++;
+			int damage = 20 + (5 * amount);
 
 			Vector2 targetVelocity = Main.MouseWorld;
 			for (int i = 0; i < amount; ++i)
@@ -40,90 +41,102 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				else if (amount == 3)
 					spawnPos += new Vector2(-30 * (1 - i), 0);
 
-				NPC npc = Main.npc[NPC.NewNPC((int)spawnPos.X, (int)spawnPos.Y, NPCType<HopliteSoulNPC>(), 0, p.whoAmI, 0, targetVelocity.X, targetVelocity.Y)];
-				npc.damage = 20 + (5 * amount);
-				npc.netUpdate = true;
+				Projectile.NewProjectile(spawnPos, Vector2.UnitY, ProjectileType<HopliteSoulNPC>(), damage, 0, p.whoAmI, targetVelocity.X, targetVelocity.Y);
 			}
 
 			return (true);
 		}
 	}
 
-	public class HopliteSoulNPC : ModNPC
+	public class HopliteSoulNPC : ModProjectile
 	{
 		public override string Texture => "Terraria/NPC_481";
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hoplite");
-			Main.npcFrameCount[npc.type] = 19;
+			Main.projFrames[projectile.type] = 19;
 		}
 		public override void SetDefaults()
 		{
-			npc.width = 18;
-			npc.height = 40;
+			projectile.width = 18;
+			projectile.height = 40;
 
-			npc.damage = 0;
-			npc.lifeMax = 1;
+			projectile.friendly = true;
+			projectile.tileCollide = true;
+			projectile.ignoreWater = true;
 
-			npc.friendly = true;
-			npc.immortal = true;
+			drawOffsetX = -12;
+			drawOriginOffsetY = -24;
 		}
 
 		public override bool PreAI()
 		{
-			if (npc.ai[1] == 0)
-				DustEffect();
-			else if (npc.ai[1] >= 30)
+			if (projectile.localAI[1] == 0)
 			{
-				if ((int)npc.ai[0] == Main.myPlayer)
+				DustEffect();
+				projectile.localAI[1] = 1;
+			}
+			else if (projectile.localAI[0] >= 30)
+			{
+				if (projectile.owner == Main.myPlayer)
 				{
-					// Spawn the required projectile using the cached `velocity` values in ai[2] and ai[3].
-					if (npc.ai[1] == 40)
+					// Spawn the required projectile using the cached `velocity` values in ai[0] and ai[1].
+					if (projectile.localAI[0] == 40)
 					{
-						Vector2 velocity = Vector2.Normalize(new Vector2(npc.ai[2] - npc.Center.X, npc.ai[3] - npc.Center.Y)) * 8;
+						Vector2 velocity = Vector2.Normalize(new Vector2(projectile.ai[0] - projectile.Center.X, projectile.ai[1] - projectile.Center.Y)) * 8;
 
-						Projectile.NewProjectile(npc.Center, velocity, ProjectileID.JavelinFriendly, npc.damage, .1f, (int)npc.ai[0]);
+						Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.JavelinFriendly, projectile.damage, .1f, projectile.owner);
 					}
-				}
 
-				// Kill off the NPC.
-				if (npc.ai[1] >= 80)
-				{
-					npc.life = 0;
-					DustEffect();
+					// Kill off the Projectile.
+					if (projectile.localAI[0] >= 80)
+						projectile.Kill();
 				}
 			}
 
-			if (npc.velocity.Y == 0)
-				npc.ai[1]++;
+			projectile.direction = Math.Sign(projectile.ai[0] - projectile.Center.X);
+			projectile.spriteDirection = -projectile.direction;
 
-			npc.direction = Math.Sign(npc.ai[2] - npc.Center.X);
-			npc.spriteDirection = npc.direction;
+			if (projectile.velocity.Y != 0)
+				projectile.frame = 0;
+			else
+			{
+				if (projectile.localAI[0] >= 30 && projectile.localAI[0] < 50)
+				{
+					int frame = (int)Math.Floor((projectile.localAI[0] - 30) / 5);
+					projectile.frame = (15 + frame);
+				}
+				else
+					projectile.frame = 1;
+			}
+
+			if (projectile.velocity.Y == 0)
+				projectile.localAI[0]++;
+			projectile.velocity.Y = MathHelper.Clamp(projectile.velocity.Y + .2f, -8, 8);
+
 			return (false);
 		}
 
-		public override void FindFrame(int frameHeight)
+		public override bool CanDamage() => false;
+
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
 		{
-			if (npc.velocity.Y != 0)
-				npc.frame.Y = 0;
-			else
-			{
-				if (npc.ai[1] >= 30 && npc.ai[1] < 50)
-				{
-					int frame = (int)Math.Floor((npc.ai[1] - 30) / 5);
-					npc.frame.Y = (15 + frame) * frameHeight;
-				}
-				else
-					npc.frame.Y = frameHeight;
-			}
+			fallThrough = false;
+			return (true);
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			DustEffect();
 		}
 
 		private void DustEffect()
 		{
 			for (int i = 0; i < 20; ++i)
 			{
-				Dust d = Main.dust[Dust.NewDust(npc.position, npc.width, npc.height, 31, 0f, 0f, 100, default, .8f)];
+				Dust d = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default, .8f)];
 				if (Main.rand.Next(2) == 0)
 				{
 					d.scale = .5f;

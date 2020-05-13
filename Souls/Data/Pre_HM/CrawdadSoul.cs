@@ -47,7 +47,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Claw");
-			Main.projFrames[projectile.type] = 4;
+			Main.projFrames[projectile.type] = 5;
 		}
 		public override void SetDefaults()
 		{
@@ -73,27 +73,29 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				projectile.alpha = 0;
 
 			if (projectile.ai[0] == 0) // Small claw.
-				projectile.scale = .8f;
-			else if (projectile.ai[0] == 1) // Medium claw.
 				projectile.scale = 1f;
+			else if (projectile.ai[0] == 1) // Medium claw.
+				projectile.scale = 1.3f;
 			else if (projectile.ai[0] == 2) // Large claw.
-				projectile.scale = 1.2f;
+				projectile.scale = 1.6f;
 
 			projectile.ai[1]++;
-			projectile.position = owner.position + new Vector2(projectile.ai[1] * 3 * owner.direction, 8);
+			projectile.position = owner.position + new Vector2(projectile.ai[1] * 2 * owner.direction, 0);
 
 			// Animate projectile.
-			if (projectile.frameCounter++ >= 4)
+			if (projectile.frameCounter++ >= 3)
 			{
 				projectile.frame++;
 				projectile.frameCounter = 0;
 
 				if (projectile.frame >= Main.projFrames[projectile.type])
 					projectile.Kill();
+				else if (projectile.frame == 3)
+					Main.PlaySound(SoundID.Item2, projectile.position);
 			}
 
 			// Set correct projectile direction.
-			projectile.spriteDirection = -owner.direction;
+			projectile.spriteDirection = owner.direction;
 
 			return (false);
 		}

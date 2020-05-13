@@ -54,9 +54,11 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.width = 56;
 			projectile.height = 47;
 
+			projectile.timeLeft *= 5;
 			projectile.penetrate = -1;
+			projectile.minionSlots = 0;
 
-			projectile.magic = true;
+			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 		}
@@ -67,10 +69,8 @@ namespace MysticHunter.Souls.Data.HM
 			SoulPlayer sp = player.GetModPlayer<SoulPlayer>();
 
 			// Kill the projectile if the soul is no longer available.
-			if (player.dead || sp.activeSouls[(int)SoulType.Blue].soulNPC != NPCID.AngryTrapper)
-				projectile.Kill();
-			// If we do not kill the projectile, we want to always keep it active.
-			projectile.timeLeft = 10;
+			if (player.active && !player.dead && sp.activeSouls[(int)SoulType.Blue].soulNPC == NPCID.AngryTrapper)
+				projectile.timeLeft = 2;
 
 			float maxSpeed = 2;
 			float maxRange = 50 + (10 * sp.activeSouls[(int)SoulType.Blue].stack);

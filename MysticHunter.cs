@@ -142,6 +142,17 @@ namespace MysticHunter
 					targetPlayer.activeSouls[1].stack = reader.ReadByte();
 					targetPlayer.activeSouls[2].stack = reader.ReadByte();
 
+					if (msgType == MysticHunterMessageType.SyncStartSoulPlayer)
+					{
+						targetPlayer.seaSnailSoul = reader.ReadBoolean();
+						targetPlayer.lacBeetleSoul = reader.ReadBoolean();
+						targetPlayer.cyanBeetleSoul = reader.ReadBoolean();
+						targetPlayer.cochinealBeetleSoul = reader.ReadBoolean();
+						targetPlayer.iceTortoiseSoul = reader.ReadBoolean();
+
+						targetPlayer.eocSoulDash = reader.ReadBoolean();
+					}
+
 					if (msgType == MysticHunterMessageType.SyncPlayerSouls && Main.netMode == NetmodeID.Server)
 					{
 						var packet = GetPacket();
@@ -155,15 +166,6 @@ namespace MysticHunter
 						packet.Write(targetPlayer.activeSouls[2].stack);
 						packet.Send(-1, playerID);
 					}
-
-					if (msgType == MysticHunterMessageType.SyncStartSoulPlayer)
-					{
-						targetPlayer.lacBeetleSoul = reader.ReadBoolean();
-						targetPlayer.cyanBeetleSoul = reader.ReadBoolean();
-						targetPlayer.cochinealBeetleSoul = reader.ReadBoolean();
-
-						targetPlayer.eocSoulDash = reader.ReadBoolean();
-					}
 					break;
 
 				case MysticHunterMessageType.SyncPlayerSoulExtras:
@@ -174,6 +176,7 @@ namespace MysticHunter
 					targetPlayer2.lacBeetleSoul = reader.ReadBoolean();
 					targetPlayer2.cyanBeetleSoul = reader.ReadBoolean();
 					targetPlayer2.cochinealBeetleSoul = reader.ReadBoolean();
+					targetPlayer2.iceTortoiseSoul = reader.ReadBoolean();
 
 					if (msgType == MysticHunterMessageType.SyncPlayerSouls && Main.netMode == NetmodeID.Server)
 					{
@@ -184,6 +187,7 @@ namespace MysticHunter
 						packet.Write(targetPlayer2.lacBeetleSoul);
 						packet.Write(targetPlayer2.cyanBeetleSoul);
 						packet.Write(targetPlayer2.cochinealBeetleSoul);
+						packet.Write(targetPlayer2.iceTortoiseSoul);
 						packet.Send(-1, playerID2);
 					}
 					break;

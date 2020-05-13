@@ -9,29 +9,29 @@ using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
 
-namespace MysticHunter.Souls.Data.Pre_HM
+namespace MysticHunter.Souls.Data.HM
 {
-	public class CaveBatSoul : PreHMSoul
+	public class DesertSpiritSoul : PostHMSoul
 	{
-		public override short soulNPC => NPCID.CaveBat;
-		public override string soulDescription => "Shout for radial damage.";
+		public override short soulNPC => NPCID.DesertDjinn;
+		public override string soulDescription => "Summon a wave of dark fire.";
 
 		public override short cooldown => 180;
 
 		public override SoulType soulType => SoulType.Red;
 
-		public override short ManaCost(Player p, short stack) => 30;
+		public override short ManaCost(Player p, short stack) => 15;
 		public override bool SoulUpdate(Player p, short stack)
 		{
 			float maxRadius = 120 + 30 * stack;
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<CaveBatSoulProj>(), 10 + stack, .1f, p.whoAmI, maxRadius);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<DesertSpiritSoulProj>(), 50 + 5 * stack, .1f, p.whoAmI, maxRadius);
 			return (true);
 		}
 	}
 
 
-	public class CaveBatSoulProj : ModProjectile
+	public class DesertSpiritSoulProj : ModProjectile
 	{
 		public override string Texture => "Terraria/NPC_0";
 
@@ -40,7 +40,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Echo");
+			DisplayName.SetDefault("Fire Wave");
 			Main.projFrames[projectile.type] = 1;
 		}
 		public override void SetDefaults()
@@ -56,13 +56,13 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override bool PreAI()
 		{
 			if (CurrentDamageRadius == 0)
-				Main.PlaySound(SoundID.NPCDeath4, projectile.position);
+				Main.PlaySound(SoundID.Item20, projectile.position);
 
 			CurrentDamageRadius += (MaxDamageRadius / 30);
 			if (CurrentDamageRadius >= MaxDamageRadius)
 				projectile.Kill();
 
-			for (float i = 0; i < 2 * Math.PI; i += (float)Math.PI / (projectile.ai[1] * .1f))
+			for (float i = 0; i < 3 * Math.PI; i += (float)Math.PI / (projectile.ai[1] * .1f))
 			{
 				Vector2 spawnPos = projectile.Center + new Vector2((float)Math.Cos(i), (float)Math.Sin(i)) * CurrentDamageRadius;
 				Vector2 velocity = Vector2.Normalize(spawnPos - projectile.Center);
@@ -70,7 +70,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				if (Collision.SolidCollision(spawnPos, 2, 2))
 					continue;
 
-				Dust d = Main.dust[Dust.NewDust(spawnPos, 2, 2, DustID.Vortex, velocity.X, velocity.Y, 100)];
+				Dust d = Main.dust[Dust.NewDust(spawnPos, 2, 2, 27, velocity.X, velocity.Y, 100, default, 2)];
 				d.noGravity = true;
 			}
 

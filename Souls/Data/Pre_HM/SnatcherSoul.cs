@@ -21,9 +21,10 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override short ManaCost(Player p, short stack) => (short)(10 + stack);
 		public override bool SoulUpdate(Player p, short stack)
 		{
+			int amount = 6 + (stack / 3) * 2;
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 28;
 
-			Projectile.NewProjectile(p.Center + velocity, velocity, ProjectileType<SnatcherSoulThornProj>(), 15 + stack, .1f, p.whoAmI);
+			Projectile.NewProjectile(p.Center + velocity, velocity, ProjectileType<SnatcherSoulThornProj>(), 15 + stack, .1f, p.whoAmI, 0, amount);
 			return (true);
 		}
 	}
@@ -63,15 +64,12 @@ namespace MysticHunter.Souls.Data.Pre_HM
 					projectile.alpha = 0;
 					projectile.ai[0] = 1;
 
-					if (projectile.ai[1] == 0)
-						projectile.ai[1]++;
-
 					if (Main.myPlayer == projectile.owner)
 					{
 						int type = projectile.type;
 						Vector2 spawnPos = projectile.position + projectile.velocity;
 
-						if (projectile.ai[1] >= 6)
+						if (projectile.ai[1] <= 1)
 						{
 							type = ProjectileType<SnatcherSoulHeadProj>();
 							spawnPos += new Vector2(0, projectile.height * .5f);
@@ -81,8 +79,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 
 						int projIndex = Projectile.NewProjectile(spawnPos,
-							projectile.velocity, type, projectile.damage, projectile.knockBack, projectile.owner, 0, projectile.ai[1] + 1
-						);
+							projectile.velocity, type, projectile.damage, projectile.knockBack, projectile.owner, 0, projectile.ai[1] - 1);
 						NetMessage.SendData(27, -1, -1, null, projIndex);
 					}
 				}

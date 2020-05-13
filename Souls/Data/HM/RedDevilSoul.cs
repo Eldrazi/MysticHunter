@@ -9,122 +9,98 @@ using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
 
-namespace MysticHunter.Souls.Data.Bosses
+namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class QueenBeeSoul : PreHMSoul, IBossSoul
+	public class RedDevilSoul : PostHMSoul
 	{
-		public override short soulNPC => NPCID.QueenBee;
-		public override string soulDescription => "Summon an army of hornets.";
+		public override short soulNPC => NPCID.RedDevil;
+		public override string soulDescription => "Summons a small Red Devil.";
 
-		public override short cooldown => 3600;
+		public override short cooldown => 60;
 
 		public override SoulType soulType => SoulType.Blue;
 
-		public override short ManaCost(Player p, short stack) => 40;
+		public override short ManaCost(Player p, short stack) => 20;
 		public override bool SoulUpdate(Player p, short stack)
 		{
-			for (int i = 0; i < 4; ++i)
+			// Destroy any pre-existing projectile.
+			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				int damage = 20 + 5 * stack;
-				Vector2 spawnPosition = p.Center + Main.rand.NextVector2Unit() * 80;
-
-				Projectile.NewProjectile(spawnPosition, Vector2.Zero, ProjectileType<QueenBeeSoulProj>(), damage, .1f, p.whoAmI);
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<RedDevilSoulProj>())
+					Main.projectile[i].Kill();
 			}
+
+			Projectile.NewProjectile(p.Center, Vector2.UnitX, ProjectileType<RedDevilSoulProj>(), 35 + 2 * stack, .1f, p.whoAmI, stack);
 			return (true);
 		}
 	}
 
-	public class QueenBeeSoulProj : ModProjectile
+	public class RedDevilSoulProj : ModProjectile
 	{
 		// No need to sync, just visually.
 		private bool justSpawned;
 
-		public override string Texture => "Terraria/Projectile_373";
+		public override string Texture => "Terraria/NPC_" + NPCID.RedDevil;
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Hornet");
-			Main.projFrames[projectile.type] = 3;
+			DisplayName.SetDefault("Red Devil");
+			Main.projFrames[projectile.type] = Main.npcFrameCount[NPCID.RedDevil];
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = 24;
-			projectile.height = 26;
+			projectile.width = 28;
+			projectile.height = 48;
 
+			projectile.scale = .8f;
 			projectile.timeLeft = 600;
 			projectile.penetrate = -1;
 			projectile.minionSlots = 0;
 
 			projectile.minion = true;
+			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
 			projectile.netImportant = true;
 
 			justSpawned = true;
+
+			drawOffsetX = -40;
+			drawOriginOffsetY = -34;
 		}
 
 		public override bool PreAI()
 		{
+			Player owner = Main.player[projectile.owner];
+
 			if (justSpawned)
 			{
 				DustEffect();
 				justSpawned = false;
 			}
-			float acceleration = 0.05f;
-			float accelerationDist = (float)projectile.width;
 
-			for (int m = 0; m < 1000; m++)
-			{
-				if (m != projectile.whoAmI &&
-					Main.projectile[m].active &&
-					Main.projectile[m].owner == projectile.owner &&
-					Main.projectile[m].type == projectile.type &&
-					Math.Abs(projectile.position.X - Main.projectile[m].position.X) + Math.Abs(projectile.position.Y - Main.projectile[m].position.Y) < accelerationDist)
-				{
-					if (projectile.position.X < Main.projectile[m].position.X)
-						projectile.velocity.X -= acceleration;
-					else
-						projectile.velocity.X += acceleration;
-					if (projectile.position.Y < Main.projectile[m].position.Y)
-						projectile.velocity.Y -= acceleration;
-					else
-						projectile.velocity.Y += acceleration;
-				}
-			}
+			// Check if the projectile should still be alive.
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.RedDevil)
+				projectile.timeLeft = 2;
+
 			Vector2 targetPosition = projectile.position;
 			float distance = 400f;
 			bool hasTarget = false;
 			projectile.tileCollide = true;
 
-			NPC ownerTarget = projectile.OwnerMinionAttackTargetNPC;
-			if (ownerTarget != null && ownerTarget.CanBeChasedBy(this))
+			for (int i = 0; i < Main.maxNPCs; i++)
 			{
-				float currentDistance = Vector2.Distance(ownerTarget.Center, projectile.Center);
+				NPC npc = Main.npc[i];
+				if (npc.CanBeChasedBy())
+				{
+					float currentDistance = Vector2.Distance(npc.Center, projectile.Center);
 
-				if (((Vector2.Distance(projectile.Center, targetPosition) > currentDistance && currentDistance < distance) || !hasTarget) &&
-					Collision.CanHitLine(projectile.position, projectile.width, projectile.height, ownerTarget.position, ownerTarget.width, ownerTarget.height))
-				{
-					distance = currentDistance;
-					targetPosition = ownerTarget.Center;
-					hasTarget = true;
-				}
-			}
-			if (!hasTarget)
-			{
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					NPC npc = Main.npc[i];
-					if (npc.CanBeChasedBy())
+					if (((Vector2.Distance(projectile.Center, targetPosition) > currentDistance && currentDistance < distance) || !hasTarget) &&
+						Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
 					{
-						float currentDistance = Vector2.Distance(npc.Center, projectile.Center);
-
-						if (((Vector2.Distance(projectile.Center, targetPosition) > currentDistance && currentDistance < distance) || !hasTarget) &&
-							Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
-						{
-							distance = currentDistance;
-							targetPosition = npc.Center;
-							hasTarget = true;
-						}
+						distance = currentDistance;
+						targetPosition = npc.Center;
+						hasTarget = true;
 					}
 				}
 			}
@@ -133,8 +109,7 @@ namespace MysticHunter.Souls.Data.Bosses
 			if (hasTarget)
 				maxPlayerDistance = 1000;
 
-			Player player = Main.player[projectile.owner];
-			float playerDistance = Vector2.Distance(player.Center, projectile.Center);
+			float playerDistance = Vector2.Distance(owner.Center, projectile.Center);
 			if (playerDistance > maxPlayerDistance)
 			{
 				projectile.ai[0] = 1f;
@@ -162,13 +137,13 @@ namespace MysticHunter.Souls.Data.Bosses
 			{
 				float speedToPlayer = 6f;
 
-				if (!Collision.CanHitLine(projectile.Center, 1, 1, player.Center, 1, 1))
+				if (!Collision.CanHitLine(projectile.Center, 1, 1, owner.Center, 1, 1))
 					projectile.ai[0] = 1f;
 
 				if (projectile.ai[0] == 1f)
 					speedToPlayer = 15f;
 
-				Vector2 targetPlayerPos = player.Center - projectile.Center + new Vector2(0f, -60f);
+				Vector2 targetPlayerPos = owner.Center - projectile.Center + new Vector2(0f, -60f);
 				float length = targetPlayerPos.Length();
 
 				if (length > 200f && speedToPlayer < 9f)
@@ -182,8 +157,8 @@ namespace MysticHunter.Souls.Data.Bosses
 				}
 				if (length > 2000f)
 				{
-					projectile.position.X = player.Center.X - (projectile.width / 2);
-					projectile.position.Y = player.Center.Y - (projectile.width / 2);
+					projectile.position.X = owner.Center.X - (projectile.width / 2);
+					projectile.position.Y = owner.Center.Y - (projectile.width / 2);
 				}
 				if (length > 70f)
 				{
@@ -208,6 +183,8 @@ namespace MysticHunter.Souls.Data.Bosses
 				projectile.frameCounter = 0;
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 			}
+			if (Main.rand.Next(10) == 0)
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100);
 
 			if (projectile.velocity.X > 0f)
 				projectile.spriteDirection = projectile.direction = -1;
@@ -235,7 +212,8 @@ namespace MysticHunter.Souls.Data.Bosses
 							{
 								Vector2 vel = Vector2.Normalize(targetPosition - projectile.Center) * 10;
 
-								Projectile newProj = Main.projectile[Projectile.NewProjectile(projectile.Center, vel, 374, projectile.damage, 0f, Main.myPlayer)];
+								Projectile newProj = Main.projectile[Projectile.NewProjectile(projectile.Center, vel, ProjectileID.UnholyTridentFriendly, projectile.damage, 0f, Main.myPlayer)];
+								newProj.scale = .8f;
 								newProj.timeLeft = 300;
 								newProj.netUpdate = true;
 								projectile.netUpdate = true;
@@ -257,15 +235,12 @@ namespace MysticHunter.Souls.Data.Bosses
 
 		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-		public override void Kill(int timeLeft)
-		{
-			DustEffect();
-		}
+		public override void Kill(int timeLeft) => DustEffect();
 
 		private void DustEffect()
 		{
 			for (int i = 0; i < 5; ++i)
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Grass, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100);
 		}
 	}
 }

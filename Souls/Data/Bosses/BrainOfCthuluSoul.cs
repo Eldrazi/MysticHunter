@@ -60,10 +60,10 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Player owner = Main.player[(int)npc.ai[0]];
 
-			if (!owner.active || owner.dead)
-				npc.timeLeft = 0;
-			else
-				npc.timeLeft = 10;
+			if (!owner.active)
+				npc.active = false;
+			if (!owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.BrainofCthulhu)
+				npc.timeLeft = 2;
 
 			// Set correct NPC velocity.
 			Vector2 direction = owner.Center - npc.Center;
