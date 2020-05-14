@@ -6,6 +6,7 @@ using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+using IL.Terraria.Audio;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -72,6 +73,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 				projectile.ai[0]--;
 				projectile.velocity.X = -oldVelocity.X;
+				Main.PlaySound(SoundID.Dig, projectile.position);
 			}
 			return (false);
 		}

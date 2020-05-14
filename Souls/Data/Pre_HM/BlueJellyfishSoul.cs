@@ -43,7 +43,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.width = projectile.height = 14;
 
 			projectile.alpha = 75;
-			projectile.timeLeft = 3600;
+			projectile.timeLeft = 1800;
 
 			projectile.friendly = true;
 			projectile.netImportant = true;
@@ -73,11 +73,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			return (false);
 		}
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return (new Color(255, 255, 255, 0));
-		}
-
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (projectile.ai[0] == 0)
@@ -100,6 +95,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				projectile.frame = 1;
 				projectile.ai[0] = 1;
 				projectile.velocity *= 0;
+				projectile.netUpdate = true;
 			}
 
 			return (false);
@@ -110,6 +106,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			for (int i = 0; i < 5; i++)
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.t_Slime, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 180, Color.AliceBlue);
 		}
+
+		public override Color? GetAlpha(Color lightColor)
+			=> Color.White;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
