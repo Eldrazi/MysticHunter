@@ -85,6 +85,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 			}
 
+			Lighting.AddLight(projectile.Center, new Vector3(.1f, .3f, .55f));
+
 			return (false);
 		}
 

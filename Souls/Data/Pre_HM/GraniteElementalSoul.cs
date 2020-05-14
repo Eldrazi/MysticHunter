@@ -24,9 +24,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override bool SoulUpdate(Player p, short stack)
 		{
 			// Kill any active GraniteElementalSoulNPCs.
-			for (int i = 0; i < Main.maxNPCs; ++i)
-				if (Main.npc[i].active && Main.npc[i].ai[0] == p.whoAmI && Main.npc[i].type == NPCType<GraniteElementalSoulNPC>())
-					Main.npc[i].active = false;
+			for (int i = 0; i < Main.maxProjectiles; ++i)
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<GraniteElementalSoulProjectile>())
+					Main.projectile[i].Kill();
 
 			// Set some values depending on the stack amount.
 			int amount = 1;
@@ -37,75 +37,109 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			// Spawn the new elemental(s).
 			for (int i = 0; i < amount; ++i)
-				NPC.NewNPC((int)p.Center.X, (int)p.Center.Y, NPCType<GraniteElementalSoulNPC>(), 0, p.whoAmI, i, amount);
+				Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<GraniteElementalSoulProjectile>(), 0, 0f, p.whoAmI, i, amount);
 
 			return (true);
 		}
 	}
 
 	/// <summary>
-	/// npc.ai[0] = Player/owner ID.
-	/// npc.ai[1] = Index of the elemental.
-	/// npc.ai[2] = Total amount of elementals.
+	/// projectile.ai[0] = Index of the elemental.
+	/// projectile.ai[1] = Total amount of elementals.
 	/// npc.ai[3] = Rotation/orbit regulator.
 	/// </summary>
-	public class GraniteElementalSoulNPC : ModNPC
+	public class GraniteElementalSoulProjectile : ModProjectile
 	{
+		public override string Texture => "Terraria/NPC_" + NPCID.GraniteFlyer;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Granite Elemental Shield");
-			Main.npcFrameCount[npc.type] = 12;
+			Main.projFrames[projectile.type] = 22;
 		}
 		public override void SetDefaults()
 		{
-			npc.width = 20;
-			npc.height = 50;
+			projectile.width = 20;
+			projectile.height = 46;
 
-			npc.lifeMax = 10;
-			npc.defense = 0;
-			npc.knockBackResist = 0;
+			projectile.scale = .8f;
+			projectile.timeLeft *= 5;
+			projectile.minionSlots = 0;
 
-			npc.friendly = true;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
+			projectile.minion = true;
+			projectile.friendly = true;
+			projectile.hostile = false;
+			projectile.ignoreWater = true;
+			projectile.tileCollide = false;
+
+			drawOffsetX = -22;
+			drawOriginOffsetY = -14;
 		}
 
 		public override bool PreAI()
 		{
-			Player owner = Main.player[(int)npc.ai[0]];
+			Player owner = Main.player[projectile.owner];
 			SoulPlayer sp = owner.GetModPlayer<SoulPlayer>();
 
 			// Check to see if the NPC should still be alive.
-			if (owner.dead  || sp.activeSouls[(int)SoulType.Blue].soulNPC != NPCID.GraniteFlyer)
-				npc.active = false;
+			if (owner.active && !owner.dead && sp.activeSouls[(int)SoulType.Blue].soulNPC == NPCID.GraniteFlyer)
+				projectile.timeLeft = 2;
+
+			if (projectile.localAI[1] == 0)
+			{
+				SpawnDust();
+				projectile.localAI[1] = 1;
+			}
 
 			// Start calculating the correct position of the elemental.
-			Vector2 newPos = owner.Center + new Vector2(0, 16);
+			Vector2 newPos = owner.Center + new Vector2(0, 4);
 
 			// We calculate the new position of the NPC based on its given index (npc.ai[1]) and a timer/counter which makes it rotate constantly (npc.ai[2]).
-			newPos.X += (float)Math.Cos((MathHelper.TwoPi / npc.ai[2]) * npc.ai[1] + npc.ai[3]) * 50;
-			newPos.Y += (float)Math.Sin((MathHelper.TwoPi / npc.ai[2]) * npc.ai[1] + npc.ai[3]) * 50;
+			newPos.X += (float)Math.Cos((MathHelper.TwoPi / projectile.ai[1]) * projectile.ai[0] + projectile.localAI[0]) * 50;
+			newPos.Y += (float)Math.Sin((MathHelper.TwoPi / projectile.ai[1]) * projectile.ai[0] + projectile.localAI[0]) * 50;
+			projectile.Center = newPos;
+			projectile.localAI[0] += .035f;
 
-			npc.Center = newPos;
-
-			npc.ai[3] += .035f;
-			return (false);
-		}
-
-		public override void FindFrame(int frameHeight)
-		{
-			npc.frameCounter++;
-			if (npc.frameCounter >= 6)
+			// Hit check.
+			if (owner.whoAmI == Main.myPlayer)
 			{
-				npc.frame.Y = (npc.frame.Y + frameHeight) % (Main.npcFrameCount[npc.type] * frameHeight);
-				npc.frameCounter = 0;
+				for (int i = 0; i < Main.maxProjectiles; ++i)
+					if (Main.projectile[i].active && Main.projectile[i].hostile && projectile.Hitbox.Intersects(Main.projectile[i].Hitbox))
+						BlockProjectile(Main.projectile[i]);
 			}
+
+			// Animation.
+			if (projectile.frameCounter++ >= 6)
+			{
+				projectile.frame = (projectile.frame + 1) % 12;
+				projectile.frameCounter = 0;
+			}
+			return (false);
+		}//SoundID.NPCHit7
+
+		public override void Kill(int timeLeft)
+		{
+			SpawnDust();
 		}
 
-		public override bool CheckDead()
+		private void SpawnDust()
 		{
-			npc.life = npc.lifeMax;
-			return (false);
+			for (int i = 0; i < 5; i++)
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Granite, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100);
+		}
+
+		private void BlockProjectile(Projectile proj)
+		{
+			// Do not despawn penetrating projectiles.
+			if (proj.penetrate == -1)
+				return;
+
+			// Kill the projectile in question.
+			proj.Kill();
+
+			// Spawn extra dust flair around the killed projectile.
+			for (int i = 0; i < 5; i++)
+				Dust.NewDust(proj.position, proj.width, proj.height, DustID.Granite, proj.velocity.X * .2f, proj.velocity.Y * .2f, 100);
 		}
 	}
 }

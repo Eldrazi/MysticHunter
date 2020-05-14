@@ -36,7 +36,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Slime Blob");
+			DisplayName.SetDefault("Mother Blob");
 			Main.projFrames[projectile.type] = 2;
 		}
 		public override void SetDefaults()
@@ -47,6 +47,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.alpha = 150;
 			projectile.scale = 1.25f;
 			projectile.penetrate = -1;
+			projectile.minionSlots = 0;
 
 			projectile.minion = true;
 			projectile.friendly = true;
@@ -60,15 +61,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			SoulPlayer sp = owner.GetModPlayer<SoulPlayer>();
 
 			// Check to see if the NPC should still be alive.
-			if (owner.dead || sp.activeSouls[(int)SoulType.Blue].soulNPC != NPCID.MotherSlime)
-				projectile.Kill();
-			projectile.timeLeft = 10;
+			if (owner.active && !owner.dead && sp.activeSouls[(int)SoulType.Blue].soulNPC == NPCID.MotherSlime)
+				projectile.timeLeft = 2;
 
 			// A cooldown of 20 seconds (1200 ticks) - 1 second per soul stack (minimum of 720 ticks/12 seconds).
 			float summonCooldown = 1260 - (60 * projectile.ai[0]);
 
 			// Spawn a new mini slime.
-			if (Main.netMode != NetmodeID.MultiplayerClient && projectile.ai[1]++ >= summonCooldown)
+			if (Main.myPlayer == projectile.owner && projectile.ai[1]++ >= summonCooldown)
 			{
 				int damage = (int)(20 + projectile.ai[0] * 2);
 				Vector2 velocity = new Vector2(Main.rand.Next(7) - 3, -4);
@@ -89,15 +89,12 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			return (false);
 		}
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return (new Color(100, 100, 100, projectile.alpha));
-		}
+		public override bool CanDamage() => false;
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			return (false);
-		}
+		public override Color? GetAlpha(Color lightColor)
+			=> new Color(100, 100, 100, projectile.alpha);
+
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 	}
 
 	public class MiniSlimeProj : ModProjectile
@@ -166,9 +163,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		}
 
 		public override Color? GetAlpha(Color lightColor)
-		{
-			return (new Color(100, 100, 100, projectile.alpha));
-		}
+			=> new Color(100, 100, 100, projectile.alpha);
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
@@ -182,10 +177,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override void Kill(int timeLeft)
 		{
+			Main.PlaySound(SoundID.NPCDeath1, projectile.Center);
 			for (int i = 0; i < 10; i++)
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.t_Slime, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100, new Color(140, 140, 140), projectile.scale);
-
-			Main.PlaySound(SoundID.NPCDeath1, projectile.Center);
 		}
 	}
 }

@@ -18,7 +18,7 @@ namespace MysticHunter.Souls.Data.Bosses
 
 		public override short cooldown => 3600;
 
-		public override SoulType soulType => SoulType.Red;
+		public override SoulType soulType => SoulType.Blue;
 
 		public override short ManaCost(Player p, short stack) => 40;
 		public override bool SoulUpdate(Player p, short stack)
@@ -247,16 +247,15 @@ namespace MysticHunter.Souls.Data.Bosses
 			return (false);
 		}
 
+		public override bool CanDamage() => false;
+
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
 		{
 			fallThrough = true;
 			return (true);
 		}
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			return (false);
-		}
+		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
 		public override void Kill(int timeLeft)
 		{

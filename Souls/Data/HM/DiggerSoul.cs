@@ -17,7 +17,7 @@ namespace MysticHunter.Souls.Data.HM
 		public override short soulNPC => NPCID.DiggerHead;
 		public override string soulDescription => "Summons a friendly Digger.";
 
-		public override short cooldown => 600;
+		public override short cooldown => 60;
 
 		public override SoulType soulType => SoulType.Blue;
 
@@ -31,6 +31,13 @@ namespace MysticHunter.Souls.Data.HM
 				amount += 2;
 			if (stack >= 9)
 				amount += 2;
+
+			// Destroy any pre-existing projectile.
+			for (int i = 0; i < Main.maxProjectiles; ++i)
+			{
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<DiggerSoulProj>())
+					Main.projectile[i].Kill();
+			}
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 4;
 			Projectile.NewProjectile(p.Center, velocity, ProjectileType<DiggerSoulProj>(), damage, .2f, p.whoAmI, amount);

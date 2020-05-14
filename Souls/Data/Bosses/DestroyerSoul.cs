@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace MysticHunter.Souls.Data.Bosses
 {
-	public class DestroyerSoul : PostHMSoul, IBossSoul
+	/*public class DestroyerSoul : PostHMSoul, IBossSoul
 	{
 		public override short soulNPC => NPCID.TheDestroyer;
 		public override string soulDescription => "Grow a laser shooting tail.";
@@ -35,7 +35,7 @@ namespace MysticHunter.Souls.Data.Bosses
 			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<DestroyerSoulProj>(), 10 + (1 * stack), .05f + .01f * stack, p.whoAmI, -1);
 			return (true);
 		}
-	}
+	}*/
 
 	public class DestroyerSoulProj : ModProjectile
 	{

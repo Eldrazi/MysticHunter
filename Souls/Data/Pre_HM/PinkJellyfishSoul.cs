@@ -49,7 +49,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override string Texture => "Terraria/NPC_64";
 		private Vector2 initialVelocity = Vector2.Zero;
 
-		private int shockRadius { get { return (int)(projectile.ai[0] * 80); } }
+		private int shockRadius { get { return (int)(projectile.ai[0] * 48); } }
 
 		public override void SetStaticDefaults()
 		{
@@ -78,9 +78,10 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			{
 				for (int i = 0; i < Main.maxNPCs; ++i)
 				{
-					if (Main.npc[i].CanBeChasedBy() && Vector2.Distance(projectile.Center, Main.npc[i].Center) <= shockRadius)
+					if (Main.npc[i].CanBeChasedBy() && Vector2.Distance(projectile.Center, Main.npc[i].Center) <= shockRadius * .75f)
 					{
 						projectile.ai[1] = 2;
+						projectile.netUpdate = true;
 						break;
 					}
 				}
@@ -145,6 +146,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			projectile.ai[1] = 2;
+			projectile.netUpdate = true;
 		}
 
 		public override void Kill(int timeLeft)

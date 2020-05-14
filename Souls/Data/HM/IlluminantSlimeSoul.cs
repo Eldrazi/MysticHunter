@@ -105,6 +105,7 @@ namespace MysticHunter.Souls.Data.HM
 		{
 			if (projectile.ai[0] > 0)
 			{
+				Main.PlaySound(SoundID.NPCHit1, projectile.position);
 				bounceVelocity = oldVelocity;
 				projectile.position += oldVelocity;
 				if (oldVelocity.X != projectile.velocity.X)

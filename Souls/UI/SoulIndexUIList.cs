@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.UI;
-using Terraria.GameContent.UI.Elements;
 using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
@@ -13,8 +12,8 @@ namespace MysticHunter.Souls.UI
 {
 	internal class SoulIndexUIListPanel : GenericUIPanel
 	{
-		private SoulIndexPanel soulPanel;
-		private readonly int height = 100;
+		internal const int height = 170;
+		private readonly SoulIndexPanel soulPanel;
 
 		public SoulIndexUIList soulList;
 
@@ -67,9 +66,9 @@ namespace MysticHunter.Souls.UI
 
 	internal class SoulIndexUIList : GenericUIList
 	{
-		private SoulIndexPanel soulPanel;
-
 		public SoulType filter = SoulType.Red;
+
+		private readonly SoulIndexPanel soulPanel;
 
 		public SoulIndexUIList(SoulIndexPanel soulPanel)
 		{
@@ -81,10 +80,10 @@ namespace MysticHunter.Souls.UI
 			this.ListWidth = 2;
 			this.ListPaddingX = 12;
 
-			this.Top.Pixels = 16;
+			this.Top.Pixels = 18;
 			this.Left.Pixels = 16;
 			this.Width.Pixels = Parent.Width.Pixels - 18;
-			this.Height.Pixels = Parent.Height.Pixels - 32;
+			this.Height.Pixels = Parent.Height.Pixels - 34;
 		}
 
 		public void ReloadList()

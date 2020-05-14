@@ -26,8 +26,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			// Calculate the required velocity of the bees towards the cursor.
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 5f;
 			Projectile.NewProjectile(p.Center, velocity, ProjectileType<CursedSkullSoulProj>(), 10 + 2 * stack, .1f, p.whoAmI, 20 - stack);
-
-			Main.PlaySound(14, p.Center);
 			return (true);
 		}
 	}
@@ -43,13 +41,16 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		}
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 8;
+			projectile.width = projectile.height = 18;
 
 			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 
 			projectile.alpha = 255;
+
+			drawOffsetX = -8;
+			drawOriginOffsetY = -6;
 		}
 
 		public override bool PreAI()
@@ -61,7 +62,10 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			// Cache the start speed.
 			if (projectile.localAI[0] == 0)
+			{
+				Main.PlaySound(SoundID.NPCDeath2, projectile.Center);
 				projectile.localAI[0] = projectile.velocity.Length();
+			}
 
 			int targetIndex = 0;
 			float maxRange = 300f;
@@ -126,6 +130,12 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			// Visuals.
 			projectile.spriteDirection = projectile.direction;
 			projectile.rotation = projectile.velocity.ToRotation() - (projectile.direction == -1 ? (float)Math.PI : 0);
+
+			if (projectile.frameCounter++ >= 5)
+			{
+				projectile.frameCounter = 0;
+				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
+			}
 			return (false);
 		}
 

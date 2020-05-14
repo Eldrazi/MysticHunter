@@ -78,8 +78,11 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 
-			if (projectile.ai[1] >= projectile.ai[0])
+			if (projectile.ai[1]++ >= projectile.ai[0])
 			{
+				if (projectile.ai[1] == projectile.ai[0])
+					Main.PlaySound(SoundID.Item17, projectile.position);
+
 				if (projectile.alpha > 0)
 					projectile.alpha -= 20;
 				else
@@ -87,9 +90,13 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			}
 			else // Used so the projectile doesn't move forward when it's invisible.
 				projectile.position -= projectile.velocity;
-
-			projectile.ai[1]++;
 			return (false);
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			for (int i = 0; i < 5; i++)
+				Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 15, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100)].noLight = true;
 		}
 	}
 }

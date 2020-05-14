@@ -6,6 +6,8 @@ using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -33,7 +35,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class AngryBonesSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_31";
+		public override string Texture => "Terraria/NPC_0";
 
 		public override void SetStaticDefaults()
 		{
@@ -49,11 +51,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			projectile.penetrate = 3;
 
-			drawOriginOffsetY = -20;
+			drawOriginOffsetY = -8;
 		}
 
 		public override bool PreAI()
-		{
+		{			
+			if (projectile.ai[1] == 0)
+				projectile.ai[1] = Utils.SelectRandom<int>(Main.rand, NPCID.AngryBones, NPCID.AngryBonesBig, NPCID.AngryBonesBigMuscle, NPCID.AngryBonesBigHelmet);
+
 			if (projectile.ai[0] == 0)
 			{
 				// Set the correct direction of the projectile.
@@ -118,6 +123,18 @@ namespace MysticHunter.Souls.Data.Pre_HM
 					d.fadeIn = 1 + Main.rand.Next(10) * .1f;
 				}
 			}
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = GetTexture("Terraria/NPC_" + (int)projectile.ai[1]);
+			Vector2 origin = new Vector2(tex.Width / 2, (tex.Height / Main.projFrames[projectile.type]) / 2);
+			SpriteEffects effects = projectile.spriteDirection >= 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0, drawOriginOffsetY),
+				Utils.Frame(tex, 1, 15, 0, projectile.frame), lightColor, projectile.rotation, origin, projectile.scale, effects, 0f);
+
+			return (false);
 		}
 	}
 }

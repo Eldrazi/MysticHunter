@@ -16,23 +16,30 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override short soulNPC => NPCID.SeaSnail;
 		public override string soulDescription => "Wear a thorny snail house.";
 
-		public override short cooldown => 0;
+		public override short cooldown => 60;
 
-		public override SoulType soulType => SoulType.Yellow;
+		public override SoulType soulType => SoulType.Blue;
 
-		public override short ManaCost(Player p, short stack) => 0;
+		public override short ManaCost(Player p, short stack) => 10;
 		public override bool SoulUpdate(Player p, short stack)
 		{
 			SoulPlayer sp = p.GetModPlayer<SoulPlayer>();
 
-			sp.seaSnailSoul = true;
-			p.statDefense += stack;
-			p.thorns += (.15f + .05f * stack);
+			sp.seaSnailSoul = !sp.seaSnailSoul;
+			return (true);
+		}
+
+		public override void PostUpdate(Player player)
+		{
+			SoulPlayer sp = player.GetModPlayer<SoulPlayer>();
+			if (!sp.seaSnailSoul)
+				return;
+
+			player.statDefense += sp.activeSouls[(int)SoulType.Blue].stack;
+			player.thorns += (.15f + .05f * sp.activeSouls[(int)SoulType.Blue].stack);
 
 			if (sp.seaSnailAnimationCounter < 24)
 				sp.seaSnailAnimationCounter++;
-
-			return (true);
 		}
 
 		public static readonly PlayerLayer DrawLayer = new PlayerLayer("MysticHunter", "SeaSnail", delegate (PlayerDrawInfo drawInfo)

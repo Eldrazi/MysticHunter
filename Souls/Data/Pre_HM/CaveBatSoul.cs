@@ -35,8 +35,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 	{
 		public override string Texture => "Terraria/NPC_0";
 
-		private float maxDamageRadius { get { return projectile.ai[0]; } }
-		private float currentDamageRadius { get { return projectile.ai[1]; } set { projectile.ai[1] = value; } }
+		private float MaxDamageRadius { get { return projectile.ai[0]; } }
+		private float CurrentDamageRadius { get { return projectile.ai[1]; } set { projectile.ai[1] = value; } }
 
 		public override void SetStaticDefaults()
 		{
@@ -55,13 +55,16 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override bool PreAI()
 		{
-			currentDamageRadius += (maxDamageRadius / 30);
-			if (currentDamageRadius >= maxDamageRadius)
+			if (CurrentDamageRadius == 0)
+				Main.PlaySound(SoundID.NPCDeath4, projectile.position);
+
+			CurrentDamageRadius += (MaxDamageRadius / 30);
+			if (CurrentDamageRadius >= MaxDamageRadius)
 				projectile.Kill();
 
 			for (float i = 0; i < 2 * Math.PI; i += (float)Math.PI / (projectile.ai[1] * .1f))
 			{
-				Vector2 spawnPos = projectile.Center + new Vector2((float)Math.Cos(i), (float)Math.Sin(i)) * currentDamageRadius;
+				Vector2 spawnPos = projectile.Center + new Vector2((float)Math.Cos(i), (float)Math.Sin(i)) * CurrentDamageRadius;
 				Vector2 velocity = Vector2.Normalize(spawnPos - projectile.Center);
 
 				if (Collision.SolidCollision(spawnPos, 2, 2))
@@ -78,7 +81,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Vector2 center = new Vector2(targetHitbox.X + targetHitbox.Width * .5f, targetHitbox.Y + targetHitbox.Height * .5f);
 
-			if (Vector2.Distance(projectile.Center, center) <= currentDamageRadius)
+			if (Vector2.Distance(projectile.Center, center) <= CurrentDamageRadius)
 				return (true);
 			return (false);
 		}

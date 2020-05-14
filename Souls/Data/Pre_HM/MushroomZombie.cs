@@ -14,7 +14,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 	public class MushroomZombieSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.ZombieMushroom;
-		public override string soulDescription => "Summons a lumbering mushroom zombie.";
+		public override string soulDescription => "Summons a lumbering Mushroom Zombie.";
 
 		public override short cooldown => 300;
 
@@ -44,6 +44,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			}
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.ZombieMushroomHat };
 	}
 
 	public class MushroomZombieSoulProj : ModProjectile

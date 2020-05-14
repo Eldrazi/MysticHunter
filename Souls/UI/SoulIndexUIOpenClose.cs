@@ -33,10 +33,10 @@ namespace MysticHunter.Souls.UI
 			texture = GetTexture("MysticHunter/Souls/UI/SoulIndex_OpenCloseButton");
 
 			this.SetPadding(0);
-			this.Top.Pixels = 278;
-			this.Left.Pixels = 523;
+			this.Top.Pixels = 28;
+			this.Left.Pixels = 505;
 
-			this.Width.Pixels = this.Height.Pixels = 16;
+			this.Width.Pixels = this.Height.Pixels = 52;
 
 			this.OnClick += OpenCloseSoulIndexUI;
 		}

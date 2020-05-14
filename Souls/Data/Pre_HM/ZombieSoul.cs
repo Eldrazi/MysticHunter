@@ -8,6 +8,7 @@ using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -46,12 +47,12 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		}
 
 		public override short[] GetAdditionalTypes()
-			=> new short[] { NPCID.SmallZombie, NPCID.BigZombie };
+			=> new short[] { NPCID.SmallZombie, NPCID.BigZombie, NPCID.BaldZombie, NPCID.PincushionZombie, NPCID.SlimedZombie };
 	}
 
 	public class ZombieSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_3";
+		public override string Texture => "Terraria/NPC_0";
 
 		public override void SetStaticDefaults()
 		{
@@ -74,6 +75,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override bool PreAI()
 		{
+			if (projectile.ai[1] == 0)
+				projectile.ai[1] = Utils.SelectRandom<int>(Main.rand, NPCID.Zombie, NPCID.BaldZombie, NPCID.PincushionZombie, NPCID.SlimedZombie, NPCID.SwampZombie, NPCID.TwiggyZombie);
+
 			// Set the correct direction of the projectile.
 			projectile.spriteDirection = -projectile.direction;
 
@@ -154,8 +158,18 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		}
 
 		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+			=> drawCacheProjsBehindNPCsAndTiles.Add(index);
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			drawCacheProjsBehindNPCsAndTiles.Add(index);
+			Texture2D tex = GetTexture("Terraria/NPC_" + (int)projectile.ai[1]);
+			Vector2 origin = new Vector2(tex.Width / 2, (tex.Height / Main.projFrames[projectile.type]) / 2);
+			SpriteEffects effects = projectile.spriteDirection >= 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0, drawOriginOffsetY),
+				Utils.Frame(tex, 1, 15, 0, projectile.frame), lightColor, projectile.rotation, origin, projectile.scale, effects, 0f);
+
+			return (false);
 		}
 
 		private void TileEffects()
