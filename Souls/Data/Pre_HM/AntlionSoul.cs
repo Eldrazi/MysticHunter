@@ -61,10 +61,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Player owner = Main.player[projectile.owner];
 
-			// Check if the projectile should still be alive.
-			if (owner.dead || owner.GetModPlayer<SoulPlayer>().BlueSoul == null || owner.GetModPlayer<SoulPlayer>().BlueSoul.soulNPC != NPCID.Antlion)
-				projectile.Kill();
-			projectile.timeLeft = 10;
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.Antlion)
+				projectile.timeLeft = 2;
 
 			if (projectile.owner == Main.myPlayer)
 			{
@@ -91,9 +89,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		}
 
 		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
-		{
-			drawCacheProjsOverWiresUI.Add(index);
-		}
+			=> drawCacheProjsOverWiresUI.Add(index);
 
 		private bool BlockProjectile(Projectile proj)
 		{

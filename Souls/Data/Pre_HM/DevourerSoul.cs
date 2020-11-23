@@ -71,12 +71,9 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override bool PreAI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player owner = Main.player[projectile.owner];
 
-			// Check if the projectile should still be alive.
-			if (!player.active)
-				projectile.active = false;
-			if (!player.dead && player.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.DevourerHead)
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.DevourerHead)
 				projectile.timeLeft = 2;
 
 			// Projectile state management.
@@ -89,17 +86,17 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				maxSpeed = 1;
 
 				// Default position right above the player's head.
-				targetPosition.X = player.position.X + (player.width / 2) * projectile.scale;
-				targetPosition.Y = player.position.Y - 20;
+				targetPosition.X = owner.position.X + (owner.width / 2) * projectile.scale;
+				targetPosition.Y = owner.position.Y - 20;
 
-				projectile.rotation = MathHelper.PiOver2 + (float)(player.direction == 1 ? Math.PI : 0);
+				projectile.rotation = MathHelper.PiOver2 + (float)(owner.direction == 1 ? Math.PI : 0);
 
 				// Projectile target acquisition.
 				if (projectile.ai[1]++ >= 120)
 				{
 					for (int i = 0; i < Main.maxNPCs; ++i)
 					{
-						if (Main.npc[i].CanBeChasedBy(projectile) && Vector2.Distance(player.Center, Main.npc[i].Center) <= TailLength)
+						if (Main.npc[i].CanBeChasedBy(projectile) && Vector2.Distance(owner.Center, Main.npc[i].Center) <= TailLength)
 						{
 							projectile.ai[0] = i;
 							projectile.ai[1] = 0;
@@ -114,7 +111,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			{
 				// Check if target NPC is still alive and in-range.
 				NPC target = Main.npc[(int)projectile.ai[0]];
-				if (Main.myPlayer == projectile.owner && (!target.active || Vector2.Distance(player.Center, target.Center) > TailLength))
+				if (Main.myPlayer == projectile.owner && (!target.active || Vector2.Distance(owner.Center, target.Center) > TailLength))
 				{
 					projectile.ai[0] = -1;
 					projectile.netUpdate = true;
@@ -125,10 +122,10 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			}
 
 			// Teleport in case there's too much distance between projectile and owner.
-			if (Vector2.Distance(projectile.Center, player.Center) > TailLength * 1.5f)
+			if (Vector2.Distance(projectile.Center, owner.Center) > TailLength * 1.5f)
 			{
-				Vector2 teleportDir = Vector2.Normalize(player.Center - projectile.Center);
-				projectile.Center = player.Center + teleportDir * (TailLength * .75f);
+				Vector2 teleportDir = Vector2.Normalize(owner.Center - projectile.Center);
+				projectile.Center = owner.Center + teleportDir * (TailLength * .75f);
 				projectile.netUpdate = true;
 			}
 
@@ -154,7 +151,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Player player = Main.player[projectile.owner];
+			Player owner = Main.player[projectile.owner];
 
 			Texture2D tailPartTex = GetTexture("MysticHunter/Souls/Data/Pre_HM/DevourerSoulProj_Chain");
 
@@ -164,7 +161,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			int dir = projectile.rotation == MathHelper.PiOver2 ? 1 : -1;
 			Vector2 startPos = projectile.position + new Vector2(dir == 1 ? projectile.width + 8 : 0, projectile.height / 2);
-			Vector2 endPos = player.Center + new Vector2(0, 10);
+			Vector2 endPos = owner.Center + new Vector2(0, 10);
 			Rectangle drawRect = tailPartTex.Bounds;
 
 			int maxLen = 1;

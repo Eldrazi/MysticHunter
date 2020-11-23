@@ -37,5 +37,8 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override short[] GetAdditionalTypes()
 			=> new short[] { NPCID.BigMimicCrimson, NPCID.BigMimicHallow, NPCID.BigMimicJungle };
+
+		public override string SoulNPCName()
+			=> "Big Mimic";
 	}
 }

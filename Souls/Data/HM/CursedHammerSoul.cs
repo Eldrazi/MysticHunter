@@ -100,9 +100,8 @@ namespace MysticHunter.Souls.Data.HM
 		{
 			Player owner = Main.player[projectile.owner];
 
-			if (owner.dead || owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC != NPCID.CursedHammer)
-				projectile.Kill();
-			projectile.timeLeft = 10;
+			if (owner.active && !owner.dead || owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.CursedHammer)
+				projectile.timeLeft = 2;
 
 			float targetingDistance = 1500f;
 

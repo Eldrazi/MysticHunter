@@ -23,10 +23,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override bool SoulUpdate(Player p, short stack)
 		{
 			for (int i = 0; i < Main.maxProjectiles; ++i)
-			{
 				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<SharkSoulProj>())
 					Main.projectile[i].Kill();
-			}
 
 			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<SharkSoulProj>(), 2 + stack, .1f, p.whoAmI);
 			return (true);
@@ -35,6 +33,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class SharkSoulProj : ModProjectile
 	{
+		private float randomRot;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shark");
@@ -45,25 +45,23 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.width = 70;
 			projectile.height = 28;
 
+			projectile.scale = .8f;
+			projectile.timeLeft *= 5;
+			projectile.minionSlots = 0;
+
 			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 			projectile.netImportant = true;
 			projectile.manualDirectionChange = true;
-
-			projectile.scale = .8f;
 		}
-
-		float randomRot;
 
 		public override bool PreAI()
 		{
 			Player owner = Main.player[projectile.owner];
 
-			// Check if the projectile should still be alive.
-			if (owner.dead || owner.GetModPlayer<SoulPlayer>().BlueSoul == null || owner.GetModPlayer<SoulPlayer>().BlueSoul.soulNPC != NPCID.Shark)
-				projectile.Kill();
-			projectile.timeLeft = 2;
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.Shark)
+				projectile.timeLeft = 2;
 
 			if (projectile.direction == 0)
 				projectile.spriteDirection = projectile.direction = owner.direction;
@@ -75,7 +73,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			for (int i = 0; i < Main.maxNPCs; ++i)
 			{
 				NPC npc = Main.npc[i];
-				if (npc.CanBeChasedBy())
+				if (npc.CanBeChasedBy() && Collision.CanHitLine(projectile.Center, 1, 1, targetPos, 1, 1))
 				{
 					float currentDist = Vector2.Distance(npc.Center, projectile.Center);
 
@@ -88,7 +86,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				}
 			}
 
-			// Set correct projectile position (above owner) and rotation (towards target).
+			// Set correct projectile position (above owner).
 			projectile.position = owner.Center - new Vector2(projectile.width * .5f, 46);
 
 			// If has target, update rotation correctly and projecile spawning.
@@ -100,19 +98,17 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				else
 					projectile.spriteDirection = projectile.direction = -1;
 
-				if (projectile.ai[1] >= 90 && Main.myPlayer == projectile.owner)
+				if (projectile.ai[1] >= 60)
 				{
-					if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+					if (projectile.owner == Main.myPlayer && Collision.CanHitLine(projectile.Center, 1, 1, targetPos, 1, 1))
 					{
 						Vector2 velocity = Vector2.Normalize(targetPos - projectile.Center) * 10;
 						Projectile newProj = Main.projectile[Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.Bullet, projectile.damage, 0f, Main.myPlayer)];
 						newProj.timeLeft = 300;
 						newProj.netUpdate = true;
 						newProj.tileCollide = false;
-
-						projectile.ai[1] = 0;
-						projectile.netUpdate = true;
 					}
+					projectile.ai[1] = 0;
 				}
 
 				projectile.rotation = (targetPos - projectile.Center).ToRotation() + (projectile.direction == -1 ? (float)System.Math.PI : 0);
@@ -143,14 +139,13 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			return (false);
 		}
 
+		public override bool CanDamage() => false;
+
 		public override void Kill(int timeLeft)
 		{
 			for (int i = 0; i < 5; i++)
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.t_Slime, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100);
 		}
-
-		public override bool? CanHitNPC(NPC target) => false;
-		public override bool CanHitPvp(Player target) => false;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

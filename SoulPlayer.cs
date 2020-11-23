@@ -83,6 +83,12 @@ namespace MysticHunter
 
 		public PreHurtModifier preHurtModifier = null;
 
+		// Soul accessory variables.
+		public bool ChaosStone = false;
+		public bool BraceOfEvil = false;
+		public bool LunarRitual = false;
+		public bool QueenKnuckle = false;
+
 		// Yellow soul booleans.
 		public bool pinkySoul = false;
 		public bool lamiaSoul = false;
@@ -114,6 +120,11 @@ namespace MysticHunter
 		public override void ResetEffects()
 		{
 			preHurtModifier = null;
+
+			ChaosStone = false;
+			BraceOfEvil = false;
+			LunarRitual = false;
+			QueenKnuckle = false;
 
 			pinkySoul = false;
 			lamiaSoul = false;
@@ -180,6 +191,33 @@ namespace MysticHunter
 			=> YellowSoul?.OnHitNPC(player, target, item, ref damage, activeSouls[(int)SoulType.Yellow].stack);
 		public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 			=> YellowSoul?.OnHitNPC(player, target, proj, ref damage, activeSouls[(int)SoulType.Yellow].stack);
+
+		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
+		{
+			if ((this.BraceOfEvil && Main.rand.Next(100) < 15) || this.ChaosStone)
+			{
+				if (this.ChaosStone)
+				{
+					target.AddBuff(BuffID.Ichor, 120);
+					target.AddBuff(BuffID.CursedInferno, 120);
+				}
+				else if (WorldGen.crimson)
+					target.AddBuff(BuffID.Ichor, 120);
+				else
+					target.AddBuff(BuffID.CursedInferno, 120);
+			}
+			if (this.QueenKnuckle)
+			{
+				if (!this.ChaosStone)
+					target.AddBuff(BuffID.Poisoned, 180);
+				if (this.ChaosStone || Main.rand.Next(100) < 15)
+					target.AddBuff(BuffID.Venom, 120);
+			}
+			if (this.LunarRitual)
+			{
+				target.AddBuff(BuffID.Daybreak, 120);
+			}
+		}
 
 		/// <summary>
 		/// Used to process Red and Blue soul active triggers/hotkeys, if available.

@@ -62,13 +62,12 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override bool PreAI()
 		{
-			Player player = Main.player[projectile.owner];
-			SoulPlayer sp = player.GetModPlayer<SoulPlayer>();
+			Player owner = Main.player[projectile.owner];
+			SoulPlayer sp = owner.GetModPlayer<SoulPlayer>();
 
 			// Kill the projectile if the player state is no longer valid, otherwise keep it alive.
-			if (player.dead || sp.activeSouls[(int)SoulType.Blue].soulNPC != NPCID.Clinger)
-				projectile.Kill();
-			projectile.timeLeft = 10;
+			if (owner.active && !owner.dead && sp.activeSouls[(int)SoulType.Blue].soulNPC == NPCID.Clinger)
+				projectile.timeLeft = 2;
 
 			float maxSpeed = 4;
 			float acceleration = .08f;
@@ -88,7 +87,7 @@ namespace MysticHunter.Souls.Data.HM
 			// Fetch a target.
 			for (int i = 0; i < Main.maxNPCs; ++i)
 			{
-				float l = (Main.npc[i].Center - player.Center).Length();
+				float l = (Main.npc[i].Center - owner.Center).Length();
 				if (Main.npc[i].CanBeChasedBy(projectile) && l <= currentTargetRange)
 				{
 					targetIndex = i;
@@ -104,7 +103,7 @@ namespace MysticHunter.Souls.Data.HM
 				projectile.ai[1] = 0;
 				NPC target = Main.npc[targetIndex];
 
-				targetDir = (target.Center - player.Center) * .8f;
+				targetDir = (target.Center - owner.Center) * .8f;
 
 				if (Main.myPlayer == projectile.owner && projectile.localAI[0] == 400)
 				{
@@ -115,7 +114,7 @@ namespace MysticHunter.Souls.Data.HM
 			// If there is not NPC that can be targeted, we take a random point inside the maxRange.
 			else
 			{
-				if (Main.myPlayer == player.whoAmI && projectile.localAI[1] % 300 == 0)
+				if (Main.myPlayer == owner.whoAmI && projectile.localAI[1] % 300 == 0)
 				{
 					projectile.ai[0] = (Main.rand.Next((int)-maxRange, (int)maxRange + 1));
 					projectile.ai[1] = (Main.rand.Next((int)-maxRange, (int)maxRange + 1));
@@ -135,26 +134,26 @@ namespace MysticHunter.Souls.Data.HM
 			}
 
 			// Actual velocity calculation based on the target position.
-			if (projectile.Center.X < player.Center.X + targetDir.X)
+			if (projectile.Center.X < owner.Center.X + targetDir.X)
 			{
 				projectile.velocity.X += acceleration;
 				if (projectile.velocity.X < 0 && targetDir.X > 0)
 					projectile.velocity.X += acceleration * 1.5f;
 			}
-			else if (projectile.Center.X > player.Center.X + targetDir.X)
+			else if (projectile.Center.X > owner.Center.X + targetDir.X)
 			{
 				projectile.velocity.X -= acceleration;
 				if (projectile.velocity.X > 0 && targetDir.X < 0)
 					projectile.velocity.X -= acceleration * 1.5f;
 			}
 
-			if (projectile.Center.Y < player.Center.Y + targetDir.Y)
+			if (projectile.Center.Y < owner.Center.Y + targetDir.Y)
 			{
 				projectile.velocity.Y += acceleration;
 				if (projectile.velocity.Y < 0 && targetDir.Y > 0)
 					projectile.velocity.Y += acceleration * 1.5f;
 			}
-			else if (projectile.Center.Y > player.Center.Y + targetDir.Y)
+			else if (projectile.Center.Y > owner.Center.Y + targetDir.Y)
 			{
 				projectile.velocity.Y -= acceleration;
 				if (projectile.velocity.Y > 0 && targetDir.Y < 0)
@@ -162,16 +161,16 @@ namespace MysticHunter.Souls.Data.HM
 			}
 
 			projectile.direction = 1;
-			projectile.rotation = (player.Center - projectile.Center).ToRotation();
+			projectile.rotation = (owner.Center - projectile.Center).ToRotation();
 			projectile.velocity = Vector2.Clamp(projectile.velocity, -Vector2.One * maxSpeed, Vector2.One * maxSpeed);
 
 			// Special distance check.
 			// If the projectile is too far from the player, we want to teleport it closer.
-			if ((player.Center - projectile.Center).Length() >= 600)
+			if (projectile.Distance(owner.Center) >= 600)
 			{
 				DustEffect();
 				projectile.netUpdate = true;
-				projectile.position = player.Center + targetDir;
+				projectile.position = owner.Center + targetDir;
 				DustEffect();
 			}
 
@@ -198,12 +197,12 @@ namespace MysticHunter.Souls.Data.HM
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D[] chainTextures = new Texture2D[] { Main.chain10Texture, Main.chain11Texture };
-			Player player = Main.player[projectile.owner];
+			Player owner = Main.player[projectile.owner];
 
 			Vector2 chainOrigin = new Vector2(chainTextures[0].Width *.5f, chainTextures[0].Height * .5f);
 
 			Vector2 projectileCenter = projectile.Center;
-			Vector2 relationalDirection = player.Center - projectileCenter;
+			Vector2 relationalDirection = owner.Center - projectileCenter;
 			float relationalRotation = relationalDirection.ToRotation() - MathHelper.PiOver2;
 
 			bool drawChain = true;
@@ -225,7 +224,7 @@ namespace MysticHunter.Souls.Data.HM
 
 				relationalDirection *= relationalLength;
 				projectileCenter += relationalDirection;
-				relationalDirection = player.Center - projectileCenter;
+				relationalDirection = owner.Center - projectileCenter;
 
 				Color c = Lighting.GetColor((int)projectileCenter.X / 16, (int)projectileCenter.Y / 16);
 				spriteBatch.Draw(chainTextures[chainToDraw], projectileCenter - Main.screenPosition, new Rectangle(0, 0, chainTextures[0].Width, chainHeight), c, relationalRotation, chainOrigin, scale, SpriteEffects.None, 0);

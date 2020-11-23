@@ -67,7 +67,7 @@ namespace MysticHunter.Souls.Data.HM
 		{
 			Player owner = Main.player[projectile.owner];
 
-			if (owner.dead)
+			if (!owner.active || owner.dead)
 				projectile.Kill();
 
 			if (projectile.frameCounter++ >= 3)

@@ -65,6 +65,8 @@ namespace MysticHunter.Souls.Data.Bosses
 
 		public override bool PreAI()
 		{
+			Player owner = Main.player[projectile.owner];
+
 			if (justSpawned)
 			{
 				DustEffect();
@@ -96,35 +98,19 @@ namespace MysticHunter.Souls.Data.Bosses
 			bool hasTarget = false;
 			projectile.tileCollide = true;
 
-			NPC ownerTarget = projectile.OwnerMinionAttackTargetNPC;
-			if (ownerTarget != null && ownerTarget.CanBeChasedBy(this))
+			for (int i = 0; i < Main.maxNPCs; i++)
 			{
-				float currentDistance = Vector2.Distance(ownerTarget.Center, projectile.Center);
+				NPC npc = Main.npc[i];
+				if (npc.CanBeChasedBy())
+				{
+					float currentDistance = Vector2.Distance(npc.Center, projectile.Center);
 
-				if (((Vector2.Distance(projectile.Center, targetPosition) > currentDistance && currentDistance < distance) || !hasTarget) &&
-					Collision.CanHitLine(projectile.position, projectile.width, projectile.height, ownerTarget.position, ownerTarget.width, ownerTarget.height))
-				{
-					distance = currentDistance;
-					targetPosition = ownerTarget.Center;
-					hasTarget = true;
-				}
-			}
-			if (!hasTarget)
-			{
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					NPC npc = Main.npc[i];
-					if (npc.CanBeChasedBy())
+					if (((Vector2.Distance(projectile.Center, targetPosition) > currentDistance && currentDistance < distance) || !hasTarget) &&
+						Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
 					{
-						float currentDistance = Vector2.Distance(npc.Center, projectile.Center);
-
-						if (((Vector2.Distance(projectile.Center, targetPosition) > currentDistance && currentDistance < distance) || !hasTarget) &&
-							Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
-						{
-							distance = currentDistance;
-							targetPosition = npc.Center;
-							hasTarget = true;
-						}
+						distance = currentDistance;
+						targetPosition = npc.Center;
+						hasTarget = true;
 					}
 				}
 			}
@@ -133,8 +119,7 @@ namespace MysticHunter.Souls.Data.Bosses
 			if (hasTarget)
 				maxPlayerDistance = 1000;
 
-			Player player = Main.player[projectile.owner];
-			float playerDistance = Vector2.Distance(player.Center, projectile.Center);
+			float playerDistance = Vector2.Distance(owner.Center, projectile.Center);
 			if (playerDistance > maxPlayerDistance)
 			{
 				projectile.ai[0] = 1f;
@@ -162,13 +147,13 @@ namespace MysticHunter.Souls.Data.Bosses
 			{
 				float speedToPlayer = 6f;
 
-				if (!Collision.CanHitLine(projectile.Center, 1, 1, player.Center, 1, 1))
+				if (!Collision.CanHitLine(projectile.Center, 1, 1, owner.Center, 1, 1))
 					projectile.ai[0] = 1f;
 
 				if (projectile.ai[0] == 1f)
 					speedToPlayer = 15f;
 
-				Vector2 targetPlayerPos = player.Center - projectile.Center + new Vector2(0f, -60f);
+				Vector2 targetPlayerPos = owner.Center - projectile.Center + new Vector2(0f, -60f);
 				float length = targetPlayerPos.Length();
 
 				if (length > 200f && speedToPlayer < 9f)
@@ -182,8 +167,8 @@ namespace MysticHunter.Souls.Data.Bosses
 				}
 				if (length > 2000f)
 				{
-					projectile.position.X = player.Center.X - (projectile.width / 2);
-					projectile.position.Y = player.Center.Y - (projectile.width / 2);
+					projectile.position.X = owner.Center.X - (projectile.width / 2);
+					projectile.position.Y = owner.Center.Y - (projectile.width / 2);
 				}
 				if (length > 70f)
 				{

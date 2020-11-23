@@ -46,11 +46,11 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			projectile.alpha = 150;
 			projectile.scale = 1.25f;
-			projectile.penetrate = -1;
 			projectile.minionSlots = 0;
 
 			projectile.minion = true;
 			projectile.friendly = true;
+			projectile.ignoreWater = true;
 
 			drawOriginOffsetY = -4;
 		}
@@ -60,7 +60,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Player owner = Main.player[projectile.owner];
 			SoulPlayer sp = owner.GetModPlayer<SoulPlayer>();
 
-			// Check to see if the NPC should still be alive.
 			if (owner.active && !owner.dead && sp.activeSouls[(int)SoulType.Blue].soulNPC == NPCID.MotherSlime)
 				projectile.timeLeft = 2;
 

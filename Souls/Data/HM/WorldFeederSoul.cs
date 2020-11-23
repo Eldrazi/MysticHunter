@@ -75,10 +75,9 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override bool PreAI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player owner = Main.player[projectile.owner];
 
-			// Check if the projectile should still be alive.
-			if (player.active && !player.dead && player.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.SeekerHead)
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.SeekerHead)
 				projectile.timeLeft = 2;
 
 			// Projectile state management.
@@ -91,15 +90,15 @@ namespace MysticHunter.Souls.Data.HM
 				maxSpeed = 1;
 
 				// Default position right above the player's head.
-				targetPosition.X = player.position.X + (player.width / 2) * projectile.scale;
-				targetPosition.Y = player.position.Y - 20;
+				targetPosition.X = owner.position.X + (owner.width / 2) * projectile.scale;
+				targetPosition.Y = owner.position.Y - 20;
 
-				projectile.rotation = MathHelper.PiOver2 + (float)(player.direction == 1 ? Math.PI : 0);
+				projectile.rotation = MathHelper.PiOver2 + (float)(owner.direction == 1 ? Math.PI : 0);
 
 				// Projectile target acquisition.
 				for (int i = 0; i < Main.maxNPCs; ++i)
 				{
-					if (Main.npc[i].active &&/*Main.npc[i].CanBeChasedBy(projectile) &&*/ Vector2.Distance(projectile.Center, Main.npc[i].Center) <= targetingDistance &&
+					if (Main.npc[i].CanBeChasedBy(projectile) && Vector2.Distance(projectile.Center, Main.npc[i].Center) <= targetingDistance &&
 						Collision.CanHitLine(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
 					{
 						float rotationTowards = (Main.npc[i].Center - projectile.Center).ToRotation();
@@ -120,7 +119,7 @@ namespace MysticHunter.Souls.Data.HM
 				float rotationTowards = (target.Center - projectile.Center).ToRotation();
 				if (Main.myPlayer == projectile.owner)
 				{ 
-					if ((!target.active || Vector2.Distance(player.Center, target.Center) > targetingDistance) ||
+					if ((!target.active || Vector2.Distance(owner.Center, target.Center) > targetingDistance) ||
 					(rotationTowards >= minFalseTargetingRot && rotationTowards <= maxFalseTargetingRot))
 					{
 						projectile.ai[0] = -1;
@@ -136,16 +135,16 @@ namespace MysticHunter.Souls.Data.HM
 					}
 				}
 
-				targetPosition.X = player.position.X + (player.width / 2) * projectile.scale;
-				targetPosition.Y = player.position.Y - 20;
+				targetPosition.X = owner.position.X + (owner.width / 2) * projectile.scale;
+				targetPosition.Y = owner.position.Y - 20;
 				projectile.rotation = rotationTowards - MathHelper.PiOver2;
 			}
 
 			// Teleport in case there's too much distance between projectile and owner.
-			if (Vector2.Distance(projectile.Center, player.Center) > TailLength * 1.5f)
+			if (Vector2.Distance(projectile.Center, owner.Center) > TailLength * 1.5f)
 			{
-				Vector2 teleportDir = Vector2.Normalize(player.Center - projectile.Center);
-				projectile.Center = player.Center + teleportDir * (TailLength * .75f);
+				Vector2 teleportDir = Vector2.Normalize(owner.Center - projectile.Center);
+				projectile.Center = owner.Center + teleportDir * (TailLength * .75f);
 				projectile.netUpdate = true;
 			}
 
@@ -153,16 +152,6 @@ namespace MysticHunter.Souls.Data.HM
 			targetPosition *= (maxSpeed / TailLength) * targetPosition.Length();
 			projectile.velocity = targetPosition;
 			return (false);
-		}
-
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			// If the projectile is not in idle state.
-			if (projectile.ai[0] != -1)
-			{
-				projectile.ai[0] = -1;
-				projectile.netUpdate = true;
-			}
 		}
 
 		public override bool CanDamage() => false;
