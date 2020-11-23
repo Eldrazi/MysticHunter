@@ -19,7 +19,7 @@ namespace MysticHunter
 
 		public override void NPCLoot(NPC npc)
 		{
-			if (npc.type == NPCID.EaterofWorldsHead && !npc.boss)
+			if ((npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail) && !npc.boss)
 				return;
 
 			// Try to get a value for the current NPC from the Soul Dictionary.
@@ -28,6 +28,7 @@ namespace MysticHunter
 			if (MysticHunter.Instance.SoulDict.TryGetValue((short)npc.netID, out BaseSoul soul))
 				DropSoulnstanced(soul, npc.position);
 
+			// Pre HM accessory drops.
 			if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.BrainofCthulhu)
 			{
 				if (Main.rand.Next(10) == 0)
@@ -42,6 +43,58 @@ namespace MysticHunter
 			{
 				if (Main.rand.Next(10) == 0)
 					Item.NewItem(npc.position, ItemType<CursedHand>());
+			}
+			else if (npc.type == NPCID.QueenBee)
+			{
+				if (Main.rand.Next(10) == 0)
+					Item.NewItem(npc.position, ItemType<QueenKnuckle>());
+			}
+			else if (npc.type == NPCID.WallofFlesh)
+			{
+				if (Main.rand.Next(20) == 0)
+					Item.NewItem(npc.position, ItemType<SoulOfTheDamned>());
+			}
+			// Post HM accessory drops.
+			else if (npc.type == NPCID.TheDestroyer)
+			{
+				if (Main.rand.Next(10) == 0)
+					Item.NewItem(npc.position, ItemType<MechanoScarf>());
+			}
+			else if (npc.type == NPCID.SkeletronPrime)
+			{
+				if (Main.rand.Next(10) == 0)
+					Item.NewItem(npc.position, ItemType<MechanizedBoneNecklace>());
+			}
+			else if ((npc.type == NPCID.Retinazer && !NPC.AnyNPCs(NPCID.Spazmatism)) ||
+				(npc.type == NPCID.Spazmatism && !NPC.AnyNPCs(NPCID.Retinazer)))
+			{
+				if (Main.rand.Next(10) == 0)
+					Item.NewItem(npc.position, ItemType<BandOfDoubleSight>());
+			}
+			else if (npc.type == NPCID.Plantera)
+			{
+				if (Main.rand.Next(10) == 0)
+					Item.NewItem(npc.position, ItemType<LivingGloves>());
+			}
+			else if (npc.type == NPCID.Golem)
+			{
+				if (Main.rand.Next(10) == 0)
+					Item.NewItem(npc.position, ItemType<GolematicBoots>());
+			}
+			else if (npc.type == NPCID.DukeFishron)
+			{
+				if (Main.rand.Next(10) == 0)
+					Item.NewItem(npc.position, ItemType<FishronSteak>());
+			}
+			else if (npc.type == NPCID.CultistBoss)
+			{
+				if (Main.rand.Next(10) == 0)
+					Item.NewItem(npc.position, ItemType<LunarRitual>());
+			}
+			else if (npc.type == NPCID.MoonLordCore)
+			{
+				if (Main.rand.Next(20) == 0)
+					Item.NewItem(npc.position, ItemType<LuminiteRing>());
 			}
 		}
 

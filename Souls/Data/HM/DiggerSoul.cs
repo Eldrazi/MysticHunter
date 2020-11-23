@@ -84,12 +84,12 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.scale = .6f;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 300;
+			projectile.minionSlots = 0;
 
 			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 			projectile.netImportant = true;
-
 
 			this.target = 255;
 		}
@@ -98,8 +98,8 @@ namespace MysticHunter.Souls.Data.HM
 		{
 			Player owner = Main.player[projectile.owner];
 
-			if (owner.dead || owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC != NPCID.DiggerHead)
-				projectile.Kill();
+			if (owner.active && !owner.dead || owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.DiggerHead)
+				projectile.timeLeft = 2;
 
 			if (projectile.ai[1] == 0)
 			{

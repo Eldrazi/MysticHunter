@@ -34,15 +34,12 @@ namespace MysticHunter.Souls.Framework
 
 		// TODO: Rewrite this method to instead use statically available memory, instead of loading onto heap.
 		public virtual short[] GetAdditionalTypes() => null;
-	}
 
-	public static class ISoulExtensions
-	{
-		public static string SoulNPCName(this BaseSoul soul)
+		public virtual string SoulNPCName()
 		{
-			if (soul == null || soul.soulNPC == 0)
+			if (this.soulNPC == 0)
 				return ("");
-			return Lang.GetNPCNameValue(soul.soulNPC);
+			return Lang.GetNPCNameValue(this.soulNPC);
 		}
 	}
 }

@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
-	public class LunaticCultistSoul : PostHMSoul
+	public class CultistDevoteSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.CultistDevote;
 		public override string soulDescription => "Summons cheerleading cultists.";
@@ -40,7 +40,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				else if (amount == 3)
 					spawnPos += new Vector2(-40 * (1 - i), 0);
 
-				Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileType<LunaticCultistSoulProj>(), 0, 0f, p.whoAmI, i, stack);
+				Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileType<CultistDevoteSoulProj>(), 0, 0f, p.whoAmI, i, stack);
 			}
 
 			return (true);
@@ -49,7 +49,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override void PostUpdate(Player player)
 		{
 			int cultistCount = Main.projectile.Where(x =>
-				x.type == ProjectileType<LunaticCultistSoulProj>() &&
+				x.type == ProjectileType<CultistDevoteSoulProj>() &&
 				x.owner == player.whoAmI).Count();
 
 			player.statDefense += 5 * cultistCount;
@@ -61,7 +61,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		}
 	}
 
-	public class LunaticCultistSoulProj : ModProjectile
+	public class CultistDevoteSoulProj : ModProjectile
 	{
 		public override string Texture => "Terraria/NPC_" + NPCID.CultistDevote;
 
@@ -134,10 +134,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			return (true);
 		}
 
-		public override void Kill(int timeLeft)
-		{
-			DustEffect();
-		}
+		public override void Kill(int timeLeft) => DustEffect();
 
 		private void DustEffect()
 		{

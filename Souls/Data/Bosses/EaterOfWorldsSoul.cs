@@ -15,7 +15,7 @@ namespace MysticHunter.Souls.Data.Bosses
 	public class EaterOfWorldsSoul : PreHMSoul, IBossSoul
 	{
 		public override short soulNPC => NPCID.EaterofWorldsHead;
-		public override string soulDescription => "Summons a hungry eater of worlds.";
+		public override string soulDescription => "Summons a hungry Eater of Worlds.";
 
 		public override short cooldown => 60;
 
@@ -39,6 +39,9 @@ namespace MysticHunter.Souls.Data.Bosses
 			Projectile.NewProjectile(p.Center, velocity, ProjectileType<EaterOfWorlsSoulProj>(), 25 + stack, .2f, p.whoAmI, amount);
 			return (true);
 		}
+
+		public override short[] GetAdditionalTypes()
+			=> new short[] { NPCID.EaterofWorldsBody, NPCID.EaterofWorldsTail };
 	}
 
 	internal class BodyPart
@@ -78,7 +81,9 @@ namespace MysticHunter.Souls.Data.Bosses
 			projectile.width = projectile.height = 36;
 
 			projectile.scale = .4f;
+			projectile.timeLeft *= 5;
 			projectile.penetrate = -1;
+			projectile.minionSlots = 0f;
 
 			projectile.minion = true;
 			projectile.friendly = true;
@@ -92,9 +97,8 @@ namespace MysticHunter.Souls.Data.Bosses
 		{
 			Player owner = Main.player[projectile.owner];
 
-			if (owner.dead || owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC != NPCID.EaterofWorldsHead)
-				projectile.Kill();
-			projectile.timeLeft = 10;
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.EaterofWorldsHead)
+				projectile.timeLeft = 2;
 
 			if (projectile.ai[1] == 0)
 			{

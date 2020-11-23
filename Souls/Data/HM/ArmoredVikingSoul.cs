@@ -47,13 +47,16 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override bool PreAI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player owner = Main.player[projectile.owner];
 
-			Vector2 mountedCenter = player.Center - new Vector2(projectile.width / 2, projectile.height / 2);
+			if (!owner.active || owner.dead)
+				projectile.Kill();
+
+			Vector2 mountedCenter = owner.Center - new Vector2(projectile.width / 2, projectile.height / 2);
 
 			if (projectile.ai[0] == 0)
 			{
-				projectile.spriteDirection = projectile.direction = player.direction;
+				projectile.spriteDirection = projectile.direction = owner.direction;
 				projectile.ai[0] = 1;
 				projectile.localAI[0] = 1;
 

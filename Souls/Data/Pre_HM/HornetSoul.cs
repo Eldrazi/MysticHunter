@@ -14,7 +14,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 	public class HornetSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Hornet;
-		public override string soulDescription => "Summons a friendly, stationary hornet.";
+		public override string soulDescription => "Summons a stinger shooting Hornet.";
 
 		public override short cooldown => 60;
 
@@ -25,19 +25,17 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
-			{
 				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<HornetSoulProj>())
 					Main.projectile[i].Kill();
-			}
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<HornetSoulProj>(), 0, 0, p.whoAmI, stack);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<HornetSoulProj>(), 10 + 2 * stack, 0, p.whoAmI, stack);
 			return (true);
 		}
 	}
 
 	public class HornetSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_42";
+		public override string Texture => "Terraria/NPC_" + NPCID.Hornet;
 
 		public override void SetStaticDefaults()
 		{
@@ -48,8 +46,11 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			projectile.width = projectile.height = 32;
 
+			projectile.timeLeft *= 5;
 			projectile.penetrate = -1;
+			projectile.minionSlots = 0f;
 
+			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -61,11 +62,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			int stack = (int)projectile.ai[0];
 			Player owner = Main.player[projectile.owner];
 
-			// Check if the projectile should still be alive.
-			if (owner.whoAmI == Main.myPlayer && (owner.dead || owner.GetModPlayer<SoulPlayer>().BlueSoul == null || owner.GetModPlayer<SoulPlayer>().BlueSoul.soulNPC != NPCID.Hornet))
-				projectile.Kill();
-			else
-				projectile.timeLeft = 10;
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.Hornet)
+				projectile.timeLeft = 2;
 
 			// Position the projectile correctly (above the player).
 			projectile.position.X = owner.Center.X - (projectile.width * .5f);
@@ -110,7 +108,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 					{
 						Vector2 velocity = Vector2.Normalize(target.Center - projectile.Center) * 8;
 
-						Projectile newProj = Main.projectile[Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.Stinger, 10 + 2*stack, .1f, owner.whoAmI)];
+						Projectile newProj = Main.projectile[Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.Stinger, projectile.damage, .1f, owner.whoAmI)];
 						newProj.timeLeft = 300;
 						newProj.friendly = true;
 						newProj.netUpdate = true;
@@ -128,6 +126,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			return (false);
 		}
+
+		public override bool CanDamage() => false;
 
 		public override void Kill(int timeLeft)
 		{

@@ -73,15 +73,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Player owner = Main.player[projectile.owner];
 
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.RedDevil)
+				projectile.timeLeft = 2;
+
 			if (justSpawned)
 			{
 				DustEffect();
 				justSpawned = false;
 			}
-
-			// Check if the projectile should still be alive.
-			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.RedDevil)
-				projectile.timeLeft = 2;
 
 			Vector2 targetPosition = projectile.position;
 			float distance = 400f;

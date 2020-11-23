@@ -60,8 +60,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			projectile.scale = .6f;
 			projectile.penetrate = -1;
+			projectile.minionSlots = 0;
 
-			projectile.magic = true;
 			projectile.minion = true;
 			projectile.friendly = true;
 		}
@@ -72,9 +72,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			SoulPlayer sp = owner.GetModPlayer<SoulPlayer>();
 
 			// Check to see if the NPC should still be alive.
-			if (owner.dead || sp.activeSouls[(int)SoulType.Red].soulNPC != NPCID.EaterofSouls)
-				projectile.Kill();
-			projectile.timeLeft = 10;
+			if (owner.active && !owner.dead && sp.activeSouls[(int)SoulType.Red].soulNPC != NPCID.EaterofSouls)
+				projectile.timeLeft = 2;
 
 			bool hasTarget = true;
 			NPC target = Main.npc[targetIndex];

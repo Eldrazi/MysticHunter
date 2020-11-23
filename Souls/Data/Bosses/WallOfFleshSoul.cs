@@ -72,13 +72,15 @@ namespace MysticHunter.Souls.Data.Bosses
 
 		public override bool PreAI()
 		{
+			Player owner = Main.player[projectile.owner];
+
 			float speed = 6f;
 			float acceleration = .06f;
 
 			if (projectile.ai[0] >= 0)
 			{
 				NPC target = Main.npc[(int)projectile.ai[0]];
-				if (!target.CanBeChasedBy(projectile) || Vector2.Distance(target.Center, Main.player[projectile.owner].Center) > maxRange)
+				if (!target.CanBeChasedBy(projectile) || owner.Distance(target.Center) > maxRange)
 				{
 					projectile.ai[0] = -1;
 					projectile.netUpdate = true;
@@ -120,7 +122,7 @@ namespace MysticHunter.Souls.Data.Bosses
 			{
 				for (int i = 0; i < Main.maxNPCs; ++i)
 				{
-					if (Main.npc[i].CanBeChasedBy(projectile) && Vector2.Distance(Main.npc[i].Center, Main.player[projectile.owner].Center) <= maxRange)
+					if (Main.npc[i].CanBeChasedBy(projectile) && owner.Distance(Main.npc[i].Center) <= maxRange)
 					{
 						projectile.ai[0] = i;
 						projectile.netUpdate = true;

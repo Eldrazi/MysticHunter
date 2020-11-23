@@ -57,7 +57,7 @@ namespace MysticHunter.Souls.Data.HM
 		{
 			Player owner = Main.player[projectile.owner];
 
-			if (owner.dead)
+			if (!owner.active || owner.dead)
 				projectile.Kill();
 
 			// Correct projectile positioning on the owner.

@@ -56,7 +56,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override bool PreAI()
 		{
-			Player player = Main.player[projectile.owner];
+			Player owner = Main.player[projectile.owner];
 
 			// Returning to player AI stage.
 			if (projectile.ai[1] == 1)
@@ -66,7 +66,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				float speed = 8f;
 				float acceleration = .2f;
 
-				Vector2 targetDir = player.Center - projectile.Center;
+				Vector2 targetDir = owner.Center - projectile.Center;
 				targetDir *= (speed / targetDir.Length());
 				if (projectile.velocity.X < targetDir.X)
 					projectile.velocity.X += acceleration * ((projectile.velocity.X < 0f && targetDir.X > 0f) ? 2 : 1);
@@ -78,7 +78,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				else if (projectile.velocity.Y > targetDir.Y)
 					projectile.velocity.Y -= acceleration * ((projectile.velocity.Y > 0f && targetDir.Y < 0f) ? 2 : 1);
 
-				if (player.whoAmI == Main.myPlayer && projectile.Hitbox.Intersects(player.Hitbox))
+				if (owner.whoAmI == Main.myPlayer && projectile.Hitbox.Intersects(owner.Hitbox))
 					projectile.Kill();
 			}
 			else

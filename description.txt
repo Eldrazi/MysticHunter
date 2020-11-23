@@ -2,13 +2,12 @@ Mystic Hunter is an inspiration taken out of the Castlevania series more promine
 
 Various systems in place will allow you to experience a variety of play styles to enhance your vanilla experience and give you new reasons to explore and fight your way to the moon lord and back again.
 
-Update v0.1.5
-	- Added all HM mob souls.
-	- Added Soul Index UI draggability.
-	- Added hotkey to open Soul Index UI.
-	- Added close button to Soul Index UI.
-
-	- Updated UI scale/size.
-	- Updated soul mana usage (no longer takes mana usage reduction into account).
-
-	- Fixed lots of bugs with Pre-HM souls.
+Update v0.1.5.1
+	- Adds HM boss souls.
+	- Adds HM boss accessories
+		- 10% chance to drop from bosses, except:
+		- 5% chance to drop from WoF and Moon Lord.
+	- Adds the Soul of the Damned, which replaces the Reaper Gauntlet.
+	- Fixes Eater of Souls soul spawn bug.
+	- Updates visuals and functionality of existing accessories.
+	- Updates Skeletron (Prime) soul behaviour with better damping.

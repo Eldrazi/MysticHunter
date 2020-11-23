@@ -1,4 +1,7 @@
-﻿using Terraria;
+﻿using System;
+using System.IO;
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
@@ -7,7 +10,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using System.IO;
 
 namespace MysticHunter.Souls.Data.Bosses
 {
@@ -50,10 +52,10 @@ namespace MysticHunter.Souls.Data.Bosses
 
 		private bool attacking
 		{
-			get { return projectile.localAI[1] == 1.0f; }
+			get { return projectile.localAI[0] == 1.0f; }
 			set 
 			{
-				projectile.localAI[1] = (value == true ? 1f : 0f);
+				projectile.localAI[0] = (value == true ? 1f : 0f);
 				projectile.netUpdate = true; 
 			}
 		}
@@ -73,6 +75,7 @@ namespace MysticHunter.Souls.Data.Bosses
 
 		private int target;
 
+		private readonly float damping = .001f;
 		private readonly float yAcceleration = .12f, xAcceleration = .2f;
 		private readonly float maxTargetingDistance = 320;
 
@@ -87,7 +90,9 @@ namespace MysticHunter.Souls.Data.Bosses
 
 			projectile.scale = .6f;
 			projectile.penetrate = -1;
+			projectile.minionSlots = 0f;
 
+			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -98,40 +103,42 @@ namespace MysticHunter.Souls.Data.Bosses
 		{
 			Player owner = Main.player[projectile.owner];
 
-			if (owner.dead || owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC != NPCID.SkeletronHead)
-				projectile.Kill();
-			projectile.timeLeft = 10;
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.SkeletronHead)
+				projectile.timeLeft = 2;
 
 			// Set direction based on which side of the player this projectile is on.
 			projectile.spriteDirection = -(int)projectile.ai[0];
 
 			if (!attacking)
 			{
+				float yLength = Math.Min(Math.Abs(projectile.position.Y - targetHoverPosition.Y) * damping, yAcceleration);
+				float xLength = Math.Min(Math.Abs(projectile.position.X - targetHoverPosition.X) * damping, xAcceleration);
+
 				// Movement.
 				if (projectile.position.Y > targetHoverPosition.Y)
 				{
 					if (projectile.velocity.Y > 0)
 						projectile.velocity.Y *= .96f;
-					projectile.velocity.Y -= yAcceleration;
+					projectile.velocity.Y -= yLength;
 				}
 				else if (projectile.position.Y < targetHoverPosition.Y)
 				{
 					if (projectile.velocity.Y < 0)
 						projectile.velocity.Y *= .96f;
-					projectile.velocity.Y += yAcceleration;
+					projectile.velocity.Y += yLength;
 				}
 
 				if (projectile.Center.X > targetHoverPosition.X)
 				{
 					if (projectile.velocity.X > 0)
 						projectile.velocity.X *= .96f;
-					projectile.velocity.X -= xAcceleration;
+					projectile.velocity.X -= xLength;
 				}
 				else if (projectile.Center.X < targetHoverPosition.X)
 				{
 					if (projectile.velocity.X < 0)
 						projectile.velocity.X *= .96f;
-					projectile.velocity.X += xAcceleration;
+					projectile.velocity.X += xLength;
 				}
 
 				// Clamp velocity.
