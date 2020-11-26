@@ -69,11 +69,11 @@ namespace MysticHunter.Souls.Data.HM
 			SoulPlayer sp = owner.GetModPlayer<SoulPlayer>();
 
 			// Kill the projectile if the soul is no longer available.
-			if (owner.active && !owner.dead && sp.activeSouls[(int)SoulType.Blue].soulNPC == NPCID.AngryTrapper)
+			if (owner.active && !owner.dead && sp.BlueSoul?.soulNPC == NPCID.AngryTrapper)
 				projectile.timeLeft = 2;
 
 			float maxSpeed = 2;
-			float maxRange = 50 + (10 * sp.activeSouls[(int)SoulType.Blue].stack);
+			float maxRange = 50 + (10 * sp.activeSouls[sp.activeSoulConfig, (int)SoulType.Blue].stack);
 			float acceleration = .055f;
 
 			// Give a bit more range every 5 seconds.

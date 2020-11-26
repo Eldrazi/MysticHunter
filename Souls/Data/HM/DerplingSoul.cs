@@ -48,7 +48,7 @@ namespace MysticHunter.Souls.Data.HM
 	}
 	public class DerplingSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_177";
+		public override string Texture => "Terraria/NPC_" + NPCID.Derpling;
 
 		public override void SetStaticDefaults()
 		{
@@ -78,7 +78,7 @@ namespace MysticHunter.Souls.Data.HM
 			Player owner = Main.player[projectile.owner];
 
 			// Check if the projectile should still be alive.
-			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.Derpling)
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().BlueSoulNet.soulNPC == NPCID.Derpling)
 				projectile.timeLeft = 2;
 
 			MovementType movement = MovementType.None;

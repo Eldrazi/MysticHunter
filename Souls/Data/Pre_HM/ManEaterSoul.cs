@@ -66,11 +66,11 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Player owner = Main.player[projectile.owner];
 			SoulPlayer sp = owner.GetModPlayer<SoulPlayer>();
 
-			if (owner.active && !owner.dead || owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.ManEater)
+			if (owner.active && !owner.dead || owner.GetModPlayer<SoulPlayer>().BlueSoulNet.soulNPC == NPCID.ManEater)
 				projectile.timeLeft = 2;
 
 			float maxSpeed = 2;
-			float maxRange = 50 + (10 * sp.activeSouls[(int)SoulType.Blue].stack);
+			float maxRange = 50 + (10 * sp.BlueSoulNet.stack);
 			float acceleration = .055f;
 
 			// Give a bit more range every 5 seconds.

@@ -117,7 +117,7 @@ namespace MysticHunter.Souls.UI
 
 			// TODO: Eldrazi - Maybe change the sound?
 			Main.PlaySound(SoundID.Item37);
-			sp.activeSouls[soulIndex].soulNPC = slot.soulReference.soulNPC;
+			sp.activeSouls[sp.activeSoulConfig, soulIndex].soulNPC = slot.soulReference.soulNPC;
 			sp.UpdateActiveSoulData();
 		}
 

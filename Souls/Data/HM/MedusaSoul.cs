@@ -73,7 +73,7 @@ namespace MysticHunter.Souls.Data.HM
 
 			if (Main.myPlayer == owner.whoAmI)
 			{
-				if (!owner.active || owner.dead || owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Red].soulNPC != NPCID.Medusa ||
+				if (!owner.active || owner.dead || owner.GetModPlayer<SoulPlayer>().RedSoulNet.soulNPC != NPCID.Medusa ||
 					!MysticHunter.Instance.RedSoulActive.Current)
 				{
 					projectile.Kill();

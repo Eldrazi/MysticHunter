@@ -35,8 +35,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			if (!sp.seaSnailSoul)
 				return;
 
-			player.statDefense += sp.activeSouls[(int)SoulType.Blue].stack;
-			player.thorns += (.15f + .05f * sp.activeSouls[(int)SoulType.Blue].stack);
+			player.statDefense += sp.BlueSoulNet.stack;
+			player.thorns += (.15f + .05f * sp.BlueSoulNet.stack);
 
 			if (sp.seaSnailAnimationCounter < 24)
 				sp.seaSnailAnimationCounter++;

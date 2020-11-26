@@ -79,7 +79,7 @@ namespace MysticHunter.Souls.Data.Bosses
 		{
 			Player owner = Main.player[projectile.owner];
 
-			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.CultistBoss)
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().BlueSoulNet.soulNPC == NPCID.CultistBoss)
 				projectile.timeLeft = 2;
 
 			// Auto-update every 2 seconds.

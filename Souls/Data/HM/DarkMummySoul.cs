@@ -49,7 +49,7 @@ namespace MysticHunter.Souls.Data.HM
 
 	public class DarkMummySoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_79";
+		public override string Texture => "Terraria/NPC_" + NPCID.DarkMummy;
 
 		public override void SetStaticDefaults()
 		{

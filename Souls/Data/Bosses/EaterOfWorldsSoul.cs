@@ -97,7 +97,7 @@ namespace MysticHunter.Souls.Data.Bosses
 		{
 			Player owner = Main.player[projectile.owner];
 
-			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.EaterofWorldsHead)
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().BlueSoul?.soulNPC == NPCID.EaterofWorldsHead)
 				projectile.timeLeft = 2;
 
 			if (projectile.ai[1] == 0)

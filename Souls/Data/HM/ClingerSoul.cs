@@ -66,12 +66,12 @@ namespace MysticHunter.Souls.Data.HM
 			SoulPlayer sp = owner.GetModPlayer<SoulPlayer>();
 
 			// Kill the projectile if the player state is no longer valid, otherwise keep it alive.
-			if (owner.active && !owner.dead && sp.activeSouls[(int)SoulType.Blue].soulNPC == NPCID.Clinger)
+			if (owner.active && !owner.dead && sp.BlueSoulNet.soulNPC == NPCID.Clinger)
 				projectile.timeLeft = 2;
 
 			float maxSpeed = 4;
 			float acceleration = .08f;
-			float maxRange = 50 + (10 * sp.activeSouls[(int)SoulType.Blue].stack);
+			float maxRange = 50 + (10 * sp.BlueSoulNet.stack);
 
 			// Give a bit more range every 5 seconds.
 			projectile.localAI[0]++;

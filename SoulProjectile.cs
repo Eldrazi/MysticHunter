@@ -23,9 +23,9 @@ namespace MysticHunter
 				if (sp.ghostSoul && projectile.penetrate != -1)
 				{
 					int additivePenetration = 1;
-					if (sp.activeSouls[(int)SoulType.Yellow].stack >= 5)
+					if (sp.activeSouls[sp.activeSoulConfig, (int)SoulType.Yellow].stack >= 5)
 						additivePenetration++;
-					if (sp.activeSouls[(int)SoulType.Yellow].stack >= 9)
+					if (sp.activeSouls[sp.activeSoulConfig, (int)SoulType.Yellow].stack >= 9)
 						additivePenetration++;
 
 					projectile.penetrate = projectile.maxPenetrate = (projectile.penetrate + additivePenetration);

@@ -62,7 +62,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			int stack = (int)projectile.ai[0];
 			Player owner = Main.player[projectile.owner];
 
-			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.Hornet)
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().BlueSoulNet.soulNPC == NPCID.Hornet)
 				projectile.timeLeft = 2;
 
 			// Position the projectile correctly (above the player).

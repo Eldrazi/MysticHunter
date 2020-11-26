@@ -115,7 +115,7 @@ namespace MysticHunter.Souls.Data.Bosses
 		{
 			Player owner = Main.player[projectile.owner];
 
-			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.SkeletronPrime)
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().BlueSoul?.soulNPC == NPCID.SkeletronPrime)
 				projectile.timeLeft = 2;
 
 			// Set direction based on which side of the player this projectile is on.

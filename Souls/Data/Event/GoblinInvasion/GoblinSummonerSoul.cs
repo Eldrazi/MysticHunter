@@ -3,7 +3,7 @@ using Terraria.ID;
 
 using MysticHunter.Souls.Framework;
 
-namespace MysticHunter.Souls.Data.Event
+namespace MysticHunter.Souls.Data.Event.GoblinInvasion
 {
 	public class GoblinSummonerSoul : PostHMSoul, IEventSoul
 	{

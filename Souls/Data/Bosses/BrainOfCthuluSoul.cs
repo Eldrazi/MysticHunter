@@ -62,7 +62,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			if (!owner.active)
 				npc.active = false;
-			if (!owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.BrainofCthulhu)
+			if (!owner.dead && owner.GetModPlayer<SoulPlayer>().BlueSoul?.soulNPC == NPCID.BrainofCthulhu)
 				npc.timeLeft = 2;
 
 			// Set correct NPC velocity.

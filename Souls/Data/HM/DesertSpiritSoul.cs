@@ -33,7 +33,7 @@ namespace MysticHunter.Souls.Data.HM
 
 	public class DesertSpiritSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_0";
+		public override string Texture => "Terraria/NPC_" + NPCID.None;
 
 		private float MaxDamageRadius { get { return projectile.ai[0]; } }
 		private float CurrentDamageRadius { get { return projectile.ai[1]; } set { projectile.ai[1] = value; } }

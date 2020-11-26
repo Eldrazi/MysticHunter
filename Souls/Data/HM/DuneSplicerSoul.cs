@@ -47,7 +47,7 @@ namespace MysticHunter.Souls.Data.HM
 
 	public class DuneSplicerSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_510";
+		public override string Texture => "Terraria/NPC_" + NPCID.DuneSplicerHead;
 
 		private int bodySize = 36;
 		private int bodyLength => (int)projectile.ai[0];
@@ -87,7 +87,7 @@ namespace MysticHunter.Souls.Data.HM
 		{
 			Player owner = Main.player[projectile.owner];
 
-			if (owner.active && !owner.dead || owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.DuneSplicerHead)
+			if (owner.active && !owner.dead || owner.GetModPlayer<SoulPlayer>().BlueSoulNet.soulNPC == NPCID.DuneSplicerHead)
 				projectile.timeLeft = 2;
 
 			if (projectile.ai[1] == 0)

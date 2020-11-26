@@ -72,7 +72,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			SoulPlayer sp = owner.GetModPlayer<SoulPlayer>();
 
 			// Check to see if the NPC should still be alive.
-			if (owner.active && !owner.dead && sp.activeSouls[(int)SoulType.Red].soulNPC != NPCID.EaterofSouls)
+			if (owner.active && !owner.dead && sp.RedSoulNet.soulNPC != NPCID.EaterofSouls)
 				projectile.timeLeft = 2;
 
 			bool hasTarget = true;

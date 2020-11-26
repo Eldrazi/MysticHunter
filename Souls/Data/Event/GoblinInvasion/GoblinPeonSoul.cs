@@ -3,12 +3,12 @@ using Terraria.ID;
 
 using MysticHunter.Souls.Framework;
 
-namespace MysticHunter.Souls.Data.Event
+namespace MysticHunter.Souls.Data.Event.GoblinInvasion
 {
-	public class GoblinArcherSoul : PreHMSoul, IEventSoul
+	public class GoblinPeonSoul : PreHMSoul, IEventSoul
 	{
-		public override short soulNPC => NPCID.GoblinArcher;
-		public override string soulDescription => "Increases ranged damage.";
+		public override short soulNPC => NPCID.GoblinPeon;
+		public override string soulDescription => "Increases movespeed.";
 
 		public override short cooldown => 0;
 
@@ -17,7 +17,7 @@ namespace MysticHunter.Souls.Data.Event
 		public override short ManaCost(Player p, short stack) => 0;
 		public override bool SoulUpdate(Player p, short stack)
 		{
-			p.rangedDamage += (.08f * stack);
+			p.moveSpeed += (.08f * stack);
 			return (true);
 		}
 	}

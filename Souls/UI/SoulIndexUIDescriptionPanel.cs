@@ -19,9 +19,9 @@ namespace MysticHunter.Souls.UI
 			this.SetPadding(0);
 
 			this.Top.Pixels = 0;
-			this.Left.Pixels = this.Parent.Width.Pixels / 2 + 8;
+			this.Left.Pixels = this.Parent.Width.Pixels / 2 + 22;
 
-			this.Width.Pixels = this.Parent.Width.Pixels / 2 - 8;
+			this.Width.Pixels = this.Parent.Width.Pixels / 2 - 28;
 			this.Height.Pixels = this.Parent.Height.Pixels - SoulIndexUIListPanel.height - 8;
 
 			drawNPC = new NPC();

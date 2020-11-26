@@ -35,6 +35,8 @@ namespace MysticHunter.Souls.UI
 
 		public SoulIndexUICloseButton closeButton;
 
+		public SouldIndexUIPresetButton[] presetButtons = new SouldIndexUIPresetButton[3];
+
 		private bool dragging = false;
 		private Vector2 dragPos = Vector2.Zero;
 		private Vector2 relativeDragpos = Vector2.Zero;
@@ -44,7 +46,7 @@ namespace MysticHunter.Souls.UI
 			panelTexture = GetTexture("MysticHunter/Souls/UI/SoulIndex_GenericPanel");
 
 			this.SetPadding(0);
-			this.Width.Pixels = 400;
+			this.Width.Pixels = 480;
 			this.Height.Pixels = 330;
 
 			// Add the SoulIndexUIListPanel, which controls the scrolling list of acquired souls.
@@ -59,6 +61,12 @@ namespace MysticHunter.Souls.UI
 
 			soulDescriptionPanel = new SoulIndexUIDescriptionPanel(panelTexture, new Vector2(24, 8));
 			this.Append(soulDescriptionPanel);
+
+			for (int i = 0; i < this.presetButtons.Length; ++i)
+			{
+				presetButtons[i] = new SouldIndexUIPresetButton(i);
+				this.Append(presetButtons[i]);
+			}
 
 			Top.Pixels = Main.screenHeight / 2 - this.Height.Pixels / 2;
 			Left.Pixels = Main.screenWidth / 2 - this.Width.Pixels / 2;
@@ -103,6 +111,11 @@ namespace MysticHunter.Souls.UI
 
 		protected override void DrawChildren(SpriteBatch spriteBatch)
 		{
+			foreach (UIElement e in presetButtons)
+			{
+				e.Draw(spriteBatch);
+			}
+
 			soulListPanel.Draw(spriteBatch);
 			soulSlotPanel.Draw(spriteBatch);
 			soulDescriptionPanel.Draw(spriteBatch);

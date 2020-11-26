@@ -60,7 +60,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Player owner = Main.player[projectile.owner];
 
-			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.Shark)
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().BlueSoulNet.soulNPC == NPCID.Shark)
 				projectile.timeLeft = 2;
 
 			if (projectile.direction == 0)

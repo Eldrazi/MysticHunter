@@ -75,7 +75,7 @@ namespace MysticHunter.Souls.Data.Bosses
 			Player owner = Main.player[projectile.owner];
 			
 			// Check if the projectile should still be alive.
-			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.TheDestroyer)
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().BlueSoul?.soulNPC == NPCID.TheDestroyer)
 				projectile.timeLeft = 2;
 
 			// Projectile state management.

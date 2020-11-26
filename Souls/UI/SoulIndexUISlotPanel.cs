@@ -24,9 +24,9 @@ namespace MysticHunter.Souls.UI
 			this.SetPadding(0);
 
 			this.Top.Pixels = 18;
-			this.Left.Pixels = 0;
+			this.Left.Pixels = 44;
 
-			this.Width.Pixels = this.Parent.Width.Pixels / 2 - 8;
+			this.Width.Pixels = this.Parent.Width.Pixels / 2 - 34;
 			this.Height.Pixels = this.Parent.Height.Pixels - SoulIndexUIListPanel.height - 18 - this.Top.Pixels;
 
 			soulSlots = new SoulIndexUISoulSlot[3];
@@ -79,7 +79,7 @@ namespace MysticHunter.Souls.UI
 				return;
 
 			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
-			sp.activeSouls[(int)slot.soulType].soulNPC = 0;
+			sp.activeSouls[sp.activeSoulConfig, (int)slot.soulType].soulNPC = 0;
 		}
 	}
 }

@@ -60,7 +60,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Player owner = Main.player[projectile.owner];
 			SoulPlayer sp = owner.GetModPlayer<SoulPlayer>();
 
-			if (owner.active && !owner.dead && sp.activeSouls[(int)SoulType.Blue].soulNPC == NPCID.MotherSlime)
+			if (owner.active && !owner.dead && sp.BlueSoulNet.soulNPC == NPCID.MotherSlime)
 				projectile.timeLeft = 2;
 
 			// A cooldown of 20 seconds (1200 ticks) - 1 second per soul stack (minimum of 720 ticks/12 seconds).

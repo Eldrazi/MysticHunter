@@ -72,7 +72,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Player owner = Main.player[projectile.owner];
 
-			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().activeSouls[(int)SoulType.Blue].soulNPC == NPCID.BoneSerpentHead)
+			if (owner.active && !owner.dead && owner.GetModPlayer<SoulPlayer>().BlueSoulNet.soulNPC == NPCID.BoneSerpentHead)
 				projectile.timeLeft = 2;
 
 			// Projectile state management.
