@@ -12,7 +12,7 @@ namespace MysticHunter.Souls.Data.Event.Rain
 	public class FlyingFishSoul : PreHMSoul, IEventSoul
 	{
 		public override short soulNPC => NPCID.FlyingFish;
-		public override string soulDescription => "Summon a homing flying fish.";
+		public override string soulDescription => "Summon a homing Flying Fish.";
 
 		public override short cooldown => 300;
 

@@ -13,9 +13,5 @@ namespace MysticHunter.Souls.Buffs
 
 			this.DisplayName.SetDefault("Blue Soul Cooldown");
 		}
-
-		public override void Update(Player player, ref int buffIndex)
-		{
-		}
 	}
 }

@@ -4,10 +4,9 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {

@@ -57,6 +57,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class HarpySoulProj : ModProjectile
 	{
+		public override string Texture => "Terraria/Projectile_" + ProjectileID.HarpyFeather;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Feather");

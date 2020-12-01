@@ -173,10 +173,15 @@ namespace MysticHunter
 		/// </summary>
 		public override void PostUpdateEquips()
 		{
-			if (activeSouls[activeSoulConfig, (int)SoulType.Yellow].soulNPC != 0)
+			if (YellowSoulNet.soulNPC != 0 && !player.HasBuff(BuffType<YellowSoulDebuff>()))
 			{
 				BaseSoul soulReference = YellowSoul;
-				soulReference.SoulUpdate(player, activeSouls[activeSoulConfig, (int)SoulType.Yellow].stack);
+				soulReference.SoulUpdate(player, YellowSoulNet.stack);
+
+				if (soulReference.cooldown > 0)
+				{
+					player.AddBuff(BuffType<YellowSoulDebuff>(), soulReference.cooldown);
+				}
 			}
 
 			RedSoul?.PostUpdate(player);
@@ -245,25 +250,27 @@ namespace MysticHunter
 			// Using a temporary BaseSoul reference to diminish the amount of times we have to call 
 			BaseSoul tmpSoulRef;
 
-			if (activeSouls[activeSoulConfig, (int)SoulType.Red].soulNPC != 0 && !player.HasBuff(BuffType<RedSoulDebuff>()) && MysticHunter.Instance.RedSoulActive.Current)
+			if (RedSoulNet.soulNPC != 0 && !player.HasBuff(BuffType<RedSoulDebuff>()) && MysticHunter.Instance.RedSoulActive.Current)
 			{
 				tmpSoulRef = RedSoul;
-				if (CheckSoulMana(tmpSoulRef.ManaCost(player, UnlockedSouls[activeSouls[activeSoulConfig, (int)SoulType.Red].soulNPC]), true) &&
-					tmpSoulRef.SoulUpdate(player, UnlockedSouls[activeSouls[activeSoulConfig, (int)SoulType.Red].soulNPC]))
+				if (CheckSoulMana(tmpSoulRef.ManaCost(player, UnlockedSouls[RedSoulNet.soulNPC]), false) &&
+					tmpSoulRef.SoulUpdate(player, UnlockedSouls[RedSoulNet.soulNPC]))
 				{
 					player.manaRegenDelay = (int)player.maxRegenDelay;
 					player.AddBuff(BuffType<RedSoulDebuff>(), tmpSoulRef.cooldown);
+					CheckSoulMana(tmpSoulRef.ManaCost(player, UnlockedSouls[RedSoulNet.soulNPC]), true);
 				}
 			}
 
-			if (activeSouls[activeSoulConfig, (int)SoulType.Blue].soulNPC != 0 && !player.HasBuff(BuffType<BlueSoulDebuff>()) && MysticHunter.Instance.BlueSoulActive.Current)
+			if (BlueSoulNet.soulNPC != 0 && !player.HasBuff(BuffType<BlueSoulDebuff>()) && MysticHunter.Instance.BlueSoulActive.Current)
 			{
 				tmpSoulRef = BlueSoul;
-				if (CheckSoulMana(tmpSoulRef.ManaCost(player, UnlockedSouls[activeSouls[activeSoulConfig, (int)SoulType.Blue].soulNPC]), true) &&
-					tmpSoulRef.SoulUpdate(player, UnlockedSouls[activeSouls[activeSoulConfig, (int)SoulType.Blue].soulNPC]))
+				if (CheckSoulMana(tmpSoulRef.ManaCost(player, UnlockedSouls[BlueSoulNet.soulNPC]), false) &&
+					tmpSoulRef.SoulUpdate(player, UnlockedSouls[BlueSoulNet.soulNPC]))
 				{
 					player.manaRegenDelay = (int)player.maxRegenDelay;
 					player.AddBuff(BuffType<BlueSoulDebuff>(), tmpSoulRef.cooldown);
+					CheckSoulMana(tmpSoulRef.ManaCost(player, UnlockedSouls[BlueSoulNet.soulNPC]), true);
 				}
 			}
 		}
@@ -296,9 +303,9 @@ namespace MysticHunter
 			if (this.tacticalSkeletonSoul && item.useAmmo == AmmoID.Bullet)
 			{
 				int amount = 1;
-				if (this.activeSouls[activeSoulConfig, (int)SoulType.Yellow].stack >= 5)
+				if (YellowSoulNet.stack >= 5)
 					amount++;
-				if (this.activeSouls[activeSoulConfig, (int)SoulType.Yellow].stack >= 9)
+				if (YellowSoulNet.stack >= 9)
 					amount++;
 
 				for (int i = 0; i < amount; ++i)

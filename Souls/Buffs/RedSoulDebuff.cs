@@ -13,9 +13,5 @@ namespace MysticHunter.Souls.Buffs
 
 			this.DisplayName.SetDefault("Red Soul Cooldown");
 		}
-
-		public override void Update(Player player, ref int buffIndex)
-		{
-		}
 	}
 }
