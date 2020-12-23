@@ -14,7 +14,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 	public class ZombieEskimoSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.ZombieEskimo;
-		public override string soulDescription => "Summons a lumbering zombie eskimo.";
+		public override string soulDescription => "Summons a lumbering Zombie Eskimo.";
 
 		public override short cooldown => 300;
 
@@ -85,7 +85,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				if (!isBehindTiles)
 				{
 					projectile.ai[0] = 1;
-					projectile.ai[1] = 0;
 					projectile.velocity.Y = 0;
 				}
 				else

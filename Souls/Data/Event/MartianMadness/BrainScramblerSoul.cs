@@ -6,14 +6,13 @@ using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
-using System;
 
 namespace MysticHunter.Souls.Data.Event.MartianMadness
 {
 	public class BrainScramblerSoul : PostHMSoul, IEventSoul
 	{
 		public override short soulNPC => NPCID.BrainScrambler;
-		public override string soulDescription => "Summons a Brain Scrambler to confuse enemies on hit.";
+		public override string soulDescription => "Summon a Brain Scrambler to confuse enemies on hit.";
 
 		public override short cooldown => 300;
 

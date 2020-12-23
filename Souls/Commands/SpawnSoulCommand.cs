@@ -1,8 +1,12 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 using MysticHunter.Souls.Items;
+
+#endregion
 
 namespace MysticHunter.Souls.Commands
 {

@@ -1,5 +1,10 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿#region Using directives
+
 using Terraria.ModLoader;
+
+using Microsoft.Xna.Framework.Audio;
+
+#endregion
 
 namespace ExampleMod.Sounds.Item
 {

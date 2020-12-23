@@ -22,5 +22,15 @@ namespace MysticHunter
 				resultStack += amount;
 			}
 		}
+
+		public override void GrabRange(Item item, Player player, ref int grabRange)
+		{
+			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
+
+			if (sp.poltergeistSoul == true)
+			{
+				grabRange += sp.YellowSoulNet.stack * 3;
+			}
+		}
 	}
 }

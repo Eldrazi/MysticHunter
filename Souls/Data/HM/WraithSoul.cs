@@ -1,8 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.DataStructures;
 
+using MysticHunter.Souls.Buffs;
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -24,11 +30,13 @@ namespace MysticHunter.Souls.Data.HM
 
 		private bool OnHitModifier(Player player, ref int damage, PlayerDeathReason damageSource, byte soulStack)
 		{
-			if (player.CheckMana(10, true))
+			if (!player.HasBuff(ModContent.BuffType<YellowSoulDebuff>()) && player.CheckMana(10, true))
 			{
 				player.immune = true;
 				player.immuneTime = 10 + 5 * soulStack;
 				player.manaRegenDelay = (int)player.maxRegenDelay;
+
+				player.AddBuff(ModContent.BuffType<YellowSoulDebuff>(), 600);
 				return (false);
 			}
 			return (true);

@@ -1,10 +1,15 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Collections.Generic;
 
 using Terraria.ModLoader;
 
-namespace MysticHunter.API.Loading
+#endregion
+
+namespace MysticHunter.Common.Loaders
 {
+	// TODO: Eldrazi - Add summaries to relevant methods.
 	public class RegistryLoader
 	{
 		internal static Dictionary<string, Mod> Mods;
@@ -22,6 +27,9 @@ namespace MysticHunter.API.Loading
 
 		internal static bool CheckModRegistered(Mod mod, string source, bool @throw = true)
 		{
+			if (mod == null)
+				return (false);
+
 			bool modIsPresent = Mods.ContainsKey(mod.Name);
 			if (modIsPresent && @throw)
 			{
@@ -51,6 +59,9 @@ namespace MysticHunter.API.Loading
 		}
 		internal static void UnloadModContent()
 		{
+			if (MysticHunter.Instance == null || MysticHunter.Instance.SoulDict == null)
+				return;
+
 			MysticHunter.Instance.SoulDict.Clear();
 			MysticHunter.Instance.SoulDict = null;
 		}

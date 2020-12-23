@@ -1,7 +1,11 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ModLoader;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter
 {

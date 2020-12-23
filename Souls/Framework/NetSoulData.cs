@@ -1,7 +1,8 @@
 ﻿namespace MysticHunter.Souls.Framework
 {
 	/// <summary>
-	/// Mainly used where netsyncing and saving/loading is crucial (ea <see cref="SoulPlayer"/>).
+	/// Mainly used where netsyncing and saving/loading is crucial without too much data traffic. <br/>
+	/// See <see cref="SoulPlayer"/> and <see cref="MysticHunter.HandlePacket"/>.
 	/// </summary>
 	public class NetSoulData
 	{

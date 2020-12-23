@@ -104,10 +104,12 @@ namespace MysticHunter
 		public bool QueenKnuckle = false;
 
 		// Yellow soul booleans.
+		public bool yetiSoul = false;
 		public bool pinkySoul = false;
 		public bool lamiaSoul = false;
 		public bool ghostSoul = false;
 		public bool seaSnailSoul = false;
+		public bool poltergeistSoul = false;
 		public bool undeadMinerSoul = false;
 		public bool torturedSoulSoul = false;
 		public bool possessedArmorSoul = false;
@@ -144,10 +146,12 @@ namespace MysticHunter
 			LunarRitual = false;
 			QueenKnuckle = false;
 
+			yetiSoul = false;
 			pinkySoul = false;
 			lamiaSoul = false;
 			ghostSoul = false;
 			seaSnailSoul = false;
+			poltergeistSoul = false;
 			undeadMinerSoul = false;
 			torturedSoulSoul = false;
 			possessedArmorSoul = false;

@@ -264,48 +264,5 @@ namespace MysticHunter.Souls.Data.Bosses
 			Main.spriteBatch.Draw(extraTex02, center - Main.screenPosition, null, drawColor, projectile.rotation, tex.Frame(1, 1, 0, 0).Top(), projectile.scale, SpriteEffects.None, 0f);
 			return (false);
 		}
-		/*
-					if (projectile.velocity == Vector2.Zero)
-					{
-						return;
-					}
-					Texture2D texture2D18 = Main.projectileTexture[projectile.type];
-					Texture2D texture2D19 = Main.extraTexture[21];
-					Texture2D texture2D20 = Main.extraTexture[22];
-					float num223 = projectile.localAI[1];
-					Microsoft.Xna.Framework.Color color44 = new Microsoft.Xna.Framework.Color(255, 255, 255, 0) * 0.9f;
-					SpriteBatch spriteBatch22 = Main.spriteBatch;
-					Texture2D texture25 = texture2D18;
-					Vector2 position36 = projectile.Center - Main.screenPosition;
-					Microsoft.Xna.Framework.Rectangle? sourceRectangle2 = null;
-					spriteBatch22.Draw(texture25, position36, sourceRectangle2, color44, projectile.rotation, texture2D18.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-					num223 -= (float)(texture2D18.Height / 2 + texture2D20.Height) * projectile.scale;
-					Vector2 value21 = projectile.Center;
-					value21 += projectile.velocity * projectile.scale * (float)texture2D18.Height / 2f;
-					if (num223 > 0f)
-					{
-						float num224 = 0f;
-						Microsoft.Xna.Framework.Rectangle value22 = new Microsoft.Xna.Framework.Rectangle(0, 16 * (projectile.timeLeft / 3 % 5), texture2D19.Width, 16);
-						while (num224 + 1f < num223)
-						{
-							if (num223 - num224 < (float)value22.Height)
-							{
-								value22.Height = (int)(num223 - num224);
-							}
-							Main.spriteBatch.Draw(texture2D19, value21 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(value22), color44, projectile.rotation, new Vector2((float)(value22.Width / 2), 0f), projectile.scale, SpriteEffects.None, 0f);
-							num224 += (float)value22.Height * projectile.scale;
-							value21 += projectile.velocity * (float)value22.Height * projectile.scale;
-							value22.Y += 16;
-							if (value22.Y + value22.Height > texture2D19.Height)
-							{
-								value22.Y = 0;
-							}
-						}
-					}
-					SpriteBatch spriteBatch23 = Main.spriteBatch;
-					Texture2D texture26 = texture2D20;
-					Vector2 position37 = value21 - Main.screenPosition;
-					sourceRectangle2 = null;
-					spriteBatch23.Draw(texture26, position37, sourceRectangle2, color44, projectile.rotation, texture2D20.Frame(1, 1, 0, 0).Top(), projectile.scale, SpriteEffects.None, 0f);*/
 	}
 }

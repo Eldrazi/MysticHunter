@@ -155,5 +155,15 @@ namespace MysticHunter
 					spawnRate = 5;
 			}
 		}
+
+		public override bool PreAI(NPC npc)
+		{
+			if (npc.HasBuff(BuffID.Slow))
+			{
+				npc.wet = true;
+			}
+
+			return (true);
+		}
 	}
 }

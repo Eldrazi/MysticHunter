@@ -1,12 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.UI;
+using Terraria.ModLoader;
 
 using MysticHunter.Souls.UI;
-using MysticHunter.Souls.Framework;
-using Terraria.ModLoader;
 using MysticHunter.Souls.Items;
 
-namespace MysticHunter.API.Loading
+#endregion
+
+namespace MysticHunter.Common.Loaders
 {
 	/// <summary>
 	/// A loading funneler which centralizes all loading.
@@ -59,8 +62,7 @@ namespace MysticHunter.API.Loading
 		}
 
 		/// <summary>
-		/// Only called on clients.
-		/// Loads UI and binds hotkeys.
+		/// Only called on client instances; loads UI and binds hotkeys.
 		/// </summary>
 		internal static void LoadModClient()
 		{

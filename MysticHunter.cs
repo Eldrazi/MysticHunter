@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿#region Using directives
+
+using System.IO;
 using System.Collections.Generic;
 
 using Terraria;
@@ -6,11 +8,13 @@ using Terraria.ID;
 using Terraria.UI;
 using Terraria.ModLoader;
 
+using Microsoft.Xna.Framework;
+
 using MysticHunter.Souls.UI;
+using MysticHunter.Common.Loaders;
 using MysticHunter.Souls.Framework;
 
-using Microsoft.Xna.Framework;
-using MysticHunter.API.Loading;
+#endregion
 
 namespace MysticHunter
 {

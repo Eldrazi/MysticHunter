@@ -1,4 +1,8 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
+
+#endregion
 
 namespace MysticHunter.Souls.Framework
 {

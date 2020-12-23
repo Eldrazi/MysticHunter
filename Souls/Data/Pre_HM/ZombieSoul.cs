@@ -15,7 +15,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 	public class ZombieSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.Zombie;
-		public override string soulDescription => "Summons a lumbering zombie.";
+		public override string soulDescription => "Summons a lumbering Zombie.";
 
 		public override short cooldown => 300;
 
@@ -24,6 +24,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override short ManaCost(Player p, short stack) => (short)(5 + 3 * stack);
 		public override bool SoulUpdate(Player p, short stack)
 		{
+			int damage = 10;
 			int amount = 1;
 			if (stack >= 5)
 				amount++;
@@ -39,7 +40,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				else if (amount == 3)
 					spawnPos += new Vector2(-30 * (1 - i), 0);
 
-				Projectile proj = Main.projectile[Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileType<ZombieSoulProj>(), 10, 0, p.whoAmI)];
+				Projectile proj = Main.projectile[Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileType<ZombieSoulProj>(), damage, 0, p.whoAmI)];
 				proj.direction = p.direction;
 				proj.netUpdate = true;
 			}
@@ -92,7 +93,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				if (!isBehindTiles)
 				{
 					projectile.ai[0] = 1;
-					projectile.ai[1] = 0;
 					projectile.velocity.Y = 0;
 				}
 				else

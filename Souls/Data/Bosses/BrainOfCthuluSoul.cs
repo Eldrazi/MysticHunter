@@ -35,7 +35,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class BrainOfCthuluSoulNPC : ModNPC
 	{
-		public override string Texture => "Terraria/NPC_267";
+		public override string Texture => "Terraria/NPC_" + NPCID.Creeper;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Creeper");
@@ -45,8 +45,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			npc.width = npc.height = 30;
 
-			npc.lifeMax = 1;
 			npc.damage = 20;
+			npc.lifeMax = 50;
 
 			npc.friendly = true;
 			npc.noGravity = true;
@@ -85,16 +85,29 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				}
 			}
 
-			// Check for similar NPCs and adjust velocity to prevent swarming.
+			
 			for (int i = 0; i < Main.maxNPCs; ++i)
 			{
-				if (Main.npc[i].active && Main.npc[i].whoAmI != npc.whoAmI && Main.npc[i].type == npc.type && Main.npc[i].ai[0] == npc.ai[0])
+				NPC other = Main.npc[i];
+				// Check for similar NPCs and adjust velocity to prevent swarming.
+				if (other.active && other.whoAmI != npc.whoAmI && other.type == npc.type && other.ai[0] == npc.ai[0])
 				{
-					Vector2 dirToOtherNPC = (Main.npc[i].Center - npc.Center);
+					Vector2 dirToOtherNPC = (other.Center - npc.Center);
 					float distToOtherNPC = dirToOtherNPC.Length();
 
 					if (distToOtherNPC <= 10)
 						npc.velocity -= Vector2.Normalize(dirToOtherNPC) * .2f;
+				}
+
+				// Check for collision.
+				if (other.CanBeChasedBy(npc) && !other.immortal)
+				{
+					if (npc.Hitbox.Intersects(other.Hitbox))
+					{
+						npc.netUpdate = true;
+						this.OnHitNPC(other, npc.damage, 0.5f, false);
+						other.StrikeNPCNoInteraction(npc.damage, 0.5f, 0);
+					}
 				}
 			}
 
