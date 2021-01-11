@@ -1,10 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {

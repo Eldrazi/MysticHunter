@@ -1,13 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Bosses
 {
@@ -30,7 +32,7 @@ namespace MysticHunter.Souls.Data.Bosses
 			p.GetModPlayer<SoulPlayer>().eocSoulDash = true;
 			p.velocity.X = p.direction * 14f;
 
-			Main.PlaySound(15, p.Center, 0);
+			SoundEngine.PlaySound(15, p.Center, 0);
 			return (true);
 		}
 
@@ -52,14 +54,14 @@ namespace MysticHunter.Souls.Data.Bosses
 						{
 							bool crit = false;
 							float knockback = 9f;
-							float damage = (25 + 3 * sp.UnlockedSouls[this.soulNPC]) * player.meleeDamage;
+							float damage = (25 + 3 * sp.UnlockedSouls[this.soulNPC]) * player.GetDamage<Melee>();
 
 							if (player.kbGlove)
 								knockback *= 2;
 							if (player.kbBuff)
 								knockback *= 1.5f;
 
-							if (Main.rand.Next(100) < player.meleeCrit)
+							if (Main.rand.Next(100) < player.GetCrit<Melee>())
 								crit = true;
 
 							int dir = player.direction;
@@ -90,7 +92,7 @@ namespace MysticHunter.Souls.Data.Bosses
 			}
 		}
 
-		public static readonly PlayerLayer DrawLayer = new PlayerLayer("MysticHunter", "EyeOfCthulu", delegate (PlayerDrawInfo drawInfo)
+		/*public static readonly PlayerLayer DrawLayer = new PlayerLayer("MysticHunter", "EyeOfCthulu", delegate (PlayerDrawInfo drawInfo)
 		{
 			if (drawInfo.shadow != 0f)
 				return;
@@ -106,6 +108,6 @@ namespace MysticHunter.Souls.Data.Bosses
 			int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y);
 			DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, Color.White * .4f, 0, new Vector2(texture.Width / 2f, texture.Height / 2f), 1, effects, 0);
 			Main.playerDrawData.Add(data);
-		});
+		});*/
 	}
 }

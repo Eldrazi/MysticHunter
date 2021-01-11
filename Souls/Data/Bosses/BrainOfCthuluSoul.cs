@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -27,7 +30,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			for (int i = 0; i < amount; ++i)
 			{
 				Vector2 spawnPos = p.Center + new Vector2(Main.rand.Next(241) - 120, Main.rand.Next(241) - 120);
-				NPC.NewNPC((int)spawnPos.X, (int)spawnPos.Y, NPCType<BrainOfCthuluSoulNPC>(), 0, p.whoAmI);
+				NPC.NewNPC((int)spawnPos.X, (int)spawnPos.Y, ModContent.NPCType<BrainOfCthuluSoulNPC>(), 0, p.whoAmI);
 			}
 			return (true);
 		}
@@ -35,7 +38,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class BrainOfCthuluSoulNPC : ModNPC
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.Creeper;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.Creeper;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Creeper");
@@ -117,7 +120,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit) => target.AddBuff(BuffID.Confused, 120);
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit) => projectile.Kill();
 
-		public override void NPCLoot()
+		public override void OnKill()
 		{
 			for (int i = 0; i < 10; i++)
 				Dust.NewDust(npc.position, npc.width, npc.height, DustID.Smoke, npc.velocity.X * .2f, npc.velocity.Y * .2f, 100);

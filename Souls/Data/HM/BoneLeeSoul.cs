@@ -1,8 +1,12 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -30,6 +34,7 @@ namespace MysticHunter.Souls.Data.HM
 			{
 				player.immune = true;
 				player.immuneTime = 30;
+
 				return (false);
 			}
 			return (true);

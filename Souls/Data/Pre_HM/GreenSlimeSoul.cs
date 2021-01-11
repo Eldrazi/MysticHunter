@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -24,14 +28,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			int damage = 5;
 			float knockBack = .1f;
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<GreenSlimeSoulProj>(), damage, knockBack, p.whoAmI);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<GreenSlimeSoulProj>(), damage, knockBack, p.whoAmI);
 			return (true);
 		}
 	}
 
 	public class GreenSlimeSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_1";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.BlueSlime;
 
 		public override void SetStaticDefaults()
 		{
@@ -45,7 +49,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			projectile.penetrate = -1;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 
 			projectile.scale = .9f;
@@ -112,7 +115,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			for (int i = 0; i < 10; i++)
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.GreenBlood, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100);
 
-			Main.PlaySound(SoundID.NPCDeath1, projectile.Center);
+			SoundEngine.PlaySound(SoundID.NPCDeath1, projectile.Center);
 		}
 	}
 }

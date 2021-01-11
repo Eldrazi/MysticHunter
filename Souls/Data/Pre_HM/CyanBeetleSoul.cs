@@ -1,13 +1,12 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.DataStructures;
-using static Terraria.ModLoader.ModContent;
 
 using MysticHunter.Souls.Framework;
 
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -29,7 +28,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			return (true);
 		}
 
-		public static readonly PlayerLayer DrawLayer = new PlayerLayer("MysticHunter", "CyanBeetle", delegate (PlayerDrawInfo drawInfo)
+		/*public static readonly PlayerLayer DrawLayer = new PlayerLayer("MysticHunter", "CyanBeetle", delegate (PlayerDrawInfo drawInfo)
 		{
 			if (drawInfo.shadow != 0f)
 				return;
@@ -41,7 +40,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y);
 			DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, new Color(34, 73, 128, 100), 0, new Vector2(texture.Width / 2f, texture.Height / 2f), 1, SpriteEffects.None, 0);
 			Main.playerDrawData.Add(data);
-		});
+		});*/
 
 		/// <summary>
 		/// Modifies the given damage value *only* if the damage is melee.

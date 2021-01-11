@@ -1,12 +1,18 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using System.IO;
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 using MysticHunter.Souls.Framework;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.IO;
+
+#endregion
 
 namespace MysticHunter.Souls.Items
 {
@@ -38,33 +44,31 @@ namespace MysticHunter.Souls.Items
 		{
 			SoulPlayer sp = player.GetModPlayer<SoulPlayer>();
 
-			if (MysticHunter.Instance.SoulDict.ContainsKey(soulNPC))
+			if (MysticHunter.Instance.SoulDict.TryGetValue(soulNPC, out BaseSoul soul))
 			{
-				BaseSoul s = MysticHunter.Instance.SoulDict[soulNPC];
-
 				Color c = Color.Red;
-				if (s.soulType == SoulType.Blue)
+				if (soul.soulType == SoulType.Blue)
 					c = Color.Blue;
-				else if (s.soulType == SoulType.Yellow)
+				else if (soul.soulType == SoulType.Yellow)
 					c = Color.Yellow;
 
 				if (!sp.UnlockedSouls.ContainsKey(soulNPC))
 					sp.UnlockedSouls.Add(soulNPC, 0);
 
-				if (sp.UnlockedSouls[soulNPC] < 9)
+				if (!sp.HasMaxSouls(soulNPC))
 				{
 					// Display a message in chat.
-					Main.NewText($"You collected your {numberList[sp.UnlockedSouls[soulNPC]]} {s.SoulNPCName()} soul.", c);
+					Main.NewText($"You collected your {numberList[sp.UnlockedSouls[soulNPC]]} {soul.SoulNPCName()} soul.", c);
 
 					// Increase the stack for this soul.
 					sp.UnlockedSouls[soulNPC]++;
 
-					// Update the local player and UI.
+					// Update the local player soul data and UI.
 					sp.UpdateActiveSoulData();
 					SoulManager.ReloadSoulIndexUI();
 
 					// Emit a sound a particle effect.
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/SoulPickup"), player.Center);
+					SoundEngine.PlaySound(Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/SoulPickup"), player.Center);
 					for (int i = 0; i < 5; ++i)
 					{
 						Dust d = Main.dust[Dust.NewDust(player.position, player.width, player.height, DustID.AncientLight, 0f, 0f, 255, c, Main.rand.Next(20, 26) * 0.1f)];
@@ -83,8 +87,11 @@ namespace MysticHunter.Souls.Items
 			return (false);
 		}
 
-		public override bool ItemSpace(Player player) => true;
+		// Can be picked up despite not having any room in inventory.
+		public override bool ItemSpace(Player player)
+			=> true;
 
+		// Increased grab/loot range.
 		public override void GrabRange(Player player, ref int grabRange)
 			=> grabRange += 50;
 
@@ -106,12 +113,10 @@ namespace MysticHunter.Souls.Items
 
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
-			if (MysticHunter.Instance.SoulDict.ContainsKey(soulNPC))
+			if (MysticHunter.Instance.SoulDict.TryGetValue(soulNPC, out BaseSoul soul))
 			{
-				SoulType type = MysticHunter.Instance.SoulDict[soulNPC].soulType;
-
 				// Get the correct texture.
-				Texture2D tex = mod.GetTexture("Souls/Items/" + type + "Soul");
+				Texture2D tex = Mod.GetTexture("Souls/Items/" + soul.soulType + "Soul").Value;
 
 				// Animate the item.
 				if (Main.itemFrameCounter[whoAmI]++ > 5)
@@ -122,9 +127,9 @@ namespace MysticHunter.Souls.Items
 
 				// Draw the item correctly.
 				Rectangle rect = tex.Frame(1, 4, 0, Main.itemFrame[whoAmI]);
-				Vector2 origin = new Vector2(tex.Width * .5f, (tex.Height / 4) * .5f);
+				Vector2 origin = rect.Size() / 2;
 
-				spriteBatch.Draw(tex, item.position - Main.screenPosition + origin, rect, lightColor, rotation, origin, scale, SpriteEffects.None, 0);
+				spriteBatch.Draw(tex, item.Center - Main.screenPosition, rect, lightColor, rotation, origin, scale, SpriteEffects.None, 0);
 			}
 			return (false);
 		}
@@ -133,7 +138,7 @@ namespace MysticHunter.Souls.Items
 		{
 			writer.Write(this.soulNPC);
 		}
-		public override void NetRecieve(BinaryReader reader)
+		public override void NetReceive(BinaryReader reader)
 		{
 			this.soulNPC = reader.ReadInt16();
 		}

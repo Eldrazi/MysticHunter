@@ -1,9 +1,13 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.FrostLegion
 {

@@ -38,43 +38,43 @@ namespace MysticHunter
 
 		public BaseSoul RedSoul
 		{
-			get { return activeSouls[activeSoulConfig, (int)SoulType.Red].soulNPC == 0 ? null : SoulManager.GetSoul(activeSouls[activeSoulConfig, (int)SoulType.Red].soulNPC); }
+			get { return RedSoulNet.soulNPC == 0 ? null : SoulManager.GetSoul(RedSoulNet.soulNPC); }
 			set
 			{
 				if (value == null)
-					activeSouls[activeSoulConfig, (int)SoulType.Red].soulNPC = 0;
+					RedSoulNet.soulNPC = 0;
 				else
 				{
-					activeSouls[activeSoulConfig, (int)SoulType.Red].soulNPC = value.soulNPC;
-					activeSouls[activeSoulConfig, (int)SoulType.Red].stack = UnlockedSouls[value.soulNPC];
+					RedSoulNet.soulNPC = value.soulNPC;
+					RedSoulNet.stack = UnlockedSouls[value.soulNPC];
 				}
 			}
 		}
 		public BaseSoul BlueSoul
 		{
-			get { return activeSouls[activeSoulConfig, (int)SoulType.Blue].soulNPC == 0 ? null : SoulManager.GetSoul(activeSouls[activeSoulConfig, (int)SoulType.Blue].soulNPC); }
+			get { return BlueSoulNet.soulNPC == 0 ? null : SoulManager.GetSoul(BlueSoulNet.soulNPC); }
 			set
 			{
 				if (value == null)
-					activeSouls[activeSoulConfig, (int)SoulType.Blue].soulNPC = 0;
+					BlueSoulNet.soulNPC = 0;
 				else
 				{
-					activeSouls[activeSoulConfig, (int)SoulType.Blue].soulNPC = value.soulNPC;
-					activeSouls[activeSoulConfig, (int)SoulType.Blue].stack = UnlockedSouls[value.soulNPC];
+					BlueSoulNet.soulNPC = value.soulNPC;
+					BlueSoulNet.stack = UnlockedSouls[value.soulNPC];
 				}
 			}
 		}
 		public BaseSoul YellowSoul
 		{
-			get { return activeSouls[activeSoulConfig, (int)SoulType.Yellow].soulNPC == 0 ? null : SoulManager.GetSoul(activeSouls[activeSoulConfig, (int)SoulType.Yellow].soulNPC); }
+			get { return YellowSoulNet.soulNPC == 0 ? null : SoulManager.GetSoul(YellowSoulNet.soulNPC); }
 			set
 			{
 				if (value == null)
-					activeSouls[activeSoulConfig, (int)SoulType.Yellow].soulNPC = 0;
+					YellowSoulNet.soulNPC = 0;
 				else
 				{
-					activeSouls[activeSoulConfig, (int)SoulType.Yellow].soulNPC = value.soulNPC;
-					activeSouls[activeSoulConfig, (int)SoulType.Yellow].stack = UnlockedSouls[value.soulNPC];
+					YellowSoulNet.soulNPC = value.soulNPC;
+					YellowSoulNet.stack = UnlockedSouls[value.soulNPC];
 				}
 			}
 		}
@@ -128,11 +128,13 @@ namespace MysticHunter
 		public override void Initialize()
 		{
 			if (this.activeSouls == null)
+			{
 				this.activeSouls = new NetSoulData[3, 3] {
 					{ new NetSoulData(), new NetSoulData(), new NetSoulData() },
 					{ new NetSoulData(), new NetSoulData(), new NetSoulData() },
 					{ new NetSoulData(), new NetSoulData(), new NetSoulData() }
 				};
+			}
 
 			this.soulDropModifier = new float[3] { DefinedSoulDropModifier[0], DefinedSoulDropModifier[1], DefinedSoulDropModifier[2] };
 		}
@@ -157,14 +159,14 @@ namespace MysticHunter
 			possessedArmorSoul = false;
 			tacticalSkeletonSoul = false;
 
-			if (activeSouls[activeSoulConfig, (int)SoulType.Blue].soulNPC != NPCID.LacBeetle)
+			if (BlueSoulNet.soulNPC != NPCID.LacBeetle)
 				lacBeetleSoul = false;
-			if (activeSouls[activeSoulConfig, (int)SoulType.Blue].soulNPC != NPCID.CyanBeetle)
+			if (BlueSoulNet.soulNPC != NPCID.CyanBeetle)
 				cyanBeetleSoul = false;
-			if (activeSouls[activeSoulConfig, (int)SoulType.Blue].soulNPC != NPCID.CochinealBeetle)
+			if (BlueSoulNet.soulNPC != NPCID.CochinealBeetle)
 				cochinealBeetleSoul = false;
 
-			if (activeSouls[activeSoulConfig, (int)SoulType.Blue].soulNPC != NPCID.EyeofCthulhu)
+			if (BlueSoulNet.soulNPC != NPCID.EyeofCthulhu)
 				eocSoulDash = false;
 
 			this.soulDropModifier[0] = DefinedSoulDropModifier[0];
@@ -196,15 +198,15 @@ namespace MysticHunter
 		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
 		{
 			if (lacBeetleSoul)
-				LacBeetleSoul.ModifyHit(player, ref damage, damageSource, activeSouls[activeSoulConfig, (int)SoulType.Blue].stack);
+				LacBeetleSoul.ModifyHit(player, ref damage, damageSource, BlueSoulNet.stack);
 			if (cyanBeetleSoul)
-				CyanBeetleSoul.ModifyHit(player, ref damage, damageSource, activeSouls[activeSoulConfig, (int)SoulType.Blue].stack);
+				CyanBeetleSoul.ModifyHit(player, ref damage, damageSource, BlueSoulNet.stack);
 			if (cochinealBeetleSoul)
-				CochinealBeetleSoul.ModifyHit(player, ref damage, damageSource, activeSouls[activeSoulConfig, (int)SoulType.Blue].stack);
+				CochinealBeetleSoul.ModifyHit(player, ref damage, damageSource, BlueSoulNet.stack);
 			if (iceTortoiseSoul)
-				IceTortoiseSoul.ModifyHit(player, ref damage, damageSource, activeSouls[activeSoulConfig, (int)SoulType.Blue].stack);
+				IceTortoiseSoul.ModifyHit(player, ref damage, damageSource, BlueSoulNet.stack);
 
-			return (preHurtModifier?.Invoke(player, ref damage, damageSource, activeSouls[activeSoulConfig, (int)SoulType.Yellow].stack) ?? true);
+			return (preHurtModifier?.Invoke(player, ref damage, damageSource, YellowSoulNet.stack) ?? true);
 		}
 
 		public override bool? CanHitNPC(Item item, NPC target)
@@ -215,9 +217,9 @@ namespace MysticHunter
 		}
 
 		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
-			=> YellowSoul?.OnHitNPC(player, target, item, ref damage, activeSouls[activeSoulConfig, (int)SoulType.Yellow].stack);
+			=> YellowSoul?.OnHitNPC(player, target, item, ref damage, YellowSoulNet.stack);
 		public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-			=> YellowSoul?.OnHitNPC(player, target, proj, ref damage, activeSouls[activeSoulConfig, (int)SoulType.Yellow].stack);
+			=> YellowSoul?.OnHitNPC(player, target, proj, ref damage, YellowSoulNet.stack);
 
 		public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
 		{
@@ -257,24 +259,24 @@ namespace MysticHunter
 			if (RedSoulNet.soulNPC != 0 && !player.HasBuff(BuffType<RedSoulDebuff>()) && MysticHunter.Instance.RedSoulActive.Current)
 			{
 				tmpSoulRef = RedSoul;
-				if (CheckSoulMana(tmpSoulRef.ManaCost(player, UnlockedSouls[RedSoulNet.soulNPC]), false) &&
-					tmpSoulRef.SoulUpdate(player, UnlockedSouls[RedSoulNet.soulNPC]))
+				if (CheckSoulMana(tmpSoulRef.ManaCost(player, RedSoulNet.stack), false) &&
+					tmpSoulRef.SoulUpdate(player, RedSoulNet.stack))
 				{
 					player.manaRegenDelay = (int)player.maxRegenDelay;
 					player.AddBuff(BuffType<RedSoulDebuff>(), tmpSoulRef.cooldown);
-					CheckSoulMana(tmpSoulRef.ManaCost(player, UnlockedSouls[RedSoulNet.soulNPC]), true);
+					CheckSoulMana(tmpSoulRef.ManaCost(player, RedSoulNet.stack), true);
 				}
 			}
 
 			if (BlueSoulNet.soulNPC != 0 && !player.HasBuff(BuffType<BlueSoulDebuff>()) && MysticHunter.Instance.BlueSoulActive.Current)
 			{
 				tmpSoulRef = BlueSoul;
-				if (CheckSoulMana(tmpSoulRef.ManaCost(player, UnlockedSouls[BlueSoulNet.soulNPC]), false) &&
-					tmpSoulRef.SoulUpdate(player, UnlockedSouls[BlueSoulNet.soulNPC]))
+				if (CheckSoulMana(tmpSoulRef.ManaCost(player, BlueSoulNet.stack), false) &&
+					tmpSoulRef.SoulUpdate(player, BlueSoulNet.stack))
 				{
 					player.manaRegenDelay = (int)player.maxRegenDelay;
 					player.AddBuff(BuffType<BlueSoulDebuff>(), tmpSoulRef.cooldown);
-					CheckSoulMana(tmpSoulRef.ManaCost(player, UnlockedSouls[BlueSoulNet.soulNPC]), true);
+					CheckSoulMana(tmpSoulRef.ManaCost(player, BlueSoulNet.stack), true);
 				}
 			}
 		}
@@ -293,13 +295,13 @@ namespace MysticHunter
 			}
 			else if (this.possessedArmorSoul)
 			{
-				player.head = mod.GetEquipSlot("PossessedArmorHead", EquipType.Head);
-				player.body = mod.GetEquipSlot("PossessedArmorBody", EquipType.Body);
-				player.legs = mod.GetEquipSlot("PossessedArmorLegs", EquipType.Legs);
+				player.head = Mod.GetEquipSlot("PossessedArmorHead", EquipType.Head);
+				player.body = Mod.GetEquipSlot("PossessedArmorBody", EquipType.Body);
+				player.legs = Mod.GetEquipSlot("PossessedArmorLegs", EquipType.Legs);
 			}
 			
 			if (this.iceTortoiseSoul)
-				player.shield = (sbyte)mod.GetEquipSlot("IceTortoiseShield", EquipType.Shield);
+				player.shield = (sbyte)Mod.GetEquipSlot("IceTortoiseShield", EquipType.Shield);
 		}
 
 		public override bool Shoot(Item item, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -320,7 +322,8 @@ namespace MysticHunter
 			return (true);
 		}
 
-		public override void ModifyDrawLayers(List<PlayerLayer> layers)
+		// TODO: Eldrazi - No longer a proper hook, needs to be ported to layer objects.
+		/*public override void ModifyDrawLayers(PlayerDrawSet drawInfo)
 		{
 			if (this.seaSnailSoul)
 			{
@@ -352,13 +355,13 @@ namespace MysticHunter
 				EyeOfCthuluSoul.DrawLayer.visible = true;
 				layers.Add(EyeOfCthuluSoul.DrawLayer);
 			}
-		}
+		}*/
 
 		public override void OnEnterWorld(Player player)
 			=> SoulManager.ReloadSoulIndexUI();
 
 		/// <summary>
-		/// Saving and loading for soul items.
+		/// Saving and loading for soul data.
 		/// </summary>
 		public override TagCompound Save()
 		{
@@ -444,15 +447,17 @@ namespace MysticHunter
 
 		public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
 		{
-			ModPacket packet = mod.GetPacket();
+			ModPacket packet = Mod.GetPacket();
 			packet.Write((byte)MysticHunterMessageType.SyncStartSoulPlayer);
 			packet.Write((byte)player.whoAmI);
-			packet.Write(activeSouls[activeSoulConfig, 0].soulNPC);
-			packet.Write(activeSouls[activeSoulConfig, 1].soulNPC);
-			packet.Write(activeSouls[activeSoulConfig, 2].soulNPC);
-			packet.Write(activeSouls[activeSoulConfig, 0].stack);
-			packet.Write(activeSouls[activeSoulConfig, 1].stack);
-			packet.Write(activeSouls[activeSoulConfig, 2].stack);
+
+			packet.Write(RedSoulNet.soulNPC);
+			packet.Write(BlueSoulNet.soulNPC);
+			packet.Write(YellowSoulNet.soulNPC);
+
+			packet.Write(RedSoulNet.stack);
+			packet.Write(BlueSoulNet.stack);
+			packet.Write(YellowSoulNet.stack);
 
 			packet.Write(seaSnailSoul);
 			packet.Write(lacBeetleSoul);
@@ -473,15 +478,17 @@ namespace MysticHunter
 				clone.activeSouls[activeSoulConfig, (int)SoulType.Blue] != this.activeSouls[activeSoulConfig, (int)SoulType.Blue] ||
 				clone.activeSouls[activeSoulConfig, (int)SoulType.Yellow] != this.activeSouls[activeSoulConfig, (int)SoulType.Yellow])
 			{
-				ModPacket packet = mod.GetPacket();
+				ModPacket packet = Mod.GetPacket();
 				packet.Write((byte)MysticHunterMessageType.SyncPlayerSouls);
 				packet.Write((byte)player.whoAmI);
-				packet.Write(activeSouls[activeSoulConfig, 0].soulNPC);
-				packet.Write(activeSouls[activeSoulConfig, 1].soulNPC);
-				packet.Write(activeSouls[activeSoulConfig, 2].soulNPC);
-				packet.Write(activeSouls[activeSoulConfig, 0].stack);
-				packet.Write(activeSouls[activeSoulConfig, 1].stack);
-				packet.Write(activeSouls[activeSoulConfig, 2].stack);
+
+				packet.Write(RedSoulNet.soulNPC);
+				packet.Write(BlueSoulNet.soulNPC);
+				packet.Write(YellowSoulNet.soulNPC);
+
+				packet.Write(RedSoulNet.stack);
+				packet.Write(BlueSoulNet.stack);
+				packet.Write(YellowSoulNet.stack);
 				packet.Send();
 			}
 			else
@@ -492,14 +499,18 @@ namespace MysticHunter
 					clone.cochinealBeetleSoul != this.cochinealBeetleSoul ||
 					clone.iceTortoiseSoul != this.iceTortoiseSoul)
 				{
-					ModPacket packet = mod.GetPacket();
-					packet.Write((byte)MysticHunterMessageType.SyncPlayerSouls);
+					ModPacket packet = Mod.GetPacket();
+					packet.Write((byte)MysticHunterMessageType.SyncPlayerSoulExtras);
 					packet.Write((byte)player.whoAmI);
+
 					packet.Write(seaSnailSoul);
 					packet.Write(lacBeetleSoul);
 					packet.Write(cyanBeetleSoul);
 					packet.Write(cochinealBeetleSoul);
 					packet.Write(iceTortoiseSoul);
+
+					packet.Write(eocSoulDash);
+
 					packet.Send();
 				}
 			}
@@ -514,8 +525,20 @@ namespace MysticHunter
 			for (int i = 0; i < this.activeSouls.GetLength(1); ++i)
 			{
 				if (this.activeSouls[activeSoulConfig, i].soulNPC != 0)
+				{
 					this.activeSouls[activeSoulConfig, i].stack = this.UnlockedSouls[this.activeSouls[activeSoulConfig, i].soulNPC];
+				}
 			}
+		}
+
+		public bool HasMaxSouls(short npcType)
+		{
+			if (!UnlockedSouls.ContainsKey(npcType))
+			{
+				return (false);
+			}
+
+			return (UnlockedSouls[npcType] >= 9);
 		}
 
 		private bool CheckSoulMana(int amount, bool pay = false, bool blockQuickMana = false)

@@ -1,16 +1,20 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Linq;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.Enums;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -30,7 +34,7 @@ namespace MysticHunter.Souls.Data.HM
 
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].type == ProjectileType<MedusaSoulProj>() && Main.projectile[i].owner == p.whoAmI)
+				if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<MedusaSoulProj>() && Main.projectile[i].owner == p.whoAmI)
 				{
 					spawn = false;
 					break;
@@ -38,14 +42,15 @@ namespace MysticHunter.Souls.Data.HM
 			}
 
 			if (spawn)
-				Projectile.NewProjectile(p.Center, Main.MouseWorld - p.Center, ProjectileType<MedusaSoulProj>(), 20 + 2 * stack, 0, p.whoAmI);
+				Projectile.NewProjectile(p.Center, Main.MouseWorld - p.Center, ModContent.ProjectileType<MedusaSoulProj>(), 20 + 2 * stack, 0, p.whoAmI);
 			return (true);
 		}
 	}
 
 	public class MedusaSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_461";
+		// 461?
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.MedusaHeadRay;
 
 		private const float MaxRange = 600;
 
@@ -60,7 +65,6 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.alpha = 255;
 			projectile.penetrate = -1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 		}
@@ -150,7 +154,7 @@ namespace MysticHunter.Souls.Data.HM
 			if (projectile.velocity == Vector2.Zero)
 				return (false);
 
-			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D tex = TextureAssets.Projectile[Type].Value;
 			float length = projectile.localAI[1];
 
 			Color drawColor = (Color)GetAlpha(lightColor) * 0.9f;

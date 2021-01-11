@@ -1,13 +1,17 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -25,14 +29,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			// Calculate the required velocity of the bees towards the cursor.
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 5f;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<CursedSkullSoulProj>(), 10 + 2 * stack, .1f, p.whoAmI, 20 - stack);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<CursedSkullSoulProj>(), 10 + 2 * stack, .1f, p.whoAmI, 20 - stack);
 			return (true);
 		}
 	}
 
 	public class CursedSkullSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_34";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.CursedSkull;
 
 		public override void SetStaticDefaults()
 		{
@@ -43,7 +47,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			projectile.width = projectile.height = 18;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 
@@ -63,7 +66,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			// Cache the start speed.
 			if (projectile.localAI[0] == 0)
 			{
-				Main.PlaySound(SoundID.NPCDeath2, projectile.Center);
+				SoundEngine.PlaySound(SoundID.NPCDeath2, projectile.Center);
 				projectile.localAI[0] = projectile.velocity.Length();
 			}
 

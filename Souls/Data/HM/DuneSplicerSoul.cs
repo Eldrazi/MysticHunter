@@ -1,14 +1,19 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using System;
+using System.IO;
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using System.IO;
-using System;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -35,19 +40,19 @@ namespace MysticHunter.Souls.Data.HM
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<DuneSplicerSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<DuneSplicerSoulProj>())
 					Main.projectile[i].Kill();
 			}
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 4;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<DuneSplicerSoulProj>(), damage, .2f, p.whoAmI, amount);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<DuneSplicerSoulProj>(), damage, .2f, p.whoAmI, amount);
 			return (true);
 		}
 	}
 
 	public class DuneSplicerSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.DuneSplicerHead;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.DuneSplicerHead;
 
 		private int bodySize = 36;
 		private int bodyLength => (int)projectile.ai[0];
@@ -75,7 +80,6 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.timeLeft = 300;
 			projectile.minionSlots = 0;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 			projectile.netImportant = true;
@@ -201,8 +205,8 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D bodyTexture = GetTexture("Terraria/NPC_" + NPCID.DuneSplicerBody);
-			Texture2D tailTexture = GetTexture("Terraria/NPC_" + NPCID.DuneSplicerTail);
+			Texture2D bodyTexture = TextureAssets.Npc[NPCID.DuneSplicerBody].Value;
+			Texture2D tailTexture = TextureAssets.Npc[NPCID.DuneSplicerTail].Value;
 
 			Texture2D currentTexture = bodyTexture;
 			Vector2 origin = new Vector2(currentTexture.Width * .5f, currentTexture.Height * .5f);
@@ -217,7 +221,7 @@ namespace MysticHunter.Souls.Data.HM
 					bodyParts[i].rotation, origin, projectile.scale, SpriteEffects.None, 0);
 			}
 			
-			Texture2D projTexture = GetTexture(Texture);
+			Texture2D projTexture = TextureAssets.Projectile[Type].Value;
 
 			Vector2 projOrigin = new Vector2(currentTexture.Width * .5f, currentTexture.Height * .5f);
 

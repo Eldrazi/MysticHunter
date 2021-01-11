@@ -1,13 +1,17 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+
+using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -38,7 +42,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				else if (amount == 3)
 					spawnPos += new Vector2(-30 * (1 - i), 0);
 
-				Projectile proj = Main.projectile[Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileType<MushroomZombieSoulProj>(), 12 + stack * 2, 0, p.whoAmI)];
+				Projectile proj = Main.projectile[Projectile.NewProjectile(spawnPos, Vector2.Zero, ModContent.ProjectileType<MushroomZombieSoulProj>(), 12 + stack * 2, 0, p.whoAmI)];
 				proj.direction = p.direction;
 				proj.netUpdate = true;
 			}
@@ -51,7 +55,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class MushroomZombieSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_254";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.ZombieMushroom;
 
 		public override void SetStaticDefaults()
 		{
@@ -67,7 +71,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.timeLeft = 600;
 
 			projectile.hide = true;
-			projectile.melee = true;
 			projectile.friendly = true;
 		}
 
@@ -183,7 +186,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			// Digging sound effect.
 			projectile.soundDelay = 20;
-			Main.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 	}
 }

@@ -1,14 +1,16 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using System.IO;
-using System;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Bosses
 {
@@ -25,14 +27,14 @@ namespace MysticHunter.Souls.Data.Bosses
 		public override bool SoulUpdate(Player p, short stack)
 		{
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 4;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<PlanteraSoulProj>(), 25 + stack, .2f, p.whoAmI);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<PlanteraSoulProj>(), 25 + stack, .2f, p.whoAmI);
 			return (true);
 		}
 	}
 
 	public class PlanteraSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.PlanterasHook;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.PlanterasHook;
 
 		public override void SetStaticDefaults()
 		{
@@ -47,7 +49,6 @@ namespace MysticHunter.Souls.Data.Bosses
 			projectile.penetrate = -1;
 			projectile.timeLeft = 600;
 
-			projectile.melee = true;
 			projectile.friendly = true;
 			projectile.tileCollide = true;
 			projectile.netImportant = true;
@@ -168,13 +169,14 @@ namespace MysticHunter.Souls.Data.Bosses
 				chainDrawPos += dirToOwner;
 				dirToOwner = Main.player[projectile.owner].Center - chainDrawPos;
 
+				Texture2D chainTexture = TextureAssets.Chain26.Value;
 				Color c = Lighting.GetColor((int)chainDrawPos.X / 16, (int)chainDrawPos.Y / 16);
-				spriteBatch.Draw(Main.chain26Texture, chainDrawPos - Main.screenPosition, new Rectangle(0, 0, Main.chain26Texture.Width, rectHeight), c, rot,
-					Main.chain26Texture.Size() / 2, projectile.scale, SpriteEffects.None, 0f);
+				spriteBatch.Draw(chainTexture, chainDrawPos - Main.screenPosition, new Rectangle(0, 0, chainTexture.Width, rectHeight), c, rot,
+					chainTexture.Size() / 2, projectile.scale, SpriteEffects.None, 0f);
 			}
 
 			// Draw projectile.
-			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D tex = TextureAssets.Projectile[Type].Value;
 			Rectangle projRect = tex.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
 
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, projRect, lightColor, projectile.rotation, projRect.Size() / 2, projectile.scale, SpriteEffects.None, 0f);

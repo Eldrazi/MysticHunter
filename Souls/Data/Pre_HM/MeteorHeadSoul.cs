@@ -1,10 +1,14 @@
-﻿using System.Linq;
+﻿#region Using directives
+
+using System.Linq;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -25,7 +29,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			return (true);
 		}
 
-		private readonly int[] fireProjectiles = new int [] {
+		private readonly int[] fireProjectiles = new int []
+		{
 			ProjectileID.FireArrow, ProjectileID.BallofFire,
 			ProjectileID.Flamelash, ProjectileID.Sunfury,
 			ProjectileID.HellfireArrow, ProjectileID.FlamingArrow,
@@ -66,7 +71,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			int damageReduction = 5 * soulStack;
 
-			if ((damageSource.SourceProjectileType != 0 && fireProjectiles.Contains(damageSource.SourceProjectileType)) ||
+			if ((damageSource.SourceProjectileType != 0 && fireProjectiles.Contains((int)damageSource.SourceProjectileType)) ||
 				 (damageSource.SourceNPCIndex != 0 && fireNPCs.Contains(Main.npc[damageSource.SourceNPCIndex].type)) ||
 				 (damageSource.SourceItemType != 0 && fireItems.Contains(damageSource.SourceItemType)))
 				damage -= damageReduction;

@@ -1,13 +1,11 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
-using Terraria.DataStructures;
-using static Terraria.ModLoader.ModContent;
 
 using MysticHunter.Souls.Framework;
 
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -42,7 +40,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				sp.seaSnailAnimationCounter++;
 		}
 
-		public static readonly PlayerLayer DrawLayer = new PlayerLayer("MysticHunter", "SeaSnail", delegate (PlayerDrawInfo drawInfo)
+		/*public static readonly PlayerLayer DrawLayer = new PlayerLayer("MysticHunter", "SeaSnail", delegate (PlayerDrawInfo drawInfo)
 		{
 			if (drawInfo.shadow != 0f)
 				return;
@@ -65,6 +63,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			DrawData data = new DrawData(texture, drawPosition, animationFrame, drawInfo.upperArmorColor, drawPlayer.headRotation, drawInfo.headOrigin, 1, effects, 0);
 			Main.playerDrawData.Add(data);
-		});
+		});*/
 	}
 }

@@ -1,11 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.GoblinArmy
 {
@@ -24,7 +27,7 @@ namespace MysticHunter.Souls.Data.Event.GoblinArmy
 			int amount = 3 + stack;
 			int damage = 45 + 5 * stack;
 
-			int projType = ProjectileType<ShadowflameApparitionSoulProj>();
+			int projType = ModContent.ProjectileType<ShadowflameApparitionSoulProj>();
 			Vector2 initialVelocity = Vector2.Normalize(Main.MouseWorld - p.Center);
 			for (int i = 0; i < amount; ++i)
 			{
@@ -37,7 +40,7 @@ namespace MysticHunter.Souls.Data.Event.GoblinArmy
 
 	public class ShadowflameApparitionSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.ShadowFlameApparition;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.ShadowFlameApparition;
 
 		public override void SetStaticDefaults()
 		{
@@ -52,7 +55,6 @@ namespace MysticHunter.Souls.Data.Event.GoblinArmy
 			projectile.penetrate = -1;
 			projectile.timeLeft = 300;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 
 			drawOffsetX = -12;

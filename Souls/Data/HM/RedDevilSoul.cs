@@ -1,13 +1,14 @@
-﻿using System;
+﻿#region Using directives
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -26,11 +27,11 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<RedDevilSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<RedDevilSoulProj>())
 					Main.projectile[i].Kill();
 			}
 
-			Projectile.NewProjectile(p.Center, Vector2.UnitX, ProjectileType<RedDevilSoulProj>(), 35 + 2 * stack, .1f, p.whoAmI, stack);
+			Projectile.NewProjectile(p.Center, Vector2.UnitX, ModContent.ProjectileType<RedDevilSoulProj>(), 35 + 2 * stack, .1f, p.whoAmI, stack);
 			return (true);
 		}
 	}
@@ -40,7 +41,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		// No need to sync, just visually.
 		private bool justSpawned;
 
-		public override string Texture => "Terraria/NPC_" + NPCID.RedDevil;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.RedDevil;
 
 		public override void SetStaticDefaults()
 		{
@@ -57,7 +58,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.penetrate = -1;
 			projectile.minionSlots = 0;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -183,7 +183,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				projectile.frame = (projectile.frame + 1) % Main.projFrames[projectile.type];
 			}
 			if (Main.rand.Next(10) == 0)
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.FlameBurst, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100);
 
 			if (projectile.velocity.X > 0f)
 				projectile.spriteDirection = projectile.direction = -1;
@@ -224,7 +224,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			return (false);
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()
+			=> false;
 
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
 		{
@@ -239,7 +240,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		private void DustEffect()
 		{
 			for (int i = 0; i < 5; ++i)
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.FlameBurst, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100);
 		}
 	}
 }

@@ -1,11 +1,16 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.UI;
-using static Terraria.ModLoader.ModContent;
+using Terraria.ModLoader;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.UI
 {
@@ -23,7 +28,7 @@ namespace MysticHunter.Souls.UI
 
 			this.Height.Pixels = 26;
 
-			this.soulTexture = GetTexture("MysticHunter/Souls/Items/BasicSoulItem");
+			this.soulTexture = ModContent.GetTexture("MysticHunter/Souls/Items/BasicSoulItem").Value;
 		}
 
 		public void SetSoulReference(BaseSoul soul, bool overrideType = true)
@@ -65,14 +70,14 @@ namespace MysticHunter.Souls.UI
 			drawPos.X += 26;
 			drawPos.Y += 4;
 			Color color = !this.IsMouseHovering ? Color.White : new Color(Main.mouseTextColor, (int)(Main.mouseTextColor / 1.1F), Main.mouseTextColor / 2, Main.mouseTextColor);
-			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontItemStack, nameString, drawPos.X, drawPos.Y, color, Color.Black, Vector2.Zero, 1);
+			Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.ItemStack.Value, nameString, drawPos.X, drawPos.Y, color, Color.Black, Vector2.Zero, 1);
 
 			// Draw the stack amount of the referenced soul.
 			Main.LocalPlayer.GetModPlayer<SoulPlayer>().UnlockedSouls.TryGetValue(soulReference.soulNPC, out byte soulStack);
 			nameString = "- " + soulStack;
 
 			drawPos.X += this.Width.Pixels - 64;
-			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontItemStack, nameString, drawPos.X, drawPos.Y, Color.White, Color.Black, Vector2.Zero, 1);
+			Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.ItemStack.Value, nameString, drawPos.X, drawPos.Y, Color.White, Color.Black, Vector2.Zero, 1);
 		}
 
 		public override int CompareTo(object obj)
@@ -94,11 +99,11 @@ namespace MysticHunter.Souls.UI
 		{
 			int stack = Main.LocalPlayer.GetModPlayer<SoulPlayer>().UnlockedSouls[soulReference.soulNPC];
 			if (stack < 5)
-				tex = GetTexture("MysticHunter/Souls/UI/SoulIndex_CopperBorder");
+				tex = ModContent.GetTexture("MysticHunter/Souls/UI/SoulIndex_CopperBorder").Value;
 			else if (stack < 9)
-				tex = GetTexture("MysticHunter/Souls/UI/SoulIndex_SilverBorder");
+				tex = ModContent.GetTexture("MysticHunter/Souls/UI/SoulIndex_SilverBorder").Value;
 			else
-				tex = GetTexture("MysticHunter/Souls/UI/SoulIndex_GoldenBorder");
+				tex = ModContent.GetTexture("MysticHunter/Souls/UI/SoulIndex_GoldenBorder").Value;
 		}
 	}
 }

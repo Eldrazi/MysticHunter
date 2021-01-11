@@ -1,9 +1,13 @@
-﻿using System.Linq;
+﻿#region Using directives
+
+using System.Linq;
 
 using Terraria;
 using Terraria.ID;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {

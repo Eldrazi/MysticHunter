@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -25,14 +28,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 7;
 
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<WallCreeperProj>(), 5 + stack, .1f, p.whoAmI);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<WallCreeperProj>(), 5 + stack, .1f, p.whoAmI);
 			return (true);
 		}
 	}
 
 	public class WallCreeperProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_506";
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.WebRopeCoil;
 
 		public override void SetStaticDefaults()
 		{
@@ -45,7 +48,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.timeLeft = 400;
 			projectile.penetrate = -1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 		}
 
@@ -65,7 +67,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			if (!target.boss)
-				target.AddBuff(BuffType<WallCreeperSoulBuff>(), 300);
+				target.AddBuff(ModContent.BuffType<WallCreeperSoulBuff>(), 300);
 		}
 
 		public override void Kill(int timeLeft)
@@ -81,12 +83,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class WallCreeperSoulBuff : ModBuff
 	{
-		public override bool Autoload(ref string name, ref string texture)
-		{
-			// NPC only buff so we'll just assign it a useless buff icon.
-			texture = "Terraria/Buff";
-			return base.Autoload(ref name, ref texture);
-		}
+		public override string Texture => "Terraria/Images/Buff";
 
 		public override void SetDefaults()
 		{

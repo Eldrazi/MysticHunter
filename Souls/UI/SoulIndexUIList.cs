@@ -1,12 +1,17 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.UI;
-using static Terraria.ModLoader.ModContent;
+using Terraria.Audio;
+using Terraria.ModLoader;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
+#endregion
 
 namespace MysticHunter.Souls.UI
 {
@@ -36,7 +41,7 @@ namespace MysticHunter.Souls.UI
 			soulList = new SoulIndexUIList(soulPanel);
 			this.Append(soulList);
 
-			titleBar = new SoulIndexUITitleBar(GetTexture("MysticHunter/Souls/UI/SoulIndex_TitleBar"), "");
+			titleBar = new SoulIndexUITitleBar(ModContent.GetTexture("MysticHunter/Souls/UI/SoulIndex_TitleBar").Value, "");
 			titleBar.Top.Pixels = -12;
 			titleBar.Left.Pixels = 60;
 			this.Append(titleBar);
@@ -116,7 +121,7 @@ namespace MysticHunter.Souls.UI
 			SoulPlayer sp = Main.LocalPlayer.GetModPlayer<SoulPlayer>();
 
 			// TODO: Eldrazi - Maybe change the sound?
-			Main.PlaySound(SoundID.Item37);
+			SoundEngine.PlaySound(SoundID.Item37);
 			sp.activeSouls[sp.activeSoulConfig, soulIndex].soulNPC = slot.soulReference.soulNPC;
 			sp.UpdateActiveSoulData();
 		}

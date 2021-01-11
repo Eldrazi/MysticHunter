@@ -1,9 +1,13 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.UI;
-using static Terraria.ModLoader.ModContent;
+using Terraria.ModLoader;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+#endregion
 
 namespace MysticHunter.Souls.UI
 {
@@ -28,7 +32,7 @@ namespace MysticHunter.Souls.UI
 
 			this.OnClick += PresetButtonLeftClick;
 
-			presetButtonTexture = GetTexture("MysticHunter/Souls/UI/SoulIndex_Tab" + (presetIndex + 1));
+			presetButtonTexture = ModContent.GetTexture("MysticHunter/Souls/UI/SoulIndex_Tab" + (presetIndex + 1)).Value;
 
 			this.Left.Pixels = 0;
 			this.Top.Pixels = 28 + 36 * presetIndex;

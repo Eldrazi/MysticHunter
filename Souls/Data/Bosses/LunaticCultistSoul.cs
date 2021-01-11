@@ -1,16 +1,20 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.IO;
 using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Bosses
 {
@@ -35,22 +39,20 @@ namespace MysticHunter.Souls.Data.Bosses
 				}
 			}
 
-			int currentProj = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ProjectileType<LunaticCultistSoulProj_Head>(), 100 + 5 * stack, 1, p.whoAmI);
-			int previousProj = currentProj = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ProjectileType<LunaticCultistSoulProj_BodyWithArm>(), 100 + 5 * stack, 1, p.whoAmI, currentProj);
-			currentProj = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ProjectileType<LunaticCultistSoulProj_BodyWithoutArm>(), 100 + 5 * stack, 1, p.whoAmI, currentProj);
+			int currentProj = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<LunaticCultistSoulProj_Head>(), 100 + 5 * stack, 1, p.whoAmI);
+			int previousProj = currentProj = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<LunaticCultistSoulProj_BodyWithArm>(), 100 + 5 * stack, 1, p.whoAmI, currentProj);
+			currentProj = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<LunaticCultistSoulProj_BodyWithoutArm>(), 100 + 5 * stack, 1, p.whoAmI, currentProj);
 			Main.projectile[previousProj].localAI[1] = currentProj;
 			previousProj = currentProj;
-			Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ProjectileType<LunaticCultistSoulProj_Tail>(), 100 + 5 * stack, 1, p.whoAmI, currentProj);
+			Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<LunaticCultistSoulProj_Tail>(), 100 + 5 * stack, 1, p.whoAmI, currentProj);
 			Main.projectile[previousProj].localAI[1] = currentProj;
 			return (true);
 		}
 	}
 
+	[Autoload(false)]
 	internal class LunaticCultistSoulProj : ModProjectile
 	{
-		public override bool Autoload(ref string name)
-			=> GetType().IsSubclassOf(typeof(LunaticCultistSoulProj));
-
 		private const float DefaultScale = .5f;
 
 		protected virtual bool IsHead => false;
@@ -68,7 +70,6 @@ namespace MysticHunter.Souls.Data.Bosses
 			projectile.minionSlots = 0;
 
 			projectile.hide = true;
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -251,7 +252,7 @@ namespace MysticHunter.Souls.Data.Bosses
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D tex = TextureAssets.Projectile[Type].Value;
 			Rectangle rect = tex.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
 
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, rect, lightColor, projectile.rotation, rect.Size() / 2, projectile.scale,
@@ -260,9 +261,10 @@ namespace MysticHunter.Souls.Data.Bosses
 		}
 	}
 
+	[Autoload(true)]
 	internal sealed class LunaticCultistSoulProj_Head : LunaticCultistSoulProj
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.CultistDragonHead;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.CultistDragonHead;
 
 		protected override bool IsHead => true;
 
@@ -272,16 +274,19 @@ namespace MysticHunter.Souls.Data.Bosses
 			Main.projFrames[projectile.type] = Main.npcFrameCount[NPCID.CultistDragonHead];
 		}
 	}
+	[Autoload(true)]
 	internal sealed class LunaticCultistSoulProj_BodyWithArm : LunaticCultistSoulProj
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.CultistDragonBody1;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.CultistDragonBody1;
 	}
+	[Autoload(true)]
 	internal sealed class LunaticCultistSoulProj_BodyWithoutArm : LunaticCultistSoulProj
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.CultistDragonBody2;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.CultistDragonBody2;
 	}
+	[Autoload(true)]
 	internal sealed class LunaticCultistSoulProj_Tail : LunaticCultistSoulProj
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.CultistDragonTail;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.CultistDragonTail;
 	}
 }

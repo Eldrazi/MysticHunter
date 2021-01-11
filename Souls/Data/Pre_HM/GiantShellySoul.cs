@@ -1,12 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
-using IL.Terraria.Audio;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -25,7 +28,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Vector2 velocity = new Vector2(4 * p.direction, 0);
 
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<GiantShellySoulProj>(), 15 + stack, .1f, p.whoAmI, 2 + stack);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<GiantShellySoulProj>(), 15 + stack, .1f, p.whoAmI, 2 + stack);
 			return (true);
 		}
 
@@ -35,7 +38,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class GiantShellySoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_496";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.GiantShelly;
 
 		public override void SetStaticDefaults()
 		{
@@ -48,7 +51,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			projectile.penetrate = -1;
 
-			projectile.melee = true;
 			projectile.friendly = true;
 
 			drawOriginOffsetY = -4;
@@ -73,7 +75,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 				projectile.ai[0]--;
 				projectile.velocity.X = -oldVelocity.X;
-				Main.PlaySound(SoundID.Dig, projectile.position);
+				SoundEngine.PlaySound(SoundID.Dig, projectile.position);
 			}
 			return (false);
 		}

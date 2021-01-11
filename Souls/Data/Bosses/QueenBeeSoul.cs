@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Bosses
 {
@@ -28,7 +31,7 @@ namespace MysticHunter.Souls.Data.Bosses
 				int damage = 20 + 5 * stack;
 				Vector2 spawnPosition = p.Center + Main.rand.NextVector2Unit() * 80;
 
-				Projectile.NewProjectile(spawnPosition, Vector2.Zero, ProjectileType<QueenBeeSoulProj>(), damage, .1f, p.whoAmI);
+				Projectile.NewProjectile(spawnPosition, Vector2.Zero, ModContent.ProjectileType<QueenBeeSoulProj>(), damage, .1f, p.whoAmI);
 			}
 			return (true);
 		}
@@ -39,7 +42,7 @@ namespace MysticHunter.Souls.Data.Bosses
 		// No need to sync, just visually.
 		private bool justSpawned;
 
-		public override string Texture => "Terraria/Projectile_373";
+		public override string Texture => "Terraria/Images/Projectile_373";
 
 		public override void SetStaticDefaults()
 		{
@@ -55,7 +58,6 @@ namespace MysticHunter.Souls.Data.Bosses
 			projectile.penetrate = -1;
 			projectile.minionSlots = 0;
 
-			projectile.minion = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
 			projectile.netImportant = true;
@@ -232,7 +234,8 @@ namespace MysticHunter.Souls.Data.Bosses
 			return (false);
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()
+			=> false;
 
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
 		{

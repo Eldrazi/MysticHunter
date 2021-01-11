@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Bosses
 {
@@ -46,14 +50,14 @@ namespace MysticHunter.Souls.Data.Bosses
 
 			spawnPos.Y = y * 16;
 
-			Projectile.NewProjectile(spawnPos, new Vector2(Math.Sign(p.Center.X - spawnPos.X) * .01f, 0), ProjectileType<DukeFishronSoulProj>(), 170 + 5 * stack, 4, p.whoAmI, 16, 15);
+			Projectile.NewProjectile(spawnPos, new Vector2(Math.Sign(p.Center.X - spawnPos.X) * .01f, 0), ModContent.ProjectileType<DukeFishronSoulProj>(), 170 + 5 * stack, 4, p.whoAmI, 16, 15);
 			return (true);
 		}
 	}
 
 	public class DukeFishronSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_" + ProjectileID.Sharknado;
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.Sharknado;
 
 		private const int DefaultWidth = 150;
 		private const int DefaultHeight = 42;
@@ -172,10 +176,10 @@ namespace MysticHunter.Souls.Data.Bosses
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			Rectangle frame = tex.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+			Texture2D texture = TextureAssets.Projectile[projectile.type].Value;
+			Rectangle frame = texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
 
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0, projectile.gfxOffY),
+			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0, projectile.gfxOffY),
 				frame,
 				projectile.GetAlpha(lightColor),
 				projectile.rotation,

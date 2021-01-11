@@ -1,11 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.MartianMadness
 {
@@ -24,7 +27,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 			int damage = 60 + 5 * stack;
 
 			Vector2 velocity = new Vector2(p.direction, 0);
-			Projectile.NewProjectile(p.Center + new Vector2(0, -16), velocity, ProjectileType<MartianWalkerSoulProj>(), damage, 1, p.whoAmI);
+			Projectile.NewProjectile(p.Center + new Vector2(0, -16), velocity, ModContent.ProjectileType<MartianWalkerSoulProj>(), damage, 1, p.whoAmI);
 
 			return (true);
 		}
@@ -32,7 +35,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 
 	public class MartianWalkerSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.MartianWalker;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.MartianWalker;
 
 		float[] velocityValues = { 1f, .8f, .4f, .8f, 1f, .8f, .4f, .8f };
 
@@ -46,7 +49,6 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 			projectile.width = 46;
 			projectile.height = 64;
 
-			projectile.melee = true;
 			projectile.friendly = true;
 
 			projectile.penetrate = -1;

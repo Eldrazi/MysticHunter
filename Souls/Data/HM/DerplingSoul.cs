@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -31,10 +34,10 @@ namespace MysticHunter.Souls.Data.HM
 			
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<DerplingSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<DerplingSoulProj>())
 					Main.projectile[i].Kill();
 			}
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<DerplingSoulProj>(), damage, .5f, p.whoAmI, -1);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<DerplingSoulProj>(), damage, .5f, p.whoAmI, -1);
 
 			return (true);
 		}
@@ -48,7 +51,7 @@ namespace MysticHunter.Souls.Data.HM
 	}
 	public class DerplingSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.Derpling;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.Derpling;
 
 		public override void SetStaticDefaults()
 		{
@@ -65,7 +68,6 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.penetrate = -1;
 			projectile.minionSlots = 0;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.netImportant = true;
 

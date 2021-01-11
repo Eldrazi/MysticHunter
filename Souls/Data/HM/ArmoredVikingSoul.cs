@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -23,7 +26,7 @@ namespace MysticHunter.Souls.Data.HM
 		public override short ManaCost(Player p, short stack) => (short)(25 + 2 * stack);
 		public override bool SoulUpdate(Player p, short stack)
 		{
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<ArmoredVikingSoulProj>(), 30 + 5 * stack, .5f + .1f * stack, p.whoAmI);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<ArmoredVikingSoulProj>(), 30 + 5 * stack, .5f + .1f * stack, p.whoAmI);
 			return (true);
 		}
 	}
@@ -39,7 +42,6 @@ namespace MysticHunter.Souls.Data.HM
 		{
 			projectile.width = projectile.height = 20;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 
 			projectile.alpha = 255;

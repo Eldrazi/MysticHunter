@@ -1,16 +1,20 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Linq;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.Enums;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Bosses
 {
@@ -43,7 +47,7 @@ namespace MysticHunter.Souls.Data.Bosses
 				else if (amount == 3)
 					spawnPos += new Vector2(-46 * (1 - i), Math.Abs(i - 1) * -46);
 
-				Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileType<MoonLordSoulProj>(), damage, 0, p.whoAmI);
+				Projectile.NewProjectile(spawnPos, Vector2.Zero, ModContent.ProjectileType<MoonLordSoulProj>(), damage, 0, p.whoAmI);
 			}
 			return (true);
 		}
@@ -51,7 +55,7 @@ namespace MysticHunter.Souls.Data.Bosses
 
 	public class MoonLordSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.MoonLordFreeEye;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.MoonLordFreeEye;
 
 		public override void SetStaticDefaults()
 		{
@@ -65,7 +69,6 @@ namespace MysticHunter.Souls.Data.Bosses
 			projectile.scale = .4f;
 			projectile.timeLeft = 600;
 
-			projectile.magic = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
 
@@ -83,7 +86,7 @@ namespace MysticHunter.Souls.Data.Bosses
 
 				if (projectile.owner == Main.myPlayer)
 				{
-					Projectile.NewProjectile(projectile.Center, projectile.ai[0].ToRotationVector2() * 4, ProjectileType<MoonLordSoulProjBeam>(),
+					Projectile.NewProjectile(projectile.Center, projectile.ai[0].ToRotationVector2() * 4, ModContent.ProjectileType<MoonLordSoulProjBeam>(),
 						projectile.damage, projectile.knockBack, projectile.owner, 30f, projectile.whoAmI);
 				}
 			}
@@ -105,7 +108,8 @@ namespace MysticHunter.Souls.Data.Bosses
 			return (false);
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()
+			=> false;
 
 		public override void Kill(int timeLeft)
 			=> DustEffect();
@@ -118,9 +122,9 @@ namespace MysticHunter.Souls.Data.Bosses
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D projTexture = Main.projectileTexture[projectile.type];
-			Texture2D irisTexture = Main.extraTexture[19];
+		{			
+			Texture2D projTexture = TextureAssets.Projectile[Type].Value;
+			Texture2D irisTexture = TextureAssets.Extra[19].Value;
 			Vector2 offset = new Vector2(30f, 30f);
 
 			Point p = projectile.Center.ToTileCoordinates();
@@ -137,7 +141,7 @@ namespace MysticHunter.Souls.Data.Bosses
 
 	public class MoonLordSoulProjBeam : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_" + ProjectileID.PhantasmalDeathray;
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.PhantasmalDeathray;
 
 		private readonly float MaxRange = 1000;
 
@@ -230,9 +234,9 @@ namespace MysticHunter.Souls.Data.Bosses
 			if (projectile.velocity == Vector2.Zero)
 				return (false);
 
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			Texture2D extraTex01 = Main.extraTexture[21];
-			Texture2D extraTex02 = Main.extraTexture[22];
+			Texture2D tex = TextureAssets.Projectile[Type].Value;
+			Texture2D extraTex01 = TextureAssets.Extra[21].Value;
+			Texture2D extraTex02 = TextureAssets.Extra[22].Value;
 			float length = projectile.localAI[1];
 
 			Color drawColor = new Color(255, 255, 255, 0) * 0.9f;

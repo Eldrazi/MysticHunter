@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Bosses
 {
@@ -27,11 +31,11 @@ namespace MysticHunter.Souls.Data.Bosses
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI &&
-					(Main.projectile[i].type == ProjectileType<TheTwinsSoulRetinazerProj>() || Main.projectile[i].type == ProjectileType<TheTwinsSoulSpazmatismProj>()))
+					(Main.projectile[i].type == ModContent.ProjectileType<TheTwinsSoulRetinazerProj>() || Main.projectile[i].type == ModContent.ProjectileType<TheTwinsSoulSpazmatismProj>()))
 					Main.projectile[i].Kill();
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<TheTwinsSoulRetinazerProj>(), 100 + 5 * stack, 0f, p.whoAmI, 0, 255);
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<TheTwinsSoulSpazmatismProj>(), 80 + 5 * stack, 0f, p.whoAmI, 0, 255);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<TheTwinsSoulRetinazerProj>(), 100 + 5 * stack, 0f, p.whoAmI, 0, 255);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<TheTwinsSoulSpazmatismProj>(), 80 + 5 * stack, 0f, p.whoAmI, 0, 255);
 			return (true);
 		}
 
@@ -42,11 +46,9 @@ namespace MysticHunter.Souls.Data.Bosses
 			=> new short[] { NPCID.Retinazer };
 	}
 
+	[Autoload(false)]
 	public class TheTwinsSoulProj : ModProjectile
 	{
-		public override bool Autoload(ref string name)
-			=> this.GetType().IsSubclassOf(typeof(TheTwinsSoulProj));
-
 		private const float maxTargetDistance = 540;
 		private const float maxTargetLosingDistance = 640;
 
@@ -68,7 +70,6 @@ namespace MysticHunter.Souls.Data.Bosses
 			projectile.timeLeft *= 5;
 			projectile.minionSlots = 0f;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -150,13 +151,14 @@ namespace MysticHunter.Souls.Data.Bosses
 			return (false);
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()
+			=> false;
 
 		protected virtual bool CanTarget(NPC npc) => true;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D tex = TextureAssets.Projectile[Type].Value;
 			Rectangle rect = tex.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
 
 			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, rect, lightColor, projectile.rotation - MathHelper.PiOver2, rect.Size() / 2, projectile.scale, SpriteEffects.None, 0f);
@@ -164,9 +166,10 @@ namespace MysticHunter.Souls.Data.Bosses
 		}
 	}
 
+	[Autoload(true)]
 	public sealed class TheTwinsSoulRetinazerProj : TheTwinsSoulProj
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.Retinazer;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.Retinazer;
 
 		protected override int SpawnProjectileID => ProjectileID.EyeLaser;
 		protected override float DefaultDesiredRot => 0;
@@ -181,9 +184,10 @@ namespace MysticHunter.Souls.Data.Bosses
 			=> npc.Center.X > Main.player[projectile.owner].Center.X;
 	}
 
+	[Autoload(true)]
 	public sealed class TheTwinsSoulSpazmatismProj : TheTwinsSoulProj
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.Spazmatism;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.Spazmatism;
 
 		protected override int SpawnProjectileID => ProjectileID.EyeFire;
 		protected override float DefaultDesiredRot => MathHelper.Pi;

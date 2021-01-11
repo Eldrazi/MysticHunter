@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -24,7 +28,7 @@ namespace MysticHunter.Souls.Data.HM
 			int damage = 30 + (5 * stack);
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center).RotatedByRandom(.35f) * 8f;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<IcyMermanSoulProj>(), damage, .2f, p.whoAmI, stack);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<IcyMermanSoulProj>(), damage, .2f, p.whoAmI, stack);
 
 			return (true);
 		}
@@ -32,7 +36,7 @@ namespace MysticHunter.Souls.Data.HM
 
 	public class IcyMermanSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_174";
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.IceSpike;
 
 		public override void SetStaticDefaults()
 		{
@@ -73,7 +77,7 @@ namespace MysticHunter.Souls.Data.HM
 			if (projectile.localAI[0] == 0)
 			{
 				projectile.localAI[0] = 1;
-				Main.PlaySound(SoundID.Item17, projectile.position);
+				SoundEngine.PlaySound(SoundID.Item17, projectile.position);
 			}
 
 			return (false);

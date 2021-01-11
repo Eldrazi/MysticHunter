@@ -66,11 +66,11 @@ namespace MysticHunter.Common.Loaders
 		/// </summary>
 		internal static void LoadModClient()
 		{
-			MysticHunter.Instance.AddEquipTexture(new PossessedArmorHead(), null, EquipType.Head, "PossessedArmorHead", "MysticHunter/Souls/Items/PossessedArmor_Head");
-			MysticHunter.Instance.AddEquipTexture(new PossessedArmorBody(), null, EquipType.Body, "PossessedArmorBody", "MysticHunter/Souls/Items/PossessedArmor_Body", "MysticHunter/Souls/Items/PossessedArmor_Arms");
-			MysticHunter.Instance.AddEquipTexture(new PossessedArmorLegs(), null, EquipType.Legs, "PossessedArmorLegs", "MysticHunter/Souls/Items/PossessedArmor_Legs");
+			MysticHunter.Instance.AddEquipTexture(new PossessedArmorHeadTexture(), new PossessedArmorHead(), EquipType.Head, "MysticHunter/Souls/Items/PossessedArmor_Head");
+			MysticHunter.Instance.AddEquipTexture(new PossessedArmorBodyTexture(), new PossessedArmor(), EquipType.Body, "MysticHunter/Souls/Items/PossessedArmor_Body");
+			MysticHunter.Instance.AddEquipTexture(new PossessedArmorLegsTexture(), new PossessedArmorLegs(), EquipType.Legs, "MysticHunter/Souls/Items/PossessedArmor_Legs");
 
-			MysticHunter.Instance.AddEquipTexture(new IceTortoiseShield(), null, EquipType.Shield, "IceTortoiseShield", "MysticHunter/Souls/Items/IceTortoiseShield_Shield");
+			MysticHunter.Instance.AddEquipTexture(new IceTortoiseShieldTexture(), new IceTortoiseShield(), EquipType.Shield, "MysticHunter/Souls/Items/IceTortoiseShield_Shield");
 
 			// Bind hotkeys.
 			MysticHunter.Instance.RedSoulActive = MysticHunter.Instance.RegisterHotKey("Red Soul Active", "Z");

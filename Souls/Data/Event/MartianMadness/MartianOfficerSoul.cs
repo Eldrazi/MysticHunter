@@ -1,12 +1,16 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.MartianMadness
 {
@@ -29,7 +33,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 			if (Collision.SolidCollision(spawnPos, 16, 16))
 				return (false);
 
-			Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileType<MartianOfficerSoulProj>(), damage, .5f, p.whoAmI);
+			Projectile.NewProjectile(spawnPos, Vector2.Zero, ModContent.ProjectileType<MartianOfficerSoulProj>(), damage, .5f, p.whoAmI);
 
 			return (true);
 		}
@@ -37,7 +41,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 
 	internal sealed class MartianOfficerSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_" + ProjectileID.None;
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.None;
 
 		private int[] projectileTextureTypes = { NPCID.MartianEngineer, NPCID.MartianOfficer, NPCID.GigaZapper, NPCID.GrayGrunt, NPCID.BrainScrambler };
 
@@ -54,7 +58,6 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 			projectile.alpha = 255;
 			projectile.penetrate = 1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 
 			drawOffsetX = -32;
@@ -81,7 +84,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Main.instance.LoadNPC((int)projectile.localAI[0]);
-			Texture2D texture = Main.npcTexture[(int)projectile.localAI[0]];
+			Texture2D texture = TextureAssets.Npc[(int)projectile.localAI[0]].Value;
 			Rectangle frame = texture.Frame(1, Main.npcFrameCount[(int)projectile.localAI[0]], 0, projectile.frame);
 			Vector2 origin = frame.Size() / 2;
 

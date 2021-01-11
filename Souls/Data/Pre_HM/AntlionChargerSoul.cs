@@ -1,11 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -23,14 +26,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Vector2 velocity = new Vector2(4 * p.direction, 0);
 
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<AntlionChargerSoulProj>(), 20 + 3 * stack, .5f, p.whoAmI);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<AntlionChargerSoulProj>(), 20 + 3 * stack, .5f, p.whoAmI);
 			return (true);
 		}
 	}
 
 	public class AntlionChargerSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_508";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.GiantWalkingAntlion;
 
 		public override void SetStaticDefaults()
 		{
@@ -44,7 +47,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			projectile.penetrate = 3;
 
-			projectile.melee = true;
 			projectile.friendly = true;
 
 			drawOriginOffsetY = -4;

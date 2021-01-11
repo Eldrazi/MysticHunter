@@ -182,16 +182,21 @@ namespace MysticHunter
 					targetPlayer2.cochinealBeetleSoul = reader.ReadBoolean();
 					targetPlayer2.iceTortoiseSoul = reader.ReadBoolean();
 
+					targetPlayer2.eocSoulDash = reader.ReadBoolean();
+
 					if (msgType == MysticHunterMessageType.SyncPlayerSouls && Main.netMode == NetmodeID.Server)
 					{
 						var packet = GetPacket();
 						packet.Write((byte)MysticHunterMessageType.SyncPlayerSoulExtras);
 						packet.Write(playerID2);
+
 						packet.Write(targetPlayer2.seaSnailSoul);
 						packet.Write(targetPlayer2.lacBeetleSoul);
 						packet.Write(targetPlayer2.cyanBeetleSoul);
 						packet.Write(targetPlayer2.cochinealBeetleSoul);
 						packet.Write(targetPlayer2.iceTortoiseSoul);
+						packet.Write(targetPlayer2.eocSoulDash);
+
 						packet.Send(-1, playerID2);
 					}
 					break;

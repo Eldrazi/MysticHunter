@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -34,7 +38,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				clawState++;
 			}
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<CrawdadSoulProj>(), damage, .2f + .1f * stack, p.whoAmI, clawState);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<CrawdadSoulProj>(), damage, .2f + .1f * stack, p.whoAmI, clawState);
 			return (true);
 		}
 
@@ -56,7 +60,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.alpha = 255;
 			projectile.penetrate = -1;
 
-			projectile.melee = true;
 			projectile.friendly = true;
 			projectile.ownerHitCheck = true;
 		}
@@ -91,7 +94,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				if (projectile.frame >= Main.projFrames[projectile.type])
 					projectile.Kill();
 				else if (projectile.frame == 3)
-					Main.PlaySound(SoundID.Item2, projectile.position);
+					SoundEngine.PlaySound(SoundID.Item2, projectile.position);
 			}
 
 			// Set correct projectile direction.

@@ -1,13 +1,14 @@
-﻿using System;
+﻿#region Using directives
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -26,11 +27,11 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<GiantBatSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<GiantBatSoulProj>())
 					Main.projectile[i].Kill();
 			}
 
-			Projectile.NewProjectile(p.Center, Vector2.UnitX, ProjectileType<GiantBatSoulProj>(), 35 + 2 * stack, .1f, p.whoAmI, stack);
+			Projectile.NewProjectile(p.Center, Vector2.UnitX, ModContent.ProjectileType<GiantBatSoulProj>(), 35 + 2 * stack, .1f, p.whoAmI, stack);
 			return (true);
 		}
 	}
@@ -40,7 +41,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		// No need to sync, just visually.
 		private bool justSpawned;
 
-		public override string Texture => "Terraria/NPC_93";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.GiantBat;
 
 		public override void SetStaticDefaults()
 		{
@@ -56,7 +57,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.penetrate = -1;
 			projectile.minionSlots = 0;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;

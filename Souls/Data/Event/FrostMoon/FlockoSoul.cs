@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -51,7 +52,7 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 
 	internal sealed class FlockoSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.Flocko;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.Flocko;
 
 		public override void SetStaticDefaults()
 		{
@@ -66,7 +67,6 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 			projectile.scale = .6f;
 			projectile.penetrate = 3;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 		}
 
@@ -125,7 +125,7 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D texture = Main.projectileTexture[projectile.type];
+			Texture2D texture = TextureAssets.Projectile[Type].Value;
 			Rectangle frame = texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
 			Vector2 origin = frame.Size() / 2;
 

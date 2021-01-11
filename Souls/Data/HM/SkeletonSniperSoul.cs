@@ -1,9 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -23,7 +28,7 @@ namespace MysticHunter.Souls.Data.HM
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 8f;
 			Projectile.NewProjectile(p.Center, velocity, ProjectileID.BulletHighVelocity, damage, 2.5f, p.whoAmI);
-			Main.PlaySound(SoundID.Item41, p.Center);
+			SoundEngine.PlaySound(SoundID.Item41, p.Center);
 			return (true);
 		}
 	}

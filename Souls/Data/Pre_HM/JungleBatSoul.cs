@@ -1,13 +1,17 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -44,7 +48,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			{
 				Vector2 pos = p.position + new Vector2(Main.rand.Next(p.width + 1), Main.rand.Next(p.height/2 + 1));
 				Vector2 velocity = Vector2.Normalize(Main.MouseWorld - pos) * 6;
-				Projectile.NewProjectile(pos, velocity.RotatedByRandom(.2f), ProjectileType<JungleBatSoulProj>(), damage, 0, p.whoAmI);
+				Projectile.NewProjectile(pos, velocity.RotatedByRandom(.2f), ModContent.ProjectileType<JungleBatSoulProj>(), damage, 0, p.whoAmI);
 			}
 
 			return (true);
@@ -96,7 +100,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.NPCDeath4, projectile.position);
+			SoundEngine.PlaySound(SoundID.NPCDeath4, projectile.position);
 			for (int i = 0; i < 10; i++)
 			{
 				Dust d = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.GreenBlood, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100)];

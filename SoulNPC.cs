@@ -17,7 +17,7 @@ namespace MysticHunter
 	{
 		#region Soul Drop Related Logic
 
-		public override void NPCLoot(NPC npc)
+		public override void OnKill(NPC npc)
 		{
 			if ((npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail) && !npc.boss)
 				return;
@@ -113,7 +113,6 @@ namespace MysticHunter
 				BasicSoulItem bs = Main.item[item].modItem as BasicSoulItem;
 				bs.soulNPC = soul.soulNPC;
 
-				Main.itemLockoutTime[item] = 54000;
 				for (int i = 0; i < 255; i++)
 				{
 					if (Main.player[i].active)
@@ -121,7 +120,7 @@ namespace MysticHunter
 						float modifier = Main.player[i].GetModPlayer<SoulPlayer>().soulDropModifier[(int)soul.soulType];
 						if (Main.rand.NextFloat() <= modifier)
 						{
-							NetMessage.SendData(90, i, -1, null, item);
+							NetMessage.SendData(MessageID.InstancedItem, i, -1, null, item);
 						}
 					}
 				}

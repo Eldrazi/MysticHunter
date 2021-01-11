@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -25,7 +28,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			// Kill any active GraniteElementalSoulNPCs.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<GraniteElementalSoulProjectile>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<GraniteElementalSoulProjectile>())
 					Main.projectile[i].Kill();
 
 			// Set some values depending on the stack amount.
@@ -37,7 +40,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			// Spawn the new elemental(s).
 			for (int i = 0; i < amount; ++i)
-				Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<GraniteElementalSoulProjectile>(), 0, 0f, p.whoAmI, i, amount);
+				Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<GraniteElementalSoulProjectile>(), 0, 0f, p.whoAmI, i, amount);
 
 			return (true);
 		}
@@ -50,7 +53,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 	/// </summary>
 	public class GraniteElementalSoulProjectile : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.GraniteFlyer;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.GraniteFlyer;
 
 		public override void SetStaticDefaults()
 		{
@@ -66,7 +69,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.timeLeft *= 5;
 			projectile.minionSlots = 0;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.hostile = false;
 			projectile.ignoreWater = true;

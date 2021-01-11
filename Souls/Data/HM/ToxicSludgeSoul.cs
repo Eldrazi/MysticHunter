@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.IO;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -39,7 +43,7 @@ namespace MysticHunter.Souls.Data.HM
 			}
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 6f;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<ToxicSludgeSoulProj>(), damage, .5f, p.whoAmI, bounceAmount);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<ToxicSludgeSoulProj>(), damage, .5f, p.whoAmI, bounceAmount);
 
 			return (true);
 		}
@@ -134,7 +138,7 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.NPCDeath1, projectile.position);
+			SoundEngine.PlaySound(SoundID.NPCDeath1, projectile.position);
 			for (int i = 0; i < 10; i++)
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.t_Slime, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 180, Color.DarkOliveGreen);
 		}

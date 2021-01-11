@@ -2,18 +2,33 @@
 
 namespace MysticHunter.Souls.Items
 {
-	public class PossessedArmorHead : EquipTexture
+	public class PossessedArmorHeadTexture : EquipTexture
 	{
 		public override bool DrawHead() => true;
 	}
+	[Autoload(false)]
+	public class PossessedArmorHead : ModItem
+	{
 
-	public class PossessedArmorBody : EquipTexture
+	}
+
+	public class PossessedArmorBodyTexture : EquipTexture
 	{
 		public override bool DrawBody() => false;
 	}
+	[Autoload(false)]
+	public class PossessedArmor : ModItem
+	{
 
-	public class PossessedArmorLegs : EquipTexture
+	}
+
+	public class PossessedArmorLegsTexture : EquipTexture
 	{
 		public override bool DrawLegs() => false;
+	}
+	[Autoload(false)]
+	public class PossessedArmorLegs : ModItem
+	{
+
 	}
 }

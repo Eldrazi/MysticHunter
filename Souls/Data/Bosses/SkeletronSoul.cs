@@ -1,15 +1,19 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.IO;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Bosses
 {
@@ -27,7 +31,7 @@ namespace MysticHunter.Souls.Data.Bosses
 		{
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<SkeletronSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<SkeletronSoulProj>())
 					Main.projectile[i].Kill();
 
 			int damage = 50;
@@ -40,7 +44,7 @@ namespace MysticHunter.Souls.Data.Bosses
 			{
 				int xHand = (i % 2 == 0 ? -1 : 1);
 
-				Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<SkeletronSoulProj>(), damage, .2f, p.whoAmI, xHand);
+				Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<SkeletronSoulProj>(), damage, .2f, p.whoAmI, xHand);
 			}
 			return (true);
 		}
@@ -48,7 +52,7 @@ namespace MysticHunter.Souls.Data.Bosses
 
 	public class SkeletronSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_36";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.SkeletronHand;
 
 		private bool attacking
 		{
@@ -92,7 +96,6 @@ namespace MysticHunter.Souls.Data.Bosses
 			projectile.penetrate = -1;
 			projectile.minionSlots = 0f;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -247,7 +250,7 @@ namespace MysticHunter.Souls.Data.Bosses
 		{
 			Player owner = Main.player[projectile.owner];
 
-			Vector2 armOrigin = new Vector2(Main.boneArmTexture.Width * .5f, Main.boneArmTexture.Height * .5f);
+			Vector2 armOrigin = TextureAssets.BoneArm.Value.Size() / 2;
 			Vector2 armStartPos = new Vector2(projectile.Center.X - 5 * projectile.ai[0], projectile.position.Y + 20f);
 
 			for (int i = 0; i < 2; ++i)
@@ -271,7 +274,7 @@ namespace MysticHunter.Souls.Data.Bosses
 
 				float rotation = direction.ToRotation() - MathHelper.PiOver2;
 				Color color = Lighting.GetColor((int)armStartPos.X / 16, (int)armStartPos.Y / 16);
-				spriteBatch.Draw(Main.boneArmTexture, armStartPos - Main.screenPosition, null, color, rotation, armOrigin, projectile.scale, SpriteEffects.None, 0);
+				spriteBatch.Draw(TextureAssets.BoneArm.Value, armStartPos - Main.screenPosition, null, color, rotation, armOrigin, projectile.scale, SpriteEffects.None, 0);
 
 				if (i == 0)
 					armStartPos += direction * length / 2;
@@ -283,7 +286,7 @@ namespace MysticHunter.Souls.Data.Bosses
 				}
 			}
 
-			Texture2D projTexture = GetTexture(Texture);
+			Texture2D projTexture = TextureAssets.Projectile[Type].Value;
 			Vector2 projOrigin = new Vector2(projTexture.Width * .5f, projTexture.Height * .5f);
 
 			SpriteEffects effects = projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

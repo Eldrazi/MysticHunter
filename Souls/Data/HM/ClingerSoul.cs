@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -26,7 +30,7 @@ namespace MysticHunter.Souls.Data.HM
 		{
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<ClingerSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<ClingerSoulProj>())
 					Main.projectile[i].Kill();
 			}
 
@@ -35,14 +39,14 @@ namespace MysticHunter.Souls.Data.HM
 				damage += 5;
 			if (stack >= 9)
 				damage += 5;
-			Projectile.NewProjectile(p.Center, default, ProjectileType<ClingerSoulProj>(), damage, .1f, p.whoAmI);
+			Projectile.NewProjectile(p.Center, default, ModContent.ProjectileType<ClingerSoulProj>(), damage, .1f, p.whoAmI);
 			return (true);
 		}
 	}
 
 	public class ClingerSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_101";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.Clinger;
 
 		public override void SetStaticDefaults()
 		{
@@ -55,7 +59,6 @@ namespace MysticHunter.Souls.Data.HM
 
 			projectile.penetrate = -1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 		}
@@ -183,7 +186,8 @@ namespace MysticHunter.Souls.Data.HM
 			return (false);
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()
+			=> false;
 
 		private void DustEffect()
 		{
@@ -196,7 +200,7 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D[] chainTextures = new Texture2D[] { Main.chain10Texture, Main.chain11Texture };
+			Texture2D[] chainTextures = new Texture2D[] { TextureAssets.Chain10.Value, TextureAssets.Chain11.Value };
 			Player owner = Main.player[projectile.owner];
 
 			Vector2 chainOrigin = new Vector2(chainTextures[0].Width *.5f, chainTextures[0].Height * .5f);
@@ -231,7 +235,7 @@ namespace MysticHunter.Souls.Data.HM
 				chainToDraw = (chainToDraw + 1) % 2;
 			}
 
-			Texture2D projTexture = GetTexture(Texture);
+			Texture2D projTexture = TextureAssets.Projectile[Type].Value;
 
 			Vector2 projOrigin = new Vector2(projTexture.Width * .5f, (projTexture.Height / Main.projFrames[projectile.type]) * .5f);
 

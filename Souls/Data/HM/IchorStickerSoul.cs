@@ -1,11 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -22,14 +25,14 @@ namespace MysticHunter.Souls.Data.HM
 		public override bool SoulUpdate(Player p, short stack)
 		{
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 12.5f;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<IchorStickerSoulProj>(), 15 + 3 * stack, .2f, p.whoAmI);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<IchorStickerSoulProj>(), 15 + 3 * stack, .2f, p.whoAmI);
 			return (true);
 		}
 	}
 
 	public class IchorStickerSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_22";
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.WaterStream;
 
 		public override void SetStaticDefaults()
 		{
@@ -43,7 +46,6 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.penetrate = -1;
 			projectile.extraUpdates = 2;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 		}

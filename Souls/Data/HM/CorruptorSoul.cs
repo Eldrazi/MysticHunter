@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -24,7 +28,7 @@ namespace MysticHunter.Souls.Data.HM
 			int damage = 30 + (5 * stack);
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 6f;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<CorruptorSoulProj>(), damage, .2f, p.whoAmI, stack);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<CorruptorSoulProj>(), damage, .2f, p.whoAmI, stack);
 
 			return (true);
 		}
@@ -32,7 +36,7 @@ namespace MysticHunter.Souls.Data.HM
 
 	public class CorruptorSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_112";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.VileSpit;
 
 		public override void SetStaticDefaults()
 		{
@@ -58,7 +62,7 @@ namespace MysticHunter.Souls.Data.HM
 			if (projectile.ai[0] == 2f)
 			{
 				projectile.position += projectile.velocity;
-				Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 9);
+				SoundEngine.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 9);
 
 				for (int i = 0; i < 20; ++i)
 				{
@@ -80,7 +84,7 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.NPCDeath9, projectile.position);
+			SoundEngine.PlaySound(SoundID.NPCDeath9, projectile.position);
 			for (int i = 0; i < 20; ++i)
 			{
 				Dust d = Main.dust[Dust.NewDust(projectile.position + new Vector2(0, 2), projectile.width, projectile.height, 18, 0f, 0f, 100, default, 1.8f)];

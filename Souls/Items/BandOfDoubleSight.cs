@@ -1,5 +1,9 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ModLoader;
+
+#endregion
 
 namespace MysticHunter.Souls.Items
 {

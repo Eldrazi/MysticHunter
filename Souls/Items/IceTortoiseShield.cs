@@ -2,7 +2,12 @@
 
 namespace MysticHunter.Souls.Items
 {
-	public class IceTortoiseShield : EquipTexture
+	public class IceTortoiseShieldTexture : EquipTexture
+	{
+
+	}
+	[Autoload(false)]
+	public class IceTortoiseShield : ModItem
 	{
 
 	}

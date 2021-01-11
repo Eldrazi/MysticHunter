@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -47,7 +50,7 @@ namespace MysticHunter.Souls.Data.HM
 				// Rotate the target velocity by a set degree.
 				velocity = velocity.RotatedBy(MathHelper.ToRadians(-5 * (amount - 1) + (10 * i)));
 
-				Projectile.NewProjectile(p.Center, velocity, ProjectileType<BlackRecluseSoulProj>(), damage, .2f, p.whoAmI, Math.Abs(6 * (i - delayHelper)));
+				Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<BlackRecluseSoulProj>(), damage, .2f, p.whoAmI, Math.Abs(6 * (i - delayHelper)));
 			}
 			return (true);
 		}

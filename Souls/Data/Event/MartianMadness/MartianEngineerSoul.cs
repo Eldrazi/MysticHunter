@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.MartianMadness
 {
@@ -27,7 +31,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 			// Despawn any pre-existing projectiles.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<MartianEngineerSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<MartianEngineerSoulProj>())
 				{
 					Main.projectile[i].Kill();
 				}
@@ -43,7 +47,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 				if (Collision.SolidCollision(newProjPos, 16, 16))
 					continue;
 
-				Projectile.NewProjectile(newProjPos, Vector2.Zero, ProjectileType<MartianEngineerSoulProj>(), damage, 0, p.whoAmI);
+				Projectile.NewProjectile(newProjPos, Vector2.Zero, ModContent.ProjectileType<MartianEngineerSoulProj>(), damage, 0, p.whoAmI);
 			}
 
 			return (true);
@@ -52,7 +56,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 
 	internal sealed class MartianEngineerSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.MartianTurret;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.MartianTurret;
 
 		public override void SetStaticDefaults()
 		{
@@ -66,7 +70,6 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 
 			projectile.timeLeft = 600;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 		}
@@ -105,7 +108,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 					if (target != Main.maxNPCs)
 					{
 						Vector2 newProjVelocity = Vector2.Normalize(projectile.DirectionTo(Main.npc[target].Center)) * 10;
-						Projectile.NewProjectile(projectile.Center + new Vector2(0, -16), newProjVelocity, ProjectileType<MartianEngineerSoulProj_TeslaShot>(), projectile.damage, .5f, owner.whoAmI);
+						Projectile.NewProjectile(projectile.Center + new Vector2(0, -16), newProjVelocity, ModContent.ProjectileType<MartianEngineerSoulProj_TeslaShot>(), projectile.damage, .5f, owner.whoAmI);
 					}
 				}
 			}
@@ -125,7 +128,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 
 	internal sealed class MartianEngineerSoulProj_TeslaShot : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_" + ProjectileID.MartianTurretBolt;
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.MartianTurretBolt;
 
 		public override void SetStaticDefaults()
 		{
@@ -146,7 +149,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 			{
 				SpawnDust();
 				projectile.ai[1] = 1f;
-				Main.PlaySound(SoundID.Item12, projectile.position);
+				SoundEngine.PlaySound(SoundID.Item12, projectile.position);
 			}
 
 			projectile.alpha -= 40;

@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+
+using System.Collections.Generic;
 
 using Terraria;
 using Terraria.UI;
+using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+#endregion
 
 namespace MysticHunter.Souls.UI
 {
@@ -320,7 +325,7 @@ namespace MysticHunter.Souls.UI
 			isHoveringOverHandle = handleRectangle.Contains(new Point((int)mousePosition.X, (int)mousePosition.Y));
 
 			if (!isHovering && isHoveringOverHandle && Main.hasFocus)
-				Main.PlaySound(12);
+				SoundEngine.PlaySound(12);
 
 			if (background != null)
 				DrawBar(spriteBatch, background, dimensions.ToRectangle(), backgroundStumpSize, Color.White);

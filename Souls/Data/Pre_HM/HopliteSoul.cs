@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+
+using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
 
-using Microsoft.Xna.Framework;
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -41,7 +44,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				else if (amount == 3)
 					spawnPos += new Vector2(-30 * (1 - i), 0);
 
-				Projectile.NewProjectile(spawnPos, Vector2.UnitY, ProjectileType<HopliteSoulNPC>(), damage, 0, p.whoAmI, targetVelocity.X, targetVelocity.Y);
+				Projectile.NewProjectile(spawnPos, Vector2.UnitY, ModContent.ProjectileType<HopliteSoulNPC>(), damage, 0, p.whoAmI, targetVelocity.X, targetVelocity.Y);
 			}
 
 			return (true);
@@ -50,7 +53,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class HopliteSoulNPC : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_481";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.GreekSkeleton;
 
 		public override void SetStaticDefaults()
 		{
@@ -118,7 +121,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			return (false);
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()
+			=> false;
 
 		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)

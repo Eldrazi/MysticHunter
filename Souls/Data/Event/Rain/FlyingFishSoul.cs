@@ -1,11 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.Rain
 {
@@ -26,7 +29,7 @@ namespace MysticHunter.Souls.Data.Event.Rain
 
 			Vector2 projVel = Vector2.Normalize(Main.MouseWorld - p.Center) * 6;
 
-			Projectile.NewProjectile(p.Center, projVel, ProjectileType<FlyingFishSoulProj>(), damage, .5f, p.whoAmI, homingModifier);
+			Projectile.NewProjectile(p.Center, projVel, ModContent.ProjectileType<FlyingFishSoulProj>(), damage, .5f, p.whoAmI, homingModifier);
 
 			return (true);
 		}
@@ -34,7 +37,7 @@ namespace MysticHunter.Souls.Data.Event.Rain
 
 	internal sealed class FlyingFishSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.FlyingFish;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.FlyingFish;
 
 		public override void SetStaticDefaults()
 		{
@@ -49,7 +52,6 @@ namespace MysticHunter.Souls.Data.Event.Rain
 			projectile.alpha = 255;
 			projectile.penetrate = 1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 		}
 

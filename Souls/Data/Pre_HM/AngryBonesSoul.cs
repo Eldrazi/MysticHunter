@@ -1,12 +1,16 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -24,7 +28,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Vector2 velocity = new Vector2(4 * p.direction, 0);
 				
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<AngryBonesSoulProj>(), 20 + stack, .1f, p.whoAmI);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<AngryBonesSoulProj>(), 20 + stack, .1f, p.whoAmI);
 			return (true);
 		}
 
@@ -34,7 +38,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class AngryBonesSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_0";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.None;
 
 		public override void SetStaticDefaults()
 		{
@@ -45,7 +49,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			projectile.width = projectile.height = 32;
 
-			projectile.melee = true;
 			projectile.friendly = true;
 
 			projectile.penetrate = 3;
@@ -126,7 +129,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D tex = GetTexture("Terraria/NPC_" + (int)projectile.ai[1]);
+			Texture2D tex = TextureAssets.Npc[(int)projectile.ai[1]].Value;
 			Vector2 origin = new Vector2(tex.Width / 2, (tex.Height / Main.projFrames[projectile.type]) / 2);
 			SpriteEffects effects = projectile.spriteDirection >= 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 

@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+
+using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using MysticHunter.Souls.Framework;
 
 using Microsoft.Xna.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -26,14 +29,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			// Destroy the projectile if it already exists.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<AntlionSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<AntlionSoulProj>())
 				{
 					Main.projectile[i].Kill();
 					return (true);
 				}
 			}
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<AntlionSoulProj>(), 0, 0, p.whoAmI, 2 + stack);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<AntlionSoulProj>(), 0, 0, p.whoAmI, 2 + stack);
 
 			return (true);
 		}

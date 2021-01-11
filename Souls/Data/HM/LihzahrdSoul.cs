@@ -1,7 +1,11 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -38,11 +42,8 @@ namespace MysticHunter.Souls.Data.HM
 
 			if (inTemple)
 			{
+				p.allDamage += .1f * stack;
 				p.statDefense += 10 * stack;
-				p.meleeDamage += .1f * stack;
-				p.magicDamage += .1f * stack;
-				p.rangedDamage += .1f * stack;
-				p.minionDamage += .1f * stack;
 			}
 
 			return (true);

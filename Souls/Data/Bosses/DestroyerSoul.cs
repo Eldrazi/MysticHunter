@@ -1,15 +1,18 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
+using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using System.Collections.Generic;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Bosses
 {
@@ -28,11 +31,11 @@ namespace MysticHunter.Souls.Data.Bosses
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<DestroyerSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<DestroyerSoulProj>())
 					Main.projectile[i].Kill();
 			}
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<DestroyerSoulProj>(), 70 + 5 * stack, .1f + .02f * stack, p.whoAmI, -1);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<DestroyerSoulProj>(), 70 + 5 * stack, .1f + .02f * stack, p.whoAmI, -1);
 			return (true);
 		}
 	}
@@ -153,7 +156,8 @@ namespace MysticHunter.Souls.Data.Bosses
 			return (false);
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()
+			=> false;
 
 		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
 			=> drawCacheProjsBehindNPCsAndTiles.Add(index);
@@ -162,7 +166,7 @@ namespace MysticHunter.Souls.Data.Bosses
 		{
 			Player player = Main.player[projectile.owner];
 
-			Texture2D tailPartTex = GetTexture("MysticHunter/Souls/Data/Bosses/DestroyerSoulProj_Chain");
+			Texture2D tailPartTex = Mod.GetTexture("MysticHunter/Souls/Data/Bosses/DestroyerSoulProj_Chain").Value;
 
 			Vector2 origin = new Vector2(tailPartTex.Width / 2, tailPartTex.Height / 2);
 

@@ -1,11 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.PirateInvasion
 {
@@ -36,7 +39,7 @@ namespace MysticHunter.Souls.Data.Event.PirateInvasion
 			}
 
 			Vector2 velocity = new Vector2(4 * p.direction, 0);
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<PirateDeckhandSoulProj>(), damage, .5f, p.whoAmI, 0, modifier);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<PirateDeckhandSoulProj>(), damage, .5f, p.whoAmI, 0, modifier);
 
 			return (true);
 		}
@@ -44,7 +47,7 @@ namespace MysticHunter.Souls.Data.Event.PirateInvasion
 
 	public class PirateDeckhandSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.PirateDeckhand;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.PirateDeckhand;
 
 		public override void SetStaticDefaults()
 		{
@@ -55,7 +58,6 @@ namespace MysticHunter.Souls.Data.Event.PirateInvasion
 		{
 			projectile.width = projectile.height = 32;
 
-			projectile.melee = true;
 			projectile.friendly = true;
 
 			projectile.penetrate = 3;

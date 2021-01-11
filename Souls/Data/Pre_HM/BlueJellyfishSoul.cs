@@ -1,12 +1,16 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -24,7 +28,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 6;
 
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<BlueJellyfishSoulProj>(), 0, 0, p.whoAmI, 0, stack);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<BlueJellyfishSoulProj>(), 0, 0, p.whoAmI, 0, stack);
 			return (true);
 		}
 	}
@@ -112,7 +116,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D texture = GetTexture(Texture);
+			Texture2D texture = TextureAssets.Projectile[Type].Value;
 
 			Vector2 projOrigin = new Vector2(texture.Width * .5f, (texture.Height / Main.projFrames[projectile.type]) * .5f);
 

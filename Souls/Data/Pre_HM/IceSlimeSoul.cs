@@ -1,7 +1,11 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -21,7 +25,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			{
 				p.moveSpeed += .1f * stack;
 				p.statDefense += 5 * stack;
-				p.allDamageMult += .1f * stack;
+				p.allDamage.multiplicative += .1f * stack;
 			}
 			return (true);
 		}

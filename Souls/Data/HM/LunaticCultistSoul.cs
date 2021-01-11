@@ -1,14 +1,17 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.Linq;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using MysticHunter.Souls.Framework;
 
 using Microsoft.Xna.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -40,7 +43,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				else if (amount == 3)
 					spawnPos += new Vector2(-40 * (1 - i), 0);
 
-				Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileType<CultistDevoteSoulProj>(), 0, 0f, p.whoAmI, i, stack);
+				Projectile.NewProjectile(spawnPos, Vector2.Zero, ModContent.ProjectileType<CultistDevoteSoulProj>(), 0, 0f, p.whoAmI, i, stack);
 			}
 
 			return (true);
@@ -49,21 +52,17 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override void PostUpdate(Player player)
 		{
 			int cultistCount = Main.projectile.Where(x =>
-				x.type == ProjectileType<CultistDevoteSoulProj>() &&
+				x.type == ModContent.ProjectileType<CultistDevoteSoulProj>() &&
 				x.owner == player.whoAmI).Count();
 
 			player.statDefense += 5 * cultistCount;
-			player.meleeDamage += .33f * cultistCount;
-			player.magicDamage += .33f * cultistCount;
-			player.rangedDamage += .33f * cultistCount;
-			player.minionDamage += .33f * cultistCount;
-			player.thrownDamage += .33f * cultistCount;
+			player.allDamage += .33f * cultistCount;
 		}
 	}
 
 	public class CultistDevoteSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.CultistDevote;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.CultistDevote;
 
 		public override void SetStaticDefaults()
 		{
@@ -125,7 +124,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			return (false);
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()
+			=> false;
 
 		public override bool OnTileCollide(Vector2 oldVelocity) => false;
 		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)

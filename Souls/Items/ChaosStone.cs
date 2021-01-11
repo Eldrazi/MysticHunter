@@ -77,7 +77,7 @@ namespace MysticHunter.Souls.Items
 			player.GetModPlayer<SoulPlayer>().LunarRitual = true;
 
 			// Mechanized Bone Necklace
-			player.minionDamage += .2f;
+			player.GetDamage<Summon>() += .2f;
 
 			// Mechano Scarf
 			player.endurance += .27f;
@@ -93,22 +93,21 @@ namespace MysticHunter.Souls.Items
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemType<BandOfDoubleSight>());
-			recipe.AddIngredient(ItemType<BraceOfEvil>());
-			recipe.AddIngredient(ItemType<CursedHand>());
-			recipe.AddIngredient(ItemType<FishronSteak>());
-			recipe.AddIngredient(ItemType<GolematicBoots>());
-			recipe.AddIngredient(ItemType<LivingGloves>());
-			recipe.AddIngredient(ItemType<LunarRitual>());
-			recipe.AddIngredient(ItemType<MechanizedBoneNecklace>());
-			recipe.AddIngredient(ItemType<MechanoScarf>());
-			recipe.AddIngredient(ItemType<OcularCharm>());
-			recipe.AddIngredient(ItemType<QueenKnuckle>());
-			recipe.AddIngredient(ItemType<SoulOfTheDamned>());
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemType<BandOfDoubleSight>())
+				.AddIngredient(ItemType<BraceOfEvil>())
+				.AddIngredient(ItemType<CursedHand>())
+				.AddIngredient(ItemType<FishronSteak>())
+				.AddIngredient(ItemType<GolematicBoots>())
+				.AddIngredient(ItemType<LivingGloves>())
+				.AddIngredient(ItemType<LunarRitual>())
+				.AddIngredient(ItemType<MechanizedBoneNecklace>())
+				.AddIngredient(ItemType<MechanoScarf>())
+				.AddIngredient(ItemType<OcularCharm>())
+				.AddIngredient(ItemType<QueenKnuckle>())
+				.AddIngredient(ItemType<SoulOfTheDamned>())
+				.AddTile(TileID.LunarCraftingStation)
+				.Register();
 		}
 	}
 }

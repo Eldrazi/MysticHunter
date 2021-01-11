@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace MysticHunter.Souls.Items
@@ -13,7 +14,7 @@ namespace MysticHunter.Souls.Items
 		public override void SetDefaults()
 		{
 			item.width = item.height = 16;
-			item.rare = 3;
+			item.rare = ItemRarityID.Orange;
 
 			item.value = Item.sellPrice(0, 2, 0, 0);
 
@@ -23,7 +24,7 @@ namespace MysticHunter.Souls.Items
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			player.minionDamage += .2f;
+			player.GetDamage<Summon>() += .2f;
 		}
 	}
 }

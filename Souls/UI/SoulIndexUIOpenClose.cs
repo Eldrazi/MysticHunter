@@ -1,10 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.UI;
+using Terraria.ModLoader;
 using Terraria.GameContent.UI.Elements;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+#endregion
 
 namespace MysticHunter.Souls.UI
 {
@@ -30,11 +34,11 @@ namespace MysticHunter.Souls.UI
 
 		public override void OnInitialize()
 		{
-			texture = GetTexture("MysticHunter/Souls/UI/SoulIndex_OpenCloseButton");
+			texture = ModContent.GetTexture("MysticHunter/Souls/UI/SoulIndex_OpenCloseButton").Value;
 
 			this.SetPadding(0);
-			this.Top.Pixels = 28;
-			this.Left.Pixels = 505;
+			this.Top.Pixels = 30;
+			this.Left.Pixels = 575;
 
 			this.Width.Pixels = this.Height.Pixels = 52;
 

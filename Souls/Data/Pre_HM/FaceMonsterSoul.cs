@@ -1,11 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -23,14 +26,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Vector2 velocity = new Vector2(4 * p.direction, 0);
 
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<FaceMonsterSoulProj>(), 20 + stack, .1f, p.whoAmI);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<FaceMonsterSoulProj>(), 20 + stack, .1f, p.whoAmI);
 			return (true);
 		}
 	}
 
 	public class FaceMonsterSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_181";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.FaceMonster;
 
 		public override void SetStaticDefaults()
 		{
@@ -43,7 +46,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			projectile.penetrate = 3;
 
-			projectile.melee = true;
 			projectile.friendly = true;
 
 			drawOriginOffsetY = -28;

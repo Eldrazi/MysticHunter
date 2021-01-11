@@ -1,14 +1,17 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using System;
-using System.Drawing.Imaging;
+using Terraria.Audio;
+using Terraria.GameContent;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.Sandstorm
 {
@@ -43,7 +46,7 @@ namespace MysticHunter.Souls.Data.Event.Sandstorm
 			for (int i = 0; i < amount; ++i)
 			{
 				float xPos = xPosStart + projectilePadding * i;
-				Projectile.NewProjectile(xPos, Main.MouseWorld.Y, 0, 0, ProjectileType<SandElementalSoulProj>(), damage, .5f, p.whoAmI);
+				Projectile.NewProjectile(xPos, Main.MouseWorld.Y, 0, 0, ModContent.ProjectileType<SandElementalSoulProj>(), damage, .5f, p.whoAmI);
 			}
 			return (true);
 		}
@@ -51,7 +54,7 @@ namespace MysticHunter.Souls.Data.Event.Sandstorm
 
 	internal sealed class SandElementalSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_" + ProjectileID.SandnadoFriendly;
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.SandnadoFriendly;
 
 		private readonly int maxExpandUp = 5, maxExpandDown = 5;
 
@@ -68,7 +71,6 @@ namespace MysticHunter.Souls.Data.Event.Sandstorm
 			projectile.timeLeft = 480;
 			projectile.penetrate = -1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 			projectile.usesLocalNPCImmunity = true;
@@ -81,7 +83,7 @@ namespace MysticHunter.Souls.Data.Event.Sandstorm
 			if (projectile.soundDelay == 0)
 			{
 				projectile.soundDelay = -1;
-				Main.PlaySound(SoundID.Item82, projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item82, projectile.Center);
 			}
 
 			projectile.ai[0]++;
@@ -196,7 +198,7 @@ namespace MysticHunter.Souls.Data.Event.Sandstorm
 			Vector2 size = new Vector2(0, botPos.Y - topPos.Y);
 			size.X = size.Y * .2f;
 
-			Texture2D texture = Main.projectileTexture[projectile.type];
+			Texture2D texture = TextureAssets.Projectile[Type].Value;
 			Rectangle frame = texture.Frame(1, 1, 0, 0);
 			Vector2 origin = frame.Size() / 2f;
 			float rotation = -0.06283186f * projectile.ai[0];

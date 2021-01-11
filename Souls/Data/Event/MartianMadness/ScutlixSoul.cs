@@ -1,12 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.MartianMadness
 {
@@ -26,14 +28,14 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 			float knockBack = .4f + .1f * stack;
 
 			Vector2 velocity = new Vector2(5 * p.direction, 0);
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<ScutlixSoulProj>(), damage, knockBack, p.whoAmI);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<ScutlixSoulProj>(), damage, knockBack, p.whoAmI);
 			return (true);
 		}
 	}
 
 	public class ScutlixSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.Scutlix;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.Scutlix;
 
 		public override void SetStaticDefaults()
 		{
@@ -45,7 +47,6 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 			projectile.width = 48;
 			projectile.height = 26;
 
-			projectile.melee = true;
 			projectile.friendly = true;
 
 			projectile.scale = .6f;

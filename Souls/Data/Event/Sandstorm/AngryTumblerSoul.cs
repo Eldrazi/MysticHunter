@@ -1,12 +1,17 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.Sandstorm
 {
@@ -23,14 +28,14 @@ namespace MysticHunter.Souls.Data.Event.Sandstorm
 		public override bool SoulUpdate(Player p, short stack)
 		{
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 2;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<AngryTumblerSoulProj>(), 5 + stack, .1f, p.whoAmI, 0, (stack >= 9 ? 1 : 0));
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<AngryTumblerSoulProj>(), 5 + stack, .1f, p.whoAmI, 0, (stack >= 9 ? 1 : 0));
 			return (true);
 		}
 	}
 
 	public class AngryTumblerSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.Tumbleweed;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.Tumbleweed;
 
 		int defDamage;
 
@@ -99,7 +104,7 @@ namespace MysticHunter.Souls.Data.Event.Sandstorm
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item10, projectile.position);
+			SoundEngine.PlaySound(SoundID.Item10, projectile.position);
 			for (int i = 0; i < (int)(20 * projectile.scale); i++)
 			{
 				Dust d = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Sandstorm, -projectile.velocity.X * .2f, -projectile.velocity.Y * .2f, 100)];
@@ -109,7 +114,7 @@ namespace MysticHunter.Souls.Data.Event.Sandstorm
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
+			Texture2D tex = TextureAssets.Projectile[Type].Value;
 
 			Vector2 origin = new Vector2(tex.Width * .5f, tex.Height * .5f);
 

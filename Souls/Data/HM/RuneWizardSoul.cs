@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -31,7 +35,7 @@ namespace MysticHunter.Souls.Data.HM
 				damage += 10;
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 8f;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<RuneWizardSoulProj>(), damage, .2f, p.whoAmI, stack);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<RuneWizardSoulProj>(), damage, .2f, p.whoAmI, stack);
 
 			return (true);
 		}
@@ -39,7 +43,7 @@ namespace MysticHunter.Souls.Data.HM
 
 	public class RuneWizardSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_129";
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.RuneBlast;
 
 		public override void SetStaticDefaults()
 		{
@@ -63,7 +67,7 @@ namespace MysticHunter.Souls.Data.HM
 			if (projectile.localAI[1] == 0f)
 			{
 				projectile.localAI[1] = 1f;
-				Main.PlaySound(SoundID.Item28, projectile.position);
+				SoundEngine.PlaySound(SoundID.Item28, projectile.position);
 			}
 
 			for (int i = 0; i < 8; ++i)

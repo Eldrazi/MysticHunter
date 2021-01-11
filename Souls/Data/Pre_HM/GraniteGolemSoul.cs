@@ -1,14 +1,18 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
 	public class GraniteGolemSoul : PreHMSoul
 	{
 		public override short soulNPC => NPCID.GraniteGolem;
-		public override string soulDescription => "Increases base defense";
+		public override string soulDescription => "Increases base defense.";
 
 		public override short cooldown => 0;
 

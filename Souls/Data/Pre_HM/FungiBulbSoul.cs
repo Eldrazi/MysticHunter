@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.GameContent;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -26,7 +30,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<FungiBulbSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<FungiBulbSoulProj>())
 					Main.projectile[i].Kill();
 			}
 
@@ -35,14 +39,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				damage += 5;
 			if (stack >= 9)
 				damage += 5;
-			Projectile.NewProjectile(p.Center, default, ProjectileType<FungiBulbSoulProj>(), damage, .1f, p.whoAmI);
+			Projectile.NewProjectile(p.Center, default, ModContent.ProjectileType<FungiBulbSoulProj>(), damage, .1f, p.whoAmI);
 			return (true);
 		}
 	}
 
 	public class FungiBulbSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_259";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.FungiBulb;
 
 		public override void SetStaticDefaults()
 		{
@@ -57,7 +61,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.penetrate = -1;
 			projectile.minionSlots = 0;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 		}
@@ -181,7 +184,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D chainTexture = Main.chain24Texture;
+			Texture2D chainTexture = TextureAssets.Chain24.Value;
 			Player owner = Main.player[projectile.owner];
 
 			Vector2 chainOrigin = new Vector2(chainTexture.Width *.5f, chainTexture.Height * .5f);

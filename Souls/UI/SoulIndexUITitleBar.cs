@@ -1,8 +1,13 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.UI;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+#endregion
 
 namespace MysticHunter.Souls.UI
 {
@@ -22,7 +27,7 @@ namespace MysticHunter.Souls.UI
 		public void SetContent(string content)
 		{
 			this.content = content;
-			this.contentDimensions = (Vector2)(Main.fontMouseText?.MeasureString(content) ?? Vector2.Zero);
+			this.contentDimensions = FontAssets.MouseText.Value.MeasureString(content);
 
 			// Give the X dimension extra padding.
 			this.contentDimensions.X += 16;
@@ -49,7 +54,7 @@ namespace MysticHunter.Souls.UI
 
 			titleBarDestination.X -= (int)this.contentDimensions.X - 8;
 			titleBarDestination.Y += 6;
-			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, this.content, titleBarDestination.X, titleBarDestination.Y, Color.White, Color.Black, Vector2.Zero, 1);
+			Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, this.content, titleBarDestination.X, titleBarDestination.Y, Color.White, Color.Black, Vector2.Zero, 1);
 		}
 	}
 }

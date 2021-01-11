@@ -1,7 +1,12 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.PirateInvasion
 {
@@ -19,7 +24,7 @@ namespace MysticHunter.Souls.Data.Event.PirateInvasion
 
 		public override void OnHitNPC(Player player, NPC npc, Entity hitEntity, ref int damage, byte stack)
 		{
-			if (!(hitEntity is Item) || ((Item)hitEntity).melee == false)
+			if (!(hitEntity is Item) || ((Item)hitEntity).DamageType != DamageClass.Melee)
 			{
 				return;
 			}

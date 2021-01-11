@@ -1,10 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.UI;
+using Terraria.ModLoader;
 using Terraria.GameContent.UI.Elements;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+#endregion
 
 namespace MysticHunter.Souls.UI
 {
@@ -43,7 +47,7 @@ namespace MysticHunter.Souls.UI
 
 		public override void OnInitialize()
 		{
-			panelTexture = GetTexture("MysticHunter/Souls/UI/SoulIndex_GenericPanel");
+			panelTexture = ModContent.GetTexture("MysticHunter/Souls/UI/SoulIndex_GenericPanel").Value;
 
 			this.SetPadding(0);
 			this.Width.Pixels = 480;
@@ -56,7 +60,7 @@ namespace MysticHunter.Souls.UI
 			soulSlotPanel = new SoulIndexUISlotPanel(this, panelTexture, new Vector2(24, 8));
 			this.Append(soulSlotPanel);
 
-			closeButton = new SoulIndexUICloseButton(GetTexture("MysticHunter/Souls/UI/SoulIndex_CloseButton"));
+			closeButton = new SoulIndexUICloseButton(ModContent.GetTexture("MysticHunter/Souls/UI/SoulIndex_CloseButton").Value);
 			this.Append(closeButton);
 
 			soulDescriptionPanel = new SoulIndexUIDescriptionPanel(panelTexture, new Vector2(24, 8));

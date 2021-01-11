@@ -1,13 +1,17 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+
+using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
 
-using Microsoft.Xna.Framework;
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -49,7 +53,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				// Rotate the target velocity by a set degree.
 				velocity = velocity.RotatedBy(MathHelper.ToRadians(-5 * (amount - 1) + (10 * i)));
 
-				Projectile.NewProjectile(p.Center, velocity, ProjectileType<HarpySoulProj>(), damage, .2f, p.whoAmI, Math.Abs(6 * (i - delayHelper)));
+				Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<HarpySoulProj>(), damage, .2f, p.whoAmI, Math.Abs(6 * (i - delayHelper)));
 			}
 			return (true);
 		}
@@ -57,7 +61,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class HarpySoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_" + ProjectileID.HarpyFeather;
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.HarpyFeather;
 
 		public override void SetStaticDefaults()
 		{
@@ -83,7 +87,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			if (projectile.ai[1]++ >= projectile.ai[0])
 			{
 				if (projectile.ai[1] == projectile.ai[0])
-					Main.PlaySound(SoundID.Item17, projectile.position);
+					SoundEngine.PlaySound(SoundID.Item17, projectile.position);
 
 				if (projectile.alpha > 0)
 					projectile.alpha -= 20;

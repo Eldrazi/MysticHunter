@@ -12,7 +12,7 @@ namespace ExampleMod.Sounds.Item
 	{
 		public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan, SoundType type)
 		{
-			soundInstance = sound.CreateInstance();
+			soundInstance = Sound.Value.CreateInstance();
 			soundInstance.Volume = volume * .5f;
 			soundInstance.Pan = pan;
 			return soundInstance;

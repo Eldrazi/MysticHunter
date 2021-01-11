@@ -2,10 +2,11 @@ Mystic Hunter is an inspiration taken out of the Castlevania series more promine
 
 Various systems in place will allow you to experience a variety of play styles to enhance your vanilla experience and give you new reasons to explore and fight your way to the moon lord and back again.
 
-Update v0.1.6.2
-	- Adds Frost Moon mob souls.
-	- Adds Pumpkin Moon mob souls.
-	
-	- Fixes Wraith soul 24/7 immunity.
-	- Fixes BoC soul creeper functionality.
-	- Fixes unloading error when other mods don't load properly.
+Update ?
+
+	TODO:
+		Eye of Cthulu playerlayer.
+		Cochineal Beetle playerlayer.
+		Cyan Beetle playerlayer.
+		Lac Beetle playerlayer.
+		Sea Snail playerlayer.

@@ -44,7 +44,7 @@ namespace MysticHunter.Souls.Data.Event.PumpkinMoon
 
 	public class HeadlessHorsemanSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.HeadlessHorseman;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.HeadlessHorseman;
 
 		public override void SetStaticDefaults()
 		{
@@ -56,7 +56,6 @@ namespace MysticHunter.Souls.Data.Event.PumpkinMoon
 			projectile.width = 60;
 			projectile.height = 56;
 
-			projectile.melee = true;
 			projectile.friendly = true;
 
 			projectile.penetrate = 3;
@@ -136,7 +135,7 @@ namespace MysticHunter.Souls.Data.Event.PumpkinMoon
 		{
 			for (int i = 0; i < 20; ++i)
 			{
-				Dust d = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 1f)];
+				Dust d = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.FlameBurst, 0f, 0f, 100, default, 1f)];
 				if (Main.rand.Next(2) == 0)
 				{
 					d.scale = .5f;

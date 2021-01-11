@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -24,7 +28,7 @@ namespace MysticHunter.Souls.Data.HM
 			int damage = 30 + 2 * stack;
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 5f;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<ArapaimaSoulProj>(), damage, 1, p.whoAmI, stack);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<ArapaimaSoulProj>(), damage, 1, p.whoAmI, stack);
 
 			return (true);
 		}
@@ -45,7 +49,6 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.scale = .8f;
 			projectile.penetrate = -1;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.tileCollide = true;
 			projectile.ignoreWater = false;
@@ -122,7 +125,7 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item14, projectile.position);
+			SoundEngine.PlaySound(SoundID.Item14, projectile.position);
 
 			projectile.position.X = projectile.position.X + (projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (projectile.height / 2);

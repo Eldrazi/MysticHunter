@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -23,7 +27,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 7f;
 
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<FireImpSoulProj>(), 25 + 2*stack, .1f + .01f*stack, p.whoAmI, stack == 9 ? 1 : 0);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<FireImpSoulProj>(), 25 + 2*stack, .1f + .01f*stack, p.whoAmI, stack == 9 ? 1 : 0);
 
 			return (true);
 		}
@@ -31,7 +35,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class FireImpSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_15";
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.BallofFire;
 
 		public override void SetStaticDefaults()
 		{
@@ -54,7 +58,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			if (projectile.localAI[0] == 0f)
 			{
 				projectile.localAI[0] = 1f;
-				Main.PlaySound(SoundID.Item20, projectile.position);
+				SoundEngine.PlaySound(SoundID.Item20, projectile.position);
 			}
 
 			for (int i = 0; i < 2; ++i)
@@ -93,7 +97,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			if (oldVelocity.Y != projectile.velocity.Y)
 				projectile.velocity.Y = -oldVelocity.Y;
 
-			Main.PlaySound(SoundID.Item10, projectile.position);
+			SoundEngine.PlaySound(SoundID.Item10, projectile.position);
 			return (false);
 		}
 
@@ -104,7 +108,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			// Small explosion.
 			if (projectile.ai[0] == 0)
 			{
-				Main.PlaySound(SoundID.Item10, projectile.position);
+				SoundEngine.PlaySound(SoundID.Item10, projectile.position);
 				for (int i = 0; i < 20; i++)
 				{
 					Dust d = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, -projectile.velocity.X * .2f, -projectile.velocity.Y * .2f, 100, default, 2f)];
@@ -118,7 +122,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			}
 
 			// Large explosion, no actual collision involved (happens in PreAI).
-			Main.PlaySound(SoundID.Item14, projectile.position);
+			SoundEngine.PlaySound(SoundID.Item14, projectile.position);
 			projectile.position.X = projectile.position.X + (projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (projectile.height / 2);
 			projectile.width = 80;

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿#region Using directives
+
+using System.Linq;
 
 using Terraria;
 using Terraria.ID;
@@ -6,6 +8,8 @@ using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Items
 {
@@ -80,7 +84,7 @@ namespace MysticHunter.Souls.Items
 			player.GetModPlayer<SoulPlayer>().LunarRitual = true;
 
 			// Mechanized Bone Necklace
-			player.minionDamage += .2f;
+			player.GetDamage<Summon>() += .2f;
 
 			// Mechano Scarf
 			player.endurance += .27f;
@@ -101,12 +105,11 @@ namespace MysticHunter.Souls.Items
 
 		public override void AddRecipes()
 		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemType<ChaosStone>());
-			recipe.AddIngredient(ItemType<LuminiteRing>());
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
+			CreateRecipe()
+				.AddIngredient(ItemType<ChaosStone>())
+				.AddIngredient(ItemType<LuminiteRing>())
+				.AddTile(TileID.LunarCraftingStation)
+				.Register();
 		}
 	}
 }

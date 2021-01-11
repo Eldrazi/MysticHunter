@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -37,7 +41,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			Vector2 spawnPos = p.Center - new Vector2(0, 12 * p.gravDir);
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - spawnPos) * 6;
-			Projectile.NewProjectile(spawnPos, velocity, ProjectileType<SalamanderSoulProj>(), 4 + stack, .1f, p.whoAmI, randomBuffs[Main.rand.Next(randBuffMax)], debuffTime);
+			Projectile.NewProjectile(spawnPos, velocity, ModContent.ProjectileType<SalamanderSoulProj>(), 4 + stack, .1f, p.whoAmI, randomBuffs[Main.rand.Next(randBuffMax)], debuffTime);
 			return (true);
 		}
 
@@ -50,7 +54,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		// projectile.ai[0] = debuff type.
 		// projectile.ai[1] = debuff time.
 
-		public override string Texture => "Terraria/Projectile_572";
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.SalamanderSpit;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spit");
@@ -63,7 +67,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.alpha = 255;
 			projectile.penetrate = -1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 		}
 
@@ -77,7 +80,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			if (projectile.localAI[0] == 0f)
 			{
 				projectile.localAI[0] = 1f;
-				Main.PlaySound(SoundID.Item17, projectile.position);
+				SoundEngine.PlaySound(SoundID.Item17, projectile.position);
 			}
 
 			// Spawn dusts (which make up the visual aspect of the projectile).

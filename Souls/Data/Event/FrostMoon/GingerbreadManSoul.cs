@@ -2,6 +2,7 @@
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 
 using MysticHunter.Souls.Framework;
 
@@ -34,7 +35,7 @@ namespace MysticHunter.Souls.Data.Event.FrostMoon
 
 			p.statLife += lifeRegain;
 			p.HealEffect(lifeRegain);
-			Main.PlaySound(SoundID.Item2, p.position);
+			SoundEngine.PlaySound(SoundID.Item2, p.position);
 
 			return (true);
 		}

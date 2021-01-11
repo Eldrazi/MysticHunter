@@ -1,9 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.UI
 {
@@ -50,12 +55,12 @@ namespace MysticHunter.Souls.UI
 
 			// Draw the name of the NPC.
 			drawPos += Vector2.One * 16;
-			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontItemStack, this.soulReference.SoulNPCName(), drawPos.X, drawPos.Y, Color.White, Color.Black, Vector2.Zero, 1);
+			Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.ItemStack.Value, this.soulReference.SoulNPCName(), drawPos.X, drawPos.Y, Color.White, Color.Black, Vector2.Zero, 1);
 
 			// Draw the image of the NPC.
 			float npcScale = 1;
 			float maxNPCSize = 50;
-			Texture2D npcTexture = Main.npcTexture[drawNPC.type];
+			Texture2D npcTexture = TextureAssets.Npc[drawNPC.type].Value;
 			Rectangle npcRectangle = new Rectangle(0, 0, npcTexture.Width, npcTexture.Height / Main.npcFrameCount[drawNPC.type]);
 
 			if (npcRectangle.Width > maxNPCSize || npcRectangle.Height > maxNPCSize)
@@ -75,18 +80,18 @@ namespace MysticHunter.Souls.UI
 			// Draw npc id.
 			string npcTypeString = "no. " + soulReference.soulNPC;
 			Vector2 tmpDrawPos = drawPos + new Vector2(maxNPCSize + 16, maxNPCSize / 2 - 9);
-			Utils.DrawBorderStringFourWay(spriteBatch, Main.fontItemStack, npcTypeString, tmpDrawPos.X, tmpDrawPos.Y, Color.White, Color.Black, Vector2.Zero, 1);
+			Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.ItemStack.Value, npcTypeString, tmpDrawPos.X, tmpDrawPos.Y, Color.White, Color.Black, Vector2.Zero, 1);
 
 			// Draw the description of the NPC's soul.
 			drawPos.Y += maxNPCSize + 4;
-			string[] snippets = Utils.WordwrapString(soulReference.soulDescription, Main.fontMouseText, (int)this.Width.Pixels, 10, out _);
+			string[] snippets = Utils.WordwrapString(soulReference.soulDescription, FontAssets.MouseText.Value, (int)this.Width.Pixels, 10, out _);
 			for (int i = 0; i < snippets.Length; ++i)
 			{
 				if (string.IsNullOrEmpty(snippets[i]))
 					break;
 
-				int stringWidth = (int)Main.fontItemStack.MeasureString(snippets[i]).X ;
-				Utils.DrawBorderStringFourWay(spriteBatch, Main.fontItemStack, snippets[i],
+				int stringWidth = (int)FontAssets.ItemStack.Value.MeasureString(snippets[i]).X ;
+				Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.ItemStack.Value, snippets[i],
 					drawPos.X + ((this.Width.Pixels / 2) * .9f - (stringWidth / 2)),
 					drawPos.Y, Color.White, Color.Black, Vector2.Zero, .9f);
 				drawPos.Y += 20;

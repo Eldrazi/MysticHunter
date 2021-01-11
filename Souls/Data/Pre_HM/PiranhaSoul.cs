@@ -1,13 +1,17 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -26,17 +30,17 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			int latchTime = 240 + (60 * stack);
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 8;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<PiranhaSoulProj>(), 5 + stack, .1f, p.whoAmI, 0, latchTime);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<PiranhaSoulProj>(), 5 + stack, .1f, p.whoAmI, 0, latchTime);
 
 			// Play 'minion summon' item sound.
-			Main.PlaySound(SoundID.Item44, p.position);
+			SoundEngine.PlaySound(SoundID.Item44, p.position);
 			return (true);
 		}
 	}
 
 	public class PiranhaSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_190";
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.MechanicalPiranha;
 
 		public override void SetStaticDefaults()
 		{
@@ -50,7 +54,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.alpha = 255;
 			projectile.penetrate = -1;
 			
-			projectile.magic = true;
 			projectile.friendly = true;
 		}
 

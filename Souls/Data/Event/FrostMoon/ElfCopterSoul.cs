@@ -3,6 +3,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -27,15 +28,23 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 		{
 			int damage = 60 + 5 * stack;
 
-			int randomSide = Main.rand.Next(2) == 0 ? -1 : 1;
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<ElfCopterSoulProj>(), damage, .5f, p.whoAmI, 0, randomSide);
+			for (int i = 0; i < Main.maxProjectiles; ++i)
+			{
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<ElfCopterSoulProj>())
+				{
+					Main.projectile[i].Kill();
+					break;
+				}
+			}
+
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<ElfCopterSoulProj>(), damage, .5f, p.whoAmI);
 			return (true);
 		}
 	}
 
 	internal sealed class ElfCopterSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.ElfCopter;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.ElfCopter;
 
 		private int shootTimer = 0;
 
@@ -111,7 +120,8 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 			}
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()
+			=> false;
 		
 		public override void Kill(int timeLeft)
 		{
@@ -123,7 +133,7 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D texture = Main.projectileTexture[projectile.type];
+			Texture2D texture = TextureAssets.Projectile[Type].Value;
 			Rectangle frame = texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
 			Vector2 origin = frame.Size() / 2;
 			SpriteEffects effects = projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

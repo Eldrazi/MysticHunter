@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -25,7 +29,7 @@ namespace MysticHunter.Souls.Data.HM
 		public override bool SoulUpdate(Player p, short stack)
 		{
 			for (int i = 0; i < Main.maxProjectiles; ++i)
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<CrimsonAxeSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<CrimsonAxeSoulProj>())
 					Main.projectile[i].Kill();
 
 			int damage = 30;
@@ -38,7 +42,7 @@ namespace MysticHunter.Souls.Data.HM
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 4;
 			for (int i = 0; i < amount; ++i)
 			{
-				Projectile.NewProjectile(p.Center, velocity, ProjectileType<CrimsonAxeSoulProj>(), damage, .2f, p.whoAmI, (int)WeaponSoulState.Idle);
+				Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<CrimsonAxeSoulProj>(), damage, .2f, p.whoAmI, (int)WeaponSoulState.Idle);
 			}
 			return (true);
 		}
@@ -81,7 +85,7 @@ namespace MysticHunter.Souls.Data.HM
 			set { projectile.ai[0] = (float)value; }
 		}
 
-		public override string Texture => "Terraria/NPC_179";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.CrimsonAxe;
 
 		public override void SetStaticDefaults()
 		{
@@ -96,7 +100,6 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.penetrate = -1;
 			projectile.minionSlots = 0;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -304,7 +307,7 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D projTexture = GetTexture(Texture);
+			Texture2D projTexture = TextureAssets.Projectile[Type].Value;
 
 			Vector2 projOrigin = new Vector2(projTexture.Width * .5f, (projTexture.Height / Main.projFrames[projectile.type]) * .5f);
 

@@ -1,14 +1,16 @@
-﻿using System;
+﻿#region Using directives
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Bosses
 {
@@ -26,17 +28,17 @@ namespace MysticHunter.Souls.Data.Bosses
 		{
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<GolemSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<GolemSoulProj>())
 					Main.projectile[i].Kill();
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<GolemSoulProj>(), 170 + 5 * stack, 0f, p.whoAmI, stack, 255);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<GolemSoulProj>(), 170 + 5 * stack, 0f, p.whoAmI, stack, 255);
 			return (true);
 		}
 	}
 
 	public class GolemSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.GolemHead;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.GolemHead;
 
 		private const float maxTargetDistance = 540;
 		private const float maxTargetLosingDistance = 640;
@@ -61,7 +63,6 @@ namespace MysticHunter.Souls.Data.Bosses
 			projectile.timeLeft *= 5;
 			projectile.minionSlots = 0f;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -128,21 +129,23 @@ namespace MysticHunter.Souls.Data.Bosses
 			return (false);
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()
+			=> false;
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			Rectangle rect = tex.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+			Texture2D texture = TextureAssets.Projectile[Type].Value;
+			Rectangle rect = texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
 
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, rect, lightColor, projectile.rotation, rect.Size() / 2, projectile.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, rect, lightColor, projectile.rotation, rect.Size() / 2, projectile.scale, SpriteEffects.None, 0f);
 
 			if (projectile.frame == 0)
 				return (false);
 
+			Texture2D eyesTexture = TextureAssets.Golem[1].Value;
 			Color eyeColor = new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor, 0);
 			if (projectile.frame < 2)
-				Main.spriteBatch.Draw(Main.golemTexture[1], projectile.Center - Main.screenPosition + new Vector2(-12, -4), new Rectangle(0, 0, Main.golemTexture[1].Width, Main.golemTexture[1].Height / 2), eyeColor, 0f, default, .6f, SpriteEffects.None, 0f);
+				Main.spriteBatch.Draw(eyesTexture, projectile.Center - Main.screenPosition + new Vector2(-12, -4), new Rectangle(0, 0, eyesTexture.Width, eyesTexture.Height / 2), eyeColor, 0f, default, .6f, SpriteEffects.None, 0f);
 
 			return (false);
 		}

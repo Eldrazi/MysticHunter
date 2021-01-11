@@ -6,7 +6,6 @@
 		/// Tries to add the <paramref name="data"/> to the <see cref="MysticHunter.SoulDict"/> dictionary.
 		/// </summary>
 		/// <param name="data">The <see cref="BaseSoul"/> to add to the dictionary.</param>
-		/// <param name="alternateKeys">If set will try to add more keys to the same <paramref name="data"/> value.</param>
 		public static void AddSoul(BaseSoul data)
 		{
 			AddSoulWithKey(data.soulNPC, data);
@@ -15,6 +14,7 @@
 			for (int i = 0; i < additionalTypes?.Length; ++i)
 				AddSoulWithKey(additionalTypes[i], data);
 		}
+
 		private static bool AddSoulWithKey(short key, BaseSoul data)
 		{
 			try

@@ -1,15 +1,19 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.IO;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -27,10 +31,10 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			// Kill any active Eater of Souls projectiles.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<CrimeraSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<CrimeraSoulProj>())
 					Main.projectile[i].Kill();
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<CrimeraSoulProj>(), 20 + stack, .1f + .02f * stack, p.whoAmI);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<CrimeraSoulProj>(), 20 + stack, .1f + .02f * stack, p.whoAmI);
 			return (true);
 		}
 
@@ -47,7 +51,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		private int targetIndex = 0;
 
-		public override string Texture => "Terraria/NPC_173";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.Crimera;
 
 		public override void SetStaticDefaults()
 		{
@@ -62,7 +66,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.penetrate = -1;
 			projectile.minionSlots = 0;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 		}
 
@@ -212,7 +215,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D texture = GetTexture(Texture);
+			Texture2D texture = TextureAssets.Projectile[Type].Value;
 			Vector2 origin = new Vector2(texture.Width * .5f, (texture.Height / Main.projFrames[projectile.type]) * .5f);
 
 			Rectangle frame = new Rectangle(0, (texture.Height / Main.projFrames[projectile.type]) * projectile.frame, texture.Width, texture.Height / Main.projFrames[projectile.type]);

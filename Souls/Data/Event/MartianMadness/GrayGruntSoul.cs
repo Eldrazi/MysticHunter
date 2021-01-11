@@ -1,7 +1,12 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.MartianMadness
 {
@@ -24,16 +29,13 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 
 			p.statDefense += 5 * stack;
 
-			p.magicCrit += 5;
-			p.meleeCrit += 5;
-			p.rangedCrit += 5;
-			p.thrownCrit += 5;
+			p.GetCrit<Magic>() += 5;
+			p.GetCrit<Melee>() += 5;
+			p.GetCrit<Ranged>() += 5;
+			p.GetCrit<Summon>() += 5;
+			p.GetCrit<Throwing>() += 5;
 
-			p.meleeDamage += (.05f * stack);
-			p.magicDamage += (.05f * stack);
-			p.rangedDamage += (.05f * stack);
-			p.minionDamage += (.05f * stack);
-			p.thrownDamage += (.05f * stack);
+			p.allDamage += (.05f * stack);
 
 			return (true);
 		}

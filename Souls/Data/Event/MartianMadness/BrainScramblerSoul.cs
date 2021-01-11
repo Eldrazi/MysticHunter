@@ -1,11 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.MartianMadness
 {
@@ -25,7 +28,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 			int modifier = 10 * stack;
 
 			Vector2 velocity = new Vector2(4 * p.direction, 0);
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<BrainScramblerSoulProj>(), damage, 1, p.whoAmI, 0, modifier);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<BrainScramblerSoulProj>(), damage, 1, p.whoAmI, 0, modifier);
 
 			return (true);
 		}
@@ -33,7 +36,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 
 	public class BrainScramblerSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.BrainScrambler;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.BrainScrambler;
 
 		public override void SetStaticDefaults()
 		{
@@ -44,7 +47,6 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 		{
 			projectile.width = projectile.height = 32;
 
-			projectile.melee = true;
 			projectile.friendly = true;
 
 			projectile.penetrate = 3;

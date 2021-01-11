@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.MartianMadness
 {
@@ -24,7 +28,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 			int damage = 110 + 10 * stack;
 
 			Vector2 projVel = Vector2.Normalize(Main.MouseWorld - p.Center) * 4;
-			Projectile.NewProjectile(p.Center, projVel, ProjectileType<MartianDroneSoulProj>(), damage, .5f, p.whoAmI);
+			Projectile.NewProjectile(p.Center, projVel, ModContent.ProjectileType<MartianDroneSoulProj>(), damage, .5f, p.whoAmI);
 
 			return (true);
 		}
@@ -32,7 +36,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 
 	internal sealed class MartianDroneSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.MartianDrone;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.MartianDrone;
 
 		public override void SetStaticDefaults()
 		{
@@ -48,7 +52,6 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 			projectile.alpha = 255;
 			projectile.penetrate = -1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 
 			drawOffsetX = -20;
@@ -190,7 +193,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item14, projectile.position);
+			SoundEngine.PlaySound(SoundID.Item14, projectile.position);
 
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);

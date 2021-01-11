@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -25,7 +28,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 6f;
 
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<DemonEyeSoulProj>(), 5 + stack, .1f, p.whoAmI, 1 + (stack / 2));
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<DemonEyeSoulProj>(), 5 + stack, .1f, p.whoAmI, 1 + (stack / 2));
 			return (true);
 		}
 
@@ -35,7 +38,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class DemonEyeSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_2";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.DemonEye;
 
 		public override void SetStaticDefaults()
 		{

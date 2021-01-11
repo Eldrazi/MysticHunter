@@ -1,16 +1,19 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 using System.IO;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using IL.Terraria.GameContent.Achievements;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Bosses
 {
@@ -30,7 +33,7 @@ namespace MysticHunter.Souls.Data.Bosses
 		{
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<SkeletronSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<SkeletronSoulProj>())
 					Main.projectile[i].Kill();
 
 			int damage = 50;
@@ -48,7 +51,7 @@ namespace MysticHunter.Souls.Data.Bosses
 				int yHand = (i - 2 < 0 ? 1 : -1);
 				int xHand = (i % 2 == 0 ? -1 : 1);
 
-				int proj = Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<SkeletronPrimeSoulProj>(), damage, .2f, p.whoAmI, xHand, yHand);
+				int proj = Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<SkeletronPrimeSoulProj>(), damage, .2f, p.whoAmI, xHand, yHand);
 				((SkeletronPrimeSoulProj)Main.projectile[proj].modProjectile).primeType = PrimeSoulTypes[i];
 				Main.projectile[proj].netUpdate = true;
 			}
@@ -58,7 +61,7 @@ namespace MysticHunter.Souls.Data.Bosses
 
 	internal class SkeletronPrimeSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_0";
+		public override string Texture => "Terraria/Images/NPC_0";
 
 		private bool attacking
 		{
@@ -104,7 +107,6 @@ namespace MysticHunter.Souls.Data.Bosses
 			projectile.penetrate = -1;
 			projectile.minionSlots = 0f;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -318,9 +320,9 @@ namespace MysticHunter.Souls.Data.Bosses
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Player owner = Main.player[projectile.owner];
+			Player owner = Main.player[projectile.owner];			
 
-			Vector2 armOrigin = new Vector2(Main.boneArm2Texture.Width * .5f, Main.boneArm2Texture.Height * .5f);
+			Vector2 armOrigin = TextureAssets.BoneArm2.Value.Size() / 2;
 			Vector2 armStartPos = new Vector2(projectile.Center.X - 5 * projectile.ai[0], projectile.position.Y + 20f);
 
 			for (int i = 0; i < 2; ++i)
@@ -344,7 +346,7 @@ namespace MysticHunter.Souls.Data.Bosses
 
 				float rotation = direction.ToRotation() - MathHelper.PiOver2;
 				Color color = Lighting.GetColor((int)armStartPos.X / 16, (int)armStartPos.Y / 16);
-				spriteBatch.Draw(Main.boneArm2Texture, armStartPos - Main.screenPosition, null, color, rotation, armOrigin, projectile.scale, SpriteEffects.None, 0);
+				spriteBatch.Draw(TextureAssets.BoneArm2.Value, armStartPos - Main.screenPosition, null, color, rotation, armOrigin, projectile.scale, SpriteEffects.None, 0);
 
 				if (i == 0)
 					armStartPos += direction * length / 2;
@@ -367,7 +369,7 @@ namespace MysticHunter.Souls.Data.Bosses
 			}
 
 			Main.instance.LoadNPC(primeType);
-			Texture2D projTexture = Main.npcTexture[primeType];
+			Texture2D projTexture = TextureAssets.Npc[Type].Value;
 			Vector2 projOrigin = new Vector2(projTexture.Width * .5f, (projTexture.Height / projFrames) * .5f);
 
 			SpriteEffects effects = projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -399,7 +401,7 @@ namespace MysticHunter.Souls.Data.Bosses
 
 	/*internal sealed class SkeletronPrimeSoulProj_Chainsaw
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.PrimeSaw;
+		public override string Texture => "Terraria/Images/NPC" + NPCID.PrimeSaw;
 
 		public override void SetStaticDefaults()
 		{
@@ -420,7 +422,7 @@ namespace MysticHunter.Souls.Data.Bosses
 
 	internal sealed class SkeletronPrimeSoulProj_Vice
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.PrimeVice;
+		public override string Texture => "Terraria/Images/NPC" + NPCID.PrimeVice;
 
 		public override void SetStaticDefaults()
 		{

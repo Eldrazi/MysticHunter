@@ -1,16 +1,14 @@
-﻿using System;
-using System.Linq;
+﻿#region Using directives
 
 using Terraria;
 using Terraria.ID;
-using Terraria.Enums;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -35,7 +33,7 @@ namespace MysticHunter.Souls.Data.HM
 
 			Vector2 spawnPos = p.MountedCenter + new Vector2(34 * p.direction, 0);
 
-			Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileType<WerewolfSoulProj>(), damage, 0, p.whoAmI, direction);
+			Projectile.NewProjectile(spawnPos, Vector2.Zero, ModContent.ProjectileType<WerewolfSoulProj>(), damage, 0, p.whoAmI, direction);
 
 			direction *= -1;
 			return (true);
@@ -55,7 +53,6 @@ namespace MysticHunter.Souls.Data.HM
 
 			projectile.penetrate = -1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 			projectile.manualDirectionChange = true;
@@ -89,7 +86,7 @@ namespace MysticHunter.Souls.Data.HM
 				target.AddBuff(BuffID.Bleeding, 120);
 		}
 
-		public override bool CanDamage()
+		public override bool? CanDamage()
 			=> projectile.frame == 2;
 	}
 }

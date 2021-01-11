@@ -1,15 +1,18 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
+using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using System.Collections.Generic;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -28,10 +31,10 @@ namespace MysticHunter.Souls.Data.HM
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<WorldFeederSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<WorldFeederSoulProj>())
 					Main.projectile[i].Kill();
 			}
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<WorldFeederSoulProj>(), 80 + (2 * stack), .2f, p.whoAmI, -1);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<WorldFeederSoulProj>(), 80 + (2 * stack), .2f, p.whoAmI, -1);
 			return (true);
 		}
 	}
@@ -64,7 +67,6 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.penetrate = -1;
 			projectile.minionSlots = 0;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -154,7 +156,8 @@ namespace MysticHunter.Souls.Data.HM
 			return (false);
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()
+			=> false;
 
 		public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
 			=> drawCacheProjsBehindNPCsAndTiles.Add(index);
@@ -163,7 +166,7 @@ namespace MysticHunter.Souls.Data.HM
 		{
 			Player player = Main.player[projectile.owner];
 
-			Texture2D tailPartTex = GetTexture("MysticHunter/Souls/Data/HM/WorldFeederSoulProj_Chain");
+			Texture2D tailPartTex = ModContent.GetTexture("MysticHunter/Souls/Data/HM/WorldFeederSoulProj_Chain").Value;
 
 			Vector2 origin = new Vector2(tailPartTex.Width / 2, tailPartTex.Height / 2);
 

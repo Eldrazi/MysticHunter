@@ -1,12 +1,16 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -23,7 +27,7 @@ namespace MysticHunter.Souls.Data.HM
 		public override bool SoulUpdate(Player p, short stack)
 		{
 			int damage = 2 + (int)(.5f * stack);
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<GreenJellyfishSoulProj>(), damage, .2f, p.whoAmI, stack);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<GreenJellyfishSoulProj>(), damage, .2f, p.whoAmI, stack);
 
 			return (true);
 		}
@@ -31,7 +35,7 @@ namespace MysticHunter.Souls.Data.HM
 
 	public class GreenJellyfishSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_443";
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.Electrosphere;
 
 		public override void SetStaticDefaults()
 		{
@@ -82,7 +86,7 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D projTexture = GetTexture(Texture);
+			Texture2D projTexture = TextureAssets.Projectile[Type].Value;
 
 			Vector2 projOrigin = new Vector2(projTexture.Width * .5f, (projTexture.Height / Main.projFrames[projectile.type]) * .5f);
 

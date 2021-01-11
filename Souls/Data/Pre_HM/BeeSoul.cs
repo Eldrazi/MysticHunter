@@ -1,11 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -33,7 +36,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				Vector2 velocity = Vector2.Normalize(Main.MouseWorld - pos);
 				velocity *= 5;
 
-				Projectile.NewProjectile(pos, velocity, ProjectileType<BeeSoulProj>(), 2 + stack, .1f, p.whoAmI);
+				Projectile.NewProjectile(pos, velocity, ModContent.ProjectileType<BeeSoulProj>(), 2 + stack, .1f, p.whoAmI);
 			}
 			return (true);
 		}
@@ -44,7 +47,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class BeeSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_210";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.Bee;
 
 		public override void SetStaticDefaults()
 		{
@@ -55,7 +58,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			projectile.width = projectile.height = 4;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 
 			if (Main.rand != null)

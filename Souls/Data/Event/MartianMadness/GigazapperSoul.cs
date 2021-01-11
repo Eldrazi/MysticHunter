@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.MartianMadness
 {
@@ -24,14 +28,14 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 			int damage = 90 + 10 * stack;
 
 			Vector2 projVel = new Vector2(p.direction * 6, 0);
-			Projectile.NewProjectile(p.Center, projVel, ProjectileType<GigazapperSoulProj>(), damage, 1f, p.whoAmI);
+			Projectile.NewProjectile(p.Center, projVel, ModContent.ProjectileType<GigazapperSoulProj>(), damage, 1f, p.whoAmI);
 			return (true);
 		}
 	}
 
 	internal sealed class GigazapperSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_" + ProjectileID.GigaZapperSpear;
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.GigaZapperSpear;
 
 		public override void SetStaticDefaults()
 		{
@@ -46,7 +50,6 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 			projectile.alpha = 255;
 			projectile.penetrate = -1;
 
-			projectile.melee = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 		}
@@ -56,7 +59,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 			if (projectile.ai[1] == 0)
 			{
 				projectile.ai[1] = 1;
-				Main.PlaySound(SoundID.Item12, projectile.position);
+				SoundEngine.PlaySound(SoundID.Item12, projectile.position);
 			}
 
 			if (projectile.localAI[0] == 0)

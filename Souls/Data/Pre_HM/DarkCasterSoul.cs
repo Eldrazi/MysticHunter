@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using MysticHunter.Souls.Framework;
 
 using Microsoft.Xna.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -24,14 +28,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center);
 			velocity *= 6;
 
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<DarkCasterSoulProj>(), 18 + 2 * stack, .1f + .01f * stack, p.whoAmI);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<DarkCasterSoulProj>(), 18 + 2 * stack, .1f + .01f * stack, p.whoAmI);
 			return (true);
 		}
 	}
 
 	public class DarkCasterSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_33";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.WaterSphere;
 
 		public override void SetStaticDefaults()
 		{
@@ -52,7 +56,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			if (projectile.ai[0] == 0)
 			{
 				projectile.ai[0] = 1;
-				Main.PlaySound(SoundID.Item8, projectile.position);
+				SoundEngine.PlaySound(SoundID.Item8, projectile.position);
 			}
 
 			// Spawn a dust trail.
@@ -86,7 +90,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			if (oldVelocity.Y != projectile.velocity.Y)
 				projectile.velocity.Y = -oldVelocity.Y;
 
-			Main.PlaySound(SoundID.Item10, projectile.position);
+			SoundEngine.PlaySound(SoundID.Item10, projectile.position);
 			return (false);
 		}
 	}

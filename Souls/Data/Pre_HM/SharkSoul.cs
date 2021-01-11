@@ -1,12 +1,16 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -23,10 +27,10 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override bool SoulUpdate(Player p, short stack)
 		{
 			for (int i = 0; i < Main.maxProjectiles; ++i)
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<SharkSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<SharkSoulProj>())
 					Main.projectile[i].Kill();
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<SharkSoulProj>(), 2 + stack, .1f, p.whoAmI);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<SharkSoulProj>(), 2 + stack, .1f, p.whoAmI);
 			return (true);
 		}
 	}
@@ -49,7 +53,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.timeLeft *= 5;
 			projectile.minionSlots = 0;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 			projectile.netImportant = true;
@@ -139,7 +142,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			return (false);
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()
+			=> false;
 
 		public override void Kill(int timeLeft)
 		{
@@ -149,7 +153,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D projTexture = GetTexture(Texture);
+			Texture2D projTexture = TextureAssets.Projectile[Type].Value;
 
 			Vector2 projOrigin = new Vector2(projTexture.Width * .5f, projTexture.Height * .5f);
 			SpriteEffects effects = projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;

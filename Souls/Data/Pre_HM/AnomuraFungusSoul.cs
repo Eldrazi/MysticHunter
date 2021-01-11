@@ -1,11 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -23,14 +26,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Vector2 velocity = new Vector2(4 * p.direction, 0);
 
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<AnomuraFungusSoulProj>(), 10 + 2 * stack, 1.5f + .2f * stack, p.whoAmI);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<AnomuraFungusSoulProj>(), 10 + 2 * stack, 1.5f + .2f * stack, p.whoAmI);
 			return (true);
 		}
 	}
 
 	public class AnomuraFungusSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_257";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.AnomuraFungus;
 
 		public override void SetStaticDefaults()
 		{
@@ -44,7 +47,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			projectile.penetrate = 5;
 
-			projectile.melee = true;
 			projectile.friendly = true;
 
 			drawOriginOffsetY = -6;

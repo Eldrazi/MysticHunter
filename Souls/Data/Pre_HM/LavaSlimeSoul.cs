@@ -1,13 +1,17 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+
+using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
 
-using Microsoft.Xna.Framework;
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -38,7 +42,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			}
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 6f;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<LavaSlimeSoulProj>(), damage, .2f, p.whoAmI, bounceAmount);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<LavaSlimeSoulProj>(), damage, .2f, p.whoAmI, bounceAmount);
 
 			return (true);
 		}
@@ -100,7 +104,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			if (projectile.ai[0] > 0)
 			{
-				Main.PlaySound(SoundID.NPCHit1, projectile.position);
+				SoundEngine.PlaySound(SoundID.NPCHit1, projectile.position);
 				bounceVelocity = oldVelocity;
 				projectile.position += oldVelocity;
 				if (oldVelocity.X != projectile.velocity.X)
@@ -131,7 +135,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.NPCDeath1, projectile.position);
+			SoundEngine.PlaySound(SoundID.NPCDeath1, projectile.position);
 			for (int i = 0; i < 10; i++)
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.t_Slime, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 180, Color.OrangeRed);
 		}

@@ -1,13 +1,18 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using System;
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using System;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.PirateInvasion
 {
@@ -40,7 +45,7 @@ namespace MysticHunter.Souls.Data.Event.PirateInvasion
 			// Despawn pre-existing projectiles.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<FlyingDutchmanSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<FlyingDutchmanSoulProj>())
 				{
 					Main.projectile[i].Kill();
 				}
@@ -53,7 +58,7 @@ namespace MysticHunter.Souls.Data.Event.PirateInvasion
 				if (Collision.SolidCollision(newProjPos, 16, 16))
 					continue;
 
-				Projectile.NewProjectile(newProjPos, Vector2.Zero, ProjectileType<FlyingDutchmanSoulProj>(), damage, 0, p.whoAmI);
+				Projectile.NewProjectile(newProjPos, Vector2.Zero, ModContent.ProjectileType<FlyingDutchmanSoulProj>(), damage, 0, p.whoAmI);
 			}
 			return (true);
 		}
@@ -77,7 +82,6 @@ namespace MysticHunter.Souls.Data.Event.PirateInvasion
 
 			projectile.timeLeft = 1800;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 		}
@@ -93,7 +97,7 @@ namespace MysticHunter.Souls.Data.Event.PirateInvasion
 			{
 				for (int i = 0; i < Main.maxNPCs; ++i)
 				{
-					if (Main.npc[i].active &&/*Main.npc[i].CanBeChasedBy(projectile) && */(projectile.ai[1] == 0 || projectile.ai[1] == i + 1))
+					if (Main.npc[i].active && Main.npc[i].CanBeChasedBy(projectile) && (projectile.ai[1] == 0 || projectile.ai[1] == i + 1))
 					{
 						float targetDistance = projectile.Distance(Main.npc[i].Center);
 
@@ -195,8 +199,8 @@ namespace MysticHunter.Souls.Data.Event.PirateInvasion
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D projTexture = GetTexture(Texture);
-			Texture2D wheelTexture = GetTexture("MysticHunter/Souls/Data/Event/PirateInvasion/FlyingDutchmanSoulProj_Wheel");
+			Texture2D projTexture = TextureAssets.Projectile[Type].Value;
+			Texture2D wheelTexture = ModContent.GetTexture("MysticHunter/Souls/Data/Event/PirateInvasion/FlyingDutchmanSoulProj_Wheel").Value;
 
 			Vector2 origin = new Vector2(12, 30);
 			Vector2 drawOffset = new Vector2(0, -6);

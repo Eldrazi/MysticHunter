@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -39,14 +43,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 5;
 
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<PinkJellyfishSoulProj>(), 20 + stack, .1f + .02f * stack, p.whoAmI, jellyfishSize);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<PinkJellyfishSoulProj>(), 20 + stack, .1f + .02f * stack, p.whoAmI, jellyfishSize);
 			return (true);
 		}
 	}
 
 	public class PinkJellyfishSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_64";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.PinkJellyfish;
 		private Vector2 initialVelocity = Vector2.Zero;
 
 		private int shockRadius { get { return (int)(projectile.ai[0] * 48); } }
@@ -62,7 +66,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			projectile.penetrate = -1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 		}
@@ -159,8 +162,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		int ringFrameCounter = 0;
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D projTexture = GetTexture(Texture);
-			Texture2D ringTexture = GetTexture("Terraria/Projectile_443");
+			Texture2D projTexture = TextureAssets.Projectile[Type].Value;
+			Texture2D ringTexture = TextureAssets.Projectile[ProjectileID.Electrosphere].Value;
 			
 			Vector2 projOrigin = new Vector2(projTexture.Width * .5f, (projTexture.Height / Main.projFrames[projectile.type]) * .5f);
 

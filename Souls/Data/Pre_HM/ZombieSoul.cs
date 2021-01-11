@@ -1,14 +1,19 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+
+using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -40,7 +45,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				else if (amount == 3)
 					spawnPos += new Vector2(-30 * (1 - i), 0);
 
-				Projectile proj = Main.projectile[Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileType<ZombieSoulProj>(), damage, 0, p.whoAmI)];
+				Projectile proj = Main.projectile[Projectile.NewProjectile(spawnPos, Vector2.Zero, ModContent.ProjectileType<ZombieSoulProj>(), damage, 0, p.whoAmI)];
 				proj.direction = p.direction;
 				proj.netUpdate = true;
 			}
@@ -53,7 +58,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class ZombieSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_0";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.None;
 
 		public override void SetStaticDefaults()
 		{
@@ -63,13 +68,12 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override void SetDefaults()
 		{
 			projectile.width = 28;
-			projectile.height = 44;
+			projectile.height = 42;
 
 			projectile.penetrate = -1;
 			projectile.timeLeft = 600;
 
 			projectile.hide = true;
-			projectile.melee = true;
 			projectile.friendly = true;
 			projectile.manualDirectionChange = true;
 		}
@@ -162,12 +166,12 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D tex = GetTexture("Terraria/NPC_" + (int)projectile.ai[1]);
-			Vector2 origin = new Vector2(tex.Width / 2, (tex.Height / Main.projFrames[projectile.type]) / 2);
+			Texture2D tex = TextureAssets.Npc[(int)projectile.ai[1]].Value;
+			Rectangle frame = tex.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+			Vector2 origin = frame.Size();
 			SpriteEffects effects = projectile.spriteDirection >= 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0, drawOriginOffsetY),
-				Utils.Frame(tex, 1, 15, 0, projectile.frame), lightColor, projectile.rotation, origin, projectile.scale, effects, 0f);
+			spriteBatch.Draw(tex, projectile.Center + origin/2 - Main.screenPosition, frame, lightColor, projectile.rotation, origin, projectile.scale, effects, 0f);
 
 			return (false);
 		}
@@ -198,7 +202,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			// Digging sound effect.
 			projectile.soundDelay = 20;
-			Main.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 	}
 }

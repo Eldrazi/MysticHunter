@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -26,7 +30,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<ManEaterSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<ManEaterSoulProj>())
 					Main.projectile[i].Kill();
 			}
 
@@ -35,14 +39,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				damage += 5;
 			if (stack >= 9)
 				damage += 5;
-			Projectile.NewProjectile(p.Center, default, ProjectileType<ManEaterSoulProj>(), damage, .1f, p.whoAmI);
+			Projectile.NewProjectile(p.Center, default, ModContent.ProjectileType<ManEaterSoulProj>(), damage, .1f, p.whoAmI);
 			return (true);
 		}
 	}
 
 	public class ManEaterSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_43";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.ManEater;
 
 		public override void SetStaticDefaults()
 		{
@@ -56,7 +60,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			projectile.penetrate = -1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 		}
@@ -187,7 +190,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D chainTexture = Main.chain4Texture;
+			Texture2D chainTexture = TextureAssets.Chain4.Value;
 			Player player = Main.player[projectile.owner];
 
 			Vector2 chainOrigin = new Vector2(chainTexture.Width *.5f, chainTexture.Height * .5f);

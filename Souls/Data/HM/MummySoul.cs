@@ -1,13 +1,17 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+
+using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -39,7 +43,7 @@ namespace MysticHunter.Souls.Data.HM
 				else if (amount == 3)
 					spawnPos += new Vector2(-30 * (1 - i), 0);
 
-				Projectile proj = Main.projectile[Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileType<MummySoulProj>(), damage, 0, p.whoAmI)];
+				Projectile proj = Main.projectile[Projectile.NewProjectile(spawnPos, Vector2.Zero, ModContent.ProjectileType<MummySoulProj>(), damage, 0, p.whoAmI)];
 				proj.direction = p.direction;
 				proj.netUpdate = true;
 			}
@@ -49,7 +53,7 @@ namespace MysticHunter.Souls.Data.HM
 
 	public class MummySoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_78";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.Mummy;
 
 		public override void SetStaticDefaults()
 		{
@@ -65,7 +69,6 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.timeLeft = 600;
 
 			projectile.hide = true;
-			projectile.melee = true;
 			projectile.friendly = true;
 			projectile.manualDirectionChange = true;
 		}
@@ -188,7 +191,7 @@ namespace MysticHunter.Souls.Data.HM
 
 			// Digging sound effect.
 			projectile.soundDelay = 20;
-			Main.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 
 		private void ConvertTiles()
@@ -215,7 +218,7 @@ namespace MysticHunter.Souls.Data.HM
 				{
 					if (Main.myPlayer == projectile.owner && Main.tile[x, y] != null)
 					{
-						if (Main.tile[x, y].type == TileID.CorruptGrass || Main.tile[x, y].type == TileID.FleshGrass || Main.tile[x, y].type == TileID.HallowedGrass)
+						if (Main.tile[x, y].type == TileID.CorruptGrass || Main.tile[x, y].type == TileID.CrimsonGrass || Main.tile[x, y].type == TileID.HallowedGrass)
 						{
 							Main.tile[x, y].type = TileID.Grass;
 							WorldGen.SquareTileFrame(x, y);

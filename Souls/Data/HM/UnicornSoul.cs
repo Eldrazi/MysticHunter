@@ -1,7 +1,11 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -17,11 +21,11 @@ namespace MysticHunter.Souls.Data.HM
 		public override short ManaCost(Player p, short stack) => 0;
 		public override bool SoulUpdate(Player p, short stack)
 		{
-			if (p.ZoneHoly)
+			if (p.ZoneHallow)
 			{
 				p.moveSpeed += .1f * stack;
 				p.statDefense += 5 * stack;
-				p.allDamageMult += .1f * stack;
+				p.allDamage.multiplicative += .1f * stack;
 			}
 			return (true);
 		}

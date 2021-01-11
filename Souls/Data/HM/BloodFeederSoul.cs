@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -26,7 +29,7 @@ namespace MysticHunter.Souls.Data.HM
 			int damage = 25 + 2 * stack;
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 6f;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<BloodFeederSoulProj>(), damage, .25f, p.whoAmI, stack);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<BloodFeederSoulProj>(), damage, .25f, p.whoAmI, stack);
 
 			return (true);
 		}
@@ -34,7 +37,7 @@ namespace MysticHunter.Souls.Data.HM
 
 	public class BloodFeederSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_241";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.BloodFeeder;
 
 		public override void SetStaticDefaults()
 		{

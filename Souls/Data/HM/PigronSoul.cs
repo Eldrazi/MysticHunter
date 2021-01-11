@@ -1,7 +1,12 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -19,16 +24,13 @@ namespace MysticHunter.Souls.Data.HM
 		{
 			if (p.wellFed)
 			{
-				p.meleeDamage += 0.05f * stack;
-				p.magicDamage += 0.05f * stack;
-				p.rangedDamage += 0.05f * stack;
-				p.thrownDamage += 0.05f * stack;
-				p.minionDamage += 0.05f * stack;
+				p.allDamage += 0.05f * stack;
 
-				p.meleeCrit += stack;
-				p.magicCrit += stack;
-				p.rangedCrit += stack;
-				p.thrownCrit += stack;
+				p.GetCrit<Melee>() += stack;
+				p.GetCrit<Magic>() += stack;
+				p.GetCrit<Ranged>() += stack;
+				p.GetCrit<Throwing>() += stack;
+				p.GetCrit<Summon>() += stack;
 				
 				p.minionKB += 0.2f * stack;
 				p.moveSpeed += 0.1f * stack;
@@ -39,9 +41,9 @@ namespace MysticHunter.Souls.Data.HM
 			if (p.HasBuff(BuffID.Tipsy))
 			{
 				p.statDefense -= 2 * stack;
-				p.meleeCrit += 1 * stack;
-				p.meleeDamage += 0.075f * stack;
+				p.GetCrit<Melee>() += stack;
 				p.meleeSpeed += 0.075f * stack;
+				p.GetDamage<Melee>() += 0.075f * stack;
 			}
 
 			return (true);

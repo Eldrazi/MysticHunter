@@ -1,13 +1,17 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -25,7 +29,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			float maxRadius = 120 + 30 * stack;
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<CaveBatSoulProj>(), 10 + stack, .1f, p.whoAmI, maxRadius);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<CaveBatSoulProj>(), 10 + stack, .1f, p.whoAmI, maxRadius);
 			return (true);
 		}
 	}
@@ -33,7 +37,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class CaveBatSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_0";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.None;
 
 		private float MaxDamageRadius { get { return projectile.ai[0]; } }
 		private float CurrentDamageRadius { get { return projectile.ai[1]; } set { projectile.ai[1] = value; } }
@@ -56,7 +60,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override bool PreAI()
 		{
 			if (CurrentDamageRadius == 0)
-				Main.PlaySound(SoundID.NPCDeath4, projectile.position);
+				SoundEngine.PlaySound(SoundID.NPCDeath4, projectile.position);
 
 			CurrentDamageRadius += (MaxDamageRadius / 30);
 			if (CurrentDamageRadius >= MaxDamageRadius)

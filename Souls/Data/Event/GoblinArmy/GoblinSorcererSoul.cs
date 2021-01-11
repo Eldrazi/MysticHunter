@@ -1,7 +1,12 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.GoblinArmy
 {
@@ -17,7 +22,7 @@ namespace MysticHunter.Souls.Data.Event.GoblinArmy
 		public override short ManaCost(Player p, short stack) => 0;
 		public override bool SoulUpdate(Player p, short stack)
 		{
-			p.magicDamage += (.08f * stack);
+			p.GetDamage<Magic>() += (.08f * stack);
 			return (true);
 		}
 	}

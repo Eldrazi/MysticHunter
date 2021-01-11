@@ -1,12 +1,17 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -22,7 +27,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override short ManaCost(Player p, short stack) => (short)(10 + 3 * stack);
 		public override bool SoulUpdate(Player p, short stack)
 		{
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<BloodCrawlerSoulProj>(), 20 + stack, .1f, p.whoAmI, stack);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<BloodCrawlerSoulProj>(), 20 + stack, .1f, p.whoAmI, stack);
 			return (true);
 		}
 
@@ -44,7 +49,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			projectile.penetrate = -1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -57,7 +61,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			if (projectile.localAI[0] == 0)
 			{
 				projectile.localAI[0] = 1;
-				Main.PlaySound(SoundID.NPCHit20, owner.Center);
+				SoundEngine.PlaySound(SoundID.NPCHit20, owner.Center);
 			}
 
 			// Set the correct projectile direction.
@@ -105,7 +109,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				for (int i = 0; i < randAmount; ++i)
 				{
 					Projectile.NewProjectile(projectile.Center, new Vector2(projectile.spriteDirection * -3, -Main.rand.Next(1, 4)),
-						ProjectileType<BloodCrawlerSoulProjBlood>(), 0, 0, projectile.owner);
+						ModContent.ProjectileType<BloodCrawlerSoulProjBlood>(), 0, 0, projectile.owner);
 				}
 			}
 		}
@@ -115,7 +119,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 	{
 		int randFrameY;
 
-		public override string Texture => "Terraria/Dust";
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.None;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blood");
@@ -169,7 +174,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 projOrigin = new Vector2(5, 5);
-			Texture2D projTexture = GetTexture(Texture);
+			Texture2D projTexture = TextureAssets.Dust.Value;
 
 			Rectangle drawRect = new Rectangle(50, randFrameY * 10, 10, 10);
 

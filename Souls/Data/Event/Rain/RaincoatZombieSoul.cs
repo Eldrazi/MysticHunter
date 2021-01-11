@@ -1,13 +1,17 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+
+using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.Rain
 {
@@ -32,7 +36,7 @@ namespace MysticHunter.Souls.Data.Event.Rain
 			
 			Vector2 spawnPos = p.Center + new Vector2(0, 48);
 
-			Projectile proj = Main.projectile[Projectile.NewProjectile(spawnPos, Vector2.Zero, ProjectileType<RaincoatZombieSoulProj>(), damage, 0, p.whoAmI, 0, modifier)];
+			Projectile proj = Main.projectile[Projectile.NewProjectile(spawnPos, Vector2.Zero, ModContent.ProjectileType<RaincoatZombieSoulProj>(), damage, 0, p.whoAmI, 0, modifier)];
 			proj.direction = p.direction;
 			proj.netUpdate = true;
 
@@ -42,7 +46,7 @@ namespace MysticHunter.Souls.Data.Event.Rain
 
 	internal sealed class RaincoatZombieSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.ZombieRaincoat;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.ZombieRaincoat;
 
 		public override void SetStaticDefaults()
 		{
@@ -58,7 +62,6 @@ namespace MysticHunter.Souls.Data.Event.Rain
 			projectile.timeLeft = 600;
 
 			projectile.hide = true;
-			projectile.melee = true;
 			projectile.friendly = true;
 			projectile.manualDirectionChange = true;
 		}
@@ -175,7 +178,7 @@ namespace MysticHunter.Souls.Data.Event.Rain
 
 			// Digging sound effect.
 			projectile.soundDelay = 20;
-			Main.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 
 		private void SpawnTrail()
@@ -185,14 +188,14 @@ namespace MysticHunter.Souls.Data.Event.Rain
 				projectile.localAI[0] = 0;
 
 				Vector2 newProjPos = new Vector2(projectile.Center.X - (16 * projectile.direction), projectile.position.Y + projectile.height);
-				Projectile.NewProjectile(newProjPos, Vector2.Zero, ProjectileType<RaincoatZombieSoulProjTrail>(), projectile.damage, 0, projectile.owner);
+				Projectile.NewProjectile(newProjPos, Vector2.Zero, ModContent.ProjectileType<RaincoatZombieSoulProjTrail>(), projectile.damage, 0, projectile.owner);
 			}
 		}
 	}
 
 	internal sealed class RaincoatZombieSoulProjTrail : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.None;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.None;
 
 		public override void SetStaticDefaults()
 		{
@@ -205,7 +208,6 @@ namespace MysticHunter.Souls.Data.Event.Rain
 			projectile.penetrate = 2;
 			projectile.timeLeft = 120;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 		}

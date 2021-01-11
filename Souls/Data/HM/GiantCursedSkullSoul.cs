@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+
+using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+
+using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
 
-using Microsoft.Xna.Framework;
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -26,14 +29,14 @@ namespace MysticHunter.Souls.Data.HM
 			// Destroy the projectile if it already exists.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<GiantCursedSkullSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<GiantCursedSkullSoulProj>())
 				{
 					Main.projectile[i].Kill();
 					return (true);
 				}
 			}
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<GiantCursedSkullSoulProj>(), 0, 0, p.whoAmI, 2 + stack);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<GiantCursedSkullSoulProj>(), 0, 0, p.whoAmI, 2 + stack);
 
 			return (true);
 		}

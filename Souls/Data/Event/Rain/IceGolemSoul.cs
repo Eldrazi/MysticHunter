@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.Rain
 {
@@ -26,7 +30,7 @@ namespace MysticHunter.Souls.Data.Event.Rain
 
 			Vector2 projVel = Vector2.Normalize(Main.MouseWorld - p.Center) * 12;
 
-			Projectile.NewProjectile(p.Center, projVel, ProjectileType<IceGolemSoulProj>(), damage, .1f, p.whoAmI, debuffChance);
+			Projectile.NewProjectile(p.Center, projVel, ModContent.ProjectileType<IceGolemSoulProj>(), damage, .1f, p.whoAmI, debuffChance);
 
 			return (true);
 		}
@@ -34,7 +38,7 @@ namespace MysticHunter.Souls.Data.Event.Rain
 
 	internal sealed class IceGolemSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_" + ProjectileID.EyeLaser;
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.EyeLaser;
 
 		public override void SetStaticDefaults()
 		{
@@ -48,7 +52,6 @@ namespace MysticHunter.Souls.Data.Event.Rain
 			projectile.timeLeft = 600;
 			projectile.extraUpdates = 2;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 
 			projectile.alpha = 255;
@@ -60,7 +63,7 @@ namespace MysticHunter.Souls.Data.Event.Rain
 			if(projectile.ai[1] == 0f)
 			{
 				projectile.ai[1] = 1f;
-				Main.PlaySound(SoundID.Item33, projectile.position);
+				SoundEngine.PlaySound(SoundID.Item33, projectile.position);
 			}
 
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
@@ -100,7 +103,7 @@ namespace MysticHunter.Souls.Data.Event.Rain
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-			Main.PlaySound(SoundID.Item10, projectile.position);
+			SoundEngine.PlaySound(SoundID.Item10, projectile.position);
 			return (true);
 		}
 	}

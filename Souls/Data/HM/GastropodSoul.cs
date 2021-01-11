@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -24,7 +28,7 @@ namespace MysticHunter.Souls.Data.HM
 			int damage = 50 + 3 * stack;
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 6f;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<GastropodSoulProj>(), damage, .2f, p.whoAmI, stack + 1);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<GastropodSoulProj>(), damage, .2f, p.whoAmI, stack + 1);
 
 			return (true);
 		}
@@ -32,12 +36,11 @@ namespace MysticHunter.Souls.Data.HM
 
 	public class GastropodSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_84";
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.PinkLaser;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Laser");
-			Main.projFrames[projectile.type] = 1;
 		}
 		public override void SetDefaults()
 		{
@@ -50,7 +53,6 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.timeLeft = 600;
 			projectile.extraUpdates = 2;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.hostile = false;
 			projectile.tileCollide = true;
@@ -67,7 +69,7 @@ namespace MysticHunter.Souls.Data.HM
 			if (projectile.localAI[0] == 0)
 			{
 				projectile.localAI[0] = 0;
-				Main.PlaySound(SoundID.Item12, projectile.position);
+				SoundEngine.PlaySound(SoundID.Item12, projectile.position);
 			}
 
 			if (projectile.maxPenetrate < projectile.ai[0])
@@ -78,7 +80,7 @@ namespace MysticHunter.Souls.Data.HM
 		public override void Kill(int timeLeft)
 		{
 			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-			Main.PlaySound(SoundID.Item10, projectile.position);
+			SoundEngine.PlaySound(SoundID.Item10, projectile.position);
 		}
 	}
 }

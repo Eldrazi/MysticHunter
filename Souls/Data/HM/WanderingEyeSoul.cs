@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -25,7 +29,7 @@ namespace MysticHunter.Souls.Data.HM
 			int bounce = 3 + (stack / 2);
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 5f;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<WanderingEyeSoulProj>(), damage, 1, p.whoAmI, bounce);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<WanderingEyeSoulProj>(), damage, 1, p.whoAmI, bounce);
 
 			return (true);
 		}
@@ -33,7 +37,7 @@ namespace MysticHunter.Souls.Data.HM
 
 	public class WanderingEyeSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.WanderingEye;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.WanderingEye;
 
 		public override void SetStaticDefaults()
 		{
@@ -49,7 +53,6 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.timeLeft = 10;
 			projectile.penetrate = -1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.tileCollide = true;
 			projectile.ignoreWater = false;
@@ -99,7 +102,7 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.NPCDeath1, projectile.position);
+			SoundEngine.PlaySound(SoundID.NPCDeath1, projectile.position);
 			for (int i = 0; i < 10; i++)
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100);
 		}

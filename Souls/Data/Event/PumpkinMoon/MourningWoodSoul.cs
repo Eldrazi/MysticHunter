@@ -46,7 +46,7 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 
 	internal sealed class MourningWoodSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_" + ProjectileID.GreekFire1;
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.GreekFire1;
 
 		public override void SetStaticDefaults()
 		{

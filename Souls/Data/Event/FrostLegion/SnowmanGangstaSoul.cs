@@ -1,13 +1,17 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using System;
+
+using Terraria;
 using Terraria.ID;
-using static Terraria.ModLoader.ModContent;
+using Terraria.Audio;
+using Terraria.ModLoader;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
-using Terraria.ModLoader;
-using log4net.Util;
-using System;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.FrostLegion
 {
@@ -33,7 +37,7 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 				return (true);
 			}
 
-			Projectile.NewProjectile(p.Center + new Vector2(28 * p.direction, 0), new Vector2(p.direction, 0), ProjectileType<SnowmanGangstaSoulProj>(), 0, 0, p.whoAmI, 0, damage);
+			Projectile.NewProjectile(p.Center + new Vector2(28 * p.direction, 0), new Vector2(p.direction, 0), ModContent.ProjectileType<SnowmanGangstaSoulProj>(), 0, 0, p.whoAmI, 0, damage);
 
 			return (true);
 		}
@@ -42,7 +46,7 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 		{
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<SnowmanGangstaSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<SnowmanGangstaSoulProj>())
 				{
 					return (i);
 				}
@@ -53,7 +57,7 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 
 	internal sealed class SnowmanGangstaSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.SnowmanGangsta;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.SnowmanGangsta;
 
 		public override void SetStaticDefaults()
 		{
@@ -65,7 +69,6 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 			projectile.width = 26;
 			projectile.height = 40;
 
-			projectile.minion = true;
 			projectile.manualDirectionChange = true;
 
 			projectile.timeLeft = 600;
@@ -79,7 +82,7 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 		{
 			if (projectile.velocity.X != 0)
 			{
-				Main.PlaySound(SoundID.Item10, projectile.position);
+				SoundEngine.PlaySound(SoundID.Item10, projectile.position);
 				for (int i = 0; i < (int)(20 * projectile.scale); i++)
 				{
 					Dust d = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 51, 0, 0, 100)];
@@ -120,7 +123,7 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item10, projectile.position);
+			SoundEngine.PlaySound(SoundID.Item10, projectile.position);
 			for (int i = 0; i < (int)(20 * projectile.scale); i++)
 			{
 				Dust d = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 51, 0, 0, 100)];

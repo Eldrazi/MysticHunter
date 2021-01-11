@@ -2,6 +2,7 @@
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.DataStructures;
 
 using MysticHunter.Souls.Framework;
@@ -43,7 +44,7 @@ namespace MysticHunter.Souls.Data.Event.FrostMoon
 			p.ManaEffect(manaRegain);
 
 			p.Hurt(PlayerDeathReason.ByCustomReason("Ate too much..."), lifeCost, 0);
-			Main.PlaySound(SoundID.Item2, p.position);
+			SoundEngine.PlaySound(SoundID.Item2, p.position);
 
 			return (true);
 		}

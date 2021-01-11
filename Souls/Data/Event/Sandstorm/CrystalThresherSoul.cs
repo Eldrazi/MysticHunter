@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+
+using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.Sandstorm
 {
@@ -27,14 +30,14 @@ namespace MysticHunter.Souls.Data.Event.Sandstorm
 			float knockBack = 1f + .05f * stack;
 
 			Vector2 velocity = new Vector2(Vector2.Normalize(Main.MouseWorld - p.Center).X, 0) * 6;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<CrystalThresherSoulProj>(), damage, knockBack, p.whoAmI, 0, (stack >= 9 ? 1 : 0));
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<CrystalThresherSoulProj>(), damage, knockBack, p.whoAmI, 0, (stack >= 9 ? 1 : 0));
 			return (true);
 		}
 	}
 
 	internal sealed class CrystalThresherSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.SandsharkHallow;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.SandsharkHallow;
 
 		public override void SetStaticDefaults()
 		{
@@ -50,7 +53,6 @@ namespace MysticHunter.Souls.Data.Event.Sandstorm
 			projectile.timeLeft = 300;
 
 			projectile.hide = true;
-			projectile.magic = true;
 			projectile.hostile = false;
 			projectile.friendly = true;
 			projectile.tileCollide = false;

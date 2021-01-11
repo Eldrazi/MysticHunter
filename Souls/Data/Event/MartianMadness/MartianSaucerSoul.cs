@@ -1,20 +1,26 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using System;
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using System;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.MartianMadness
 {
 	public class MartianSaucerSoul : PostHMSoul, IBossSoul, IEventSoul
 	{
 		public override short soulNPC => NPCID.MartianSaucer;
-		public override string soulDescription => "Fire a concentrated beam.";
+		public override string soulDescription => "Summon a mini saucer with a big beam.";
 
 		public override short cooldown => 720;
 
@@ -25,7 +31,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 		{
 			int damage = 90 + 10 * stack;
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<MartianSaucerSoulProj>(), damage, 1f, p.whoAmI, Main.MouseWorld.X, Main.MouseWorld.Y);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<MartianSaucerSoulProj>(), damage, 1f, p.whoAmI, Main.MouseWorld.X, Main.MouseWorld.Y);
 			return (true);
 		}
 	}
@@ -101,7 +107,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 				if (projectile.localAI[0] == 0 && projectile.Distance(targetPosition) <= 64)
 				{
 					projectile.localAI[0] = 1;
-					Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<MartianSaucerSoulProj_Laser>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.whoAmI + 1);
+					Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<MartianSaucerSoulProj_Laser>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.whoAmI + 1);
 				}
 			}
 
@@ -126,7 +132,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 
 	internal sealed class MartianSaucerSoulProj_Laser : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_" + ProjectileID.SaucerDeathray;
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.SaucerDeathray;
 
 		public override void SetStaticDefaults()
 		{
@@ -152,7 +158,7 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 			if (projectile.ai[1] == 0)
 			{
 				projectile.ai[1] = 1;
-				Main.PlaySound(SoundID.Item12, projectile.Center);
+				SoundEngine.PlaySound(SoundID.Item12, projectile.Center);
 			}
 
 			if (!ownerProjectile.active || ownerProjectile.owner != projectile.owner)
@@ -233,8 +239,8 @@ namespace MysticHunter.Souls.Data.Event.MartianMadness
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D texture = GetTexture(Texture);
-			Texture2D extraTexture = Main.extraTexture[4];
+			Texture2D texture = TextureAssets.Projectile[Type].Value;
+			Texture2D extraTexture = TextureAssets.Extra[4].Value;
 
 			int frameHeight = texture.Height / Main.projFrames[projectile.type]; // num219
 			int extraFrameHeight = extraTexture.Height / Main.projFrames[projectile.type]; // num220

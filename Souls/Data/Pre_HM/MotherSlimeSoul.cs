@@ -1,11 +1,15 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -22,17 +26,17 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override bool SoulUpdate(Player p, short stack)
 		{
 			for (int i = 0; i < Main.maxProjectiles; ++i)
-				if (Main.projectile[i].active && Main.projectile[i].type == ProjectileType<MotherSlimeSoulProj>() && Main.projectile[i].owner == p.whoAmI)
+				if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<MotherSlimeSoulProj>() && Main.projectile[i].owner == p.whoAmI)
 					Main.projectile[i].Kill();
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<MotherSlimeSoulProj>(), 0, 0, p.whoAmI, stack);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<MotherSlimeSoulProj>(), 0, 0, p.whoAmI, stack);
 			return (true);
 		}
 	}
 
 	public class MotherSlimeSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_16";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.MotherSlime;
 
 		public override void SetStaticDefaults()
 		{
@@ -48,7 +52,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.scale = 1.25f;
 			projectile.minionSlots = 0;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 
@@ -72,7 +75,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				int damage = (int)(20 + projectile.ai[0] * 2);
 				Vector2 velocity = new Vector2(Main.rand.Next(7) - 3, -4);
 
-				Projectile.NewProjectile(projectile.Center, velocity, ProjectileType<MiniSlimeProj>(), damage, .2f, owner.whoAmI);
+				Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<MiniSlimeProj>(), damage, .2f, owner.whoAmI);
 				projectile.ai[1] = 0;
 			}
 
@@ -88,7 +91,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			return (false);
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()
+			=> false;
 
 		public override Color? GetAlpha(Color lightColor)
 			=> new Color(100, 100, 100, projectile.alpha);
@@ -98,7 +102,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class MiniSlimeProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_1";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.BlueSlime;
 
 		public override void SetStaticDefaults()
 		{
@@ -115,7 +119,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.timeLeft = 600;
 			projectile.penetrate = -1;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 
 			drawOriginOffsetY = -2;
@@ -176,7 +179,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.NPCDeath1, projectile.Center);
+			SoundEngine.PlaySound(SoundID.NPCDeath1, projectile.Center);
 			for (int i = 0; i < 10; i++)
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.t_Slime, projectile.velocity.X * .2f, projectile.velocity.Y * .2f, 100, new Color(140, 140, 140), projectile.scale);
 		}

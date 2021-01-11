@@ -1,10 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
+using Terraria.UI;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using Terraria.UI;
+
+#endregion
 
 namespace MysticHunter.Souls.UI
 {

@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -34,7 +38,7 @@ namespace MysticHunter.Souls.Data.HM
 
 			for (int i = 0; i < amount; ++i)
 			{
-				Projectile.NewProjectile(p.Center, desiredVeloity.RotatedByRandom(MathHelper.PiOver4), ProjectileType<FungoFishSoulProj>(), 20 + 5 * stack, 0, p.whoAmI);
+				Projectile.NewProjectile(p.Center, desiredVeloity.RotatedByRandom(MathHelper.PiOver4), ModContent.ProjectileType<FungoFishSoulProj>(), 20 + 5 * stack, 0, p.whoAmI);
 			}
 			return (true);
 		}
@@ -42,7 +46,7 @@ namespace MysticHunter.Souls.Data.HM
 
 	public class FungoFishSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_" + ProjectileID.TruffleSpore;
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.TruffleSpore;
 
 		public override void SetStaticDefaults()
 		{
@@ -100,12 +104,12 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D texture = Main.projectileTexture[projectile.type];
+			Texture2D texture = TextureAssets.Projectile[Type].Value;
 			Rectangle frame = texture.Frame(3, 1, projectile.frame, 0);
 			Vector2 origin = frame.Size() / 2f;
 
 			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, frame, lightColor * projectile.Opacity, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
-			spriteBatch.Draw(Main.glowMaskTexture[168], projectile.Center - Main.screenPosition, frame, new Color(127 - projectile.alpha / 2, 127 - projectile.alpha / 2, 127 - projectile.alpha / 2, 0), projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+			spriteBatch.Draw(TextureAssets.GlowMask[168].Value, projectile.Center - Main.screenPosition, frame, new Color(127 - projectile.alpha / 2, 127 - projectile.alpha / 2, 127 - projectile.alpha / 2, 0), projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
 			return (false);
 		}
 	}

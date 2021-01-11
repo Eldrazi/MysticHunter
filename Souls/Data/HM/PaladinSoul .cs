@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -28,7 +31,7 @@ namespace MysticHunter.Souls.Data.HM
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 10f;
 			for (int i = 0; i < amount; ++i)
-				Projectile.NewProjectile(p.Center, velocity.RotatedByRandom(.3f), ProjectileType<PaladinSoulProj>(), damage, 1, p.whoAmI, stack);
+				Projectile.NewProjectile(p.Center, velocity.RotatedByRandom(0.3f), ModContent.ProjectileType<PaladinSoulProj>(), damage, 1, p.whoAmI, stack);
 
 			return (true);
 		}
@@ -36,7 +39,7 @@ namespace MysticHunter.Souls.Data.HM
 
 	public class PaladinSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_300";
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.PaladinsHammerHostile;
 
 		public override void SetStaticDefaults()
 		{
@@ -51,7 +54,6 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.scale = .8f;
 			projectile.penetrate = -1;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.tileCollide = true;
 			projectile.ignoreWater = false;

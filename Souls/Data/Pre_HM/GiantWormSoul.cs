@@ -1,15 +1,18 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
+using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using System.Collections.Generic;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -28,11 +31,11 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<GiantWormSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<GiantWormSoulProj>())
 					Main.projectile[i].Kill();
 			}
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<GiantWormSoulProj>(), 10 + (1 * stack), .05f + .01f * stack, p.whoAmI, -1);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<GiantWormSoulProj>(), 10 + (1 * stack), .05f + .01f * stack, p.whoAmI, -1);
 			return (true);
 		}
 	}
@@ -60,7 +63,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.penetrate = -1;
 			projectile.minionSlots = 0;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -153,7 +155,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			Player owner = Main.player[projectile.owner];
 
-			Texture2D tailPartTex = GetTexture("MysticHunter/Souls/Data/Pre_HM/GiantWormSoulProj_Chain");
+			Texture2D tailPartTex = ModContent.GetTexture("MysticHunter/Souls/Data/Pre_HM/GiantWormSoulProj_Chain").Value;
 
 			Vector2 origin = new Vector2(tailPartTex.Width / 2, tailPartTex.Height / 2);
 

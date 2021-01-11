@@ -1,11 +1,14 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -24,14 +27,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			int amount = 6 + (stack / 3) * 2;
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 28;
 
-			Projectile.NewProjectile(p.Center + velocity, velocity, ProjectileType<SnatcherSoulThornProj>(), 15 + stack, .1f, p.whoAmI, 0, amount);
+			Projectile.NewProjectile(p.Center + velocity, velocity, ModContent.ProjectileType<SnatcherSoulThornProj>(), 15 + stack, .1f, p.whoAmI, 0, amount);
 			return (true);
 		}
 	}
 
 	public class SnatcherSoulThornProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Chain5";
+		public override string Texture => "Terraria/Images/Chain5";
 
 		public override void SetStaticDefaults()
 		{
@@ -46,7 +49,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.alpha = 255;
 			projectile.penetrate = -1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -71,7 +73,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 						if (projectile.ai[1] <= 1)
 						{
-							type = ProjectileType<SnatcherSoulHeadProj>();
+							type = ModContent.ProjectileType<SnatcherSoulHeadProj>();
 							spawnPos += new Vector2(0, projectile.height * .5f);
 						}
 						else
@@ -80,7 +82,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 						int projIndex = Projectile.NewProjectile(spawnPos,
 							projectile.velocity, type, projectile.damage, projectile.knockBack, projectile.owner, 0, projectile.ai[1] - 1);
-						NetMessage.SendData(27, -1, -1, null, projIndex);
+						NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, projIndex);
 					}
 				}
 			}
@@ -103,7 +105,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 	public class SnatcherSoulHeadProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_56";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.Snatcher;
 
 		public override void SetStaticDefaults()
 		{
@@ -118,7 +120,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.alpha = 255;
 			projectile.penetrate = -1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;

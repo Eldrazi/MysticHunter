@@ -1,14 +1,16 @@
-﻿using System;
+﻿#region Using directives
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using Terraria.GameContent;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -27,11 +29,11 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<IlluminantBatSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<IlluminantBatSoulProj>())
 					Main.projectile[i].Kill();
 			}
 
-			Projectile.NewProjectile(p.Center, Vector2.UnitX, ProjectileType<IlluminantBatSoulProj>(), 35 + 2 * stack, .1f, p.whoAmI, stack);
+			Projectile.NewProjectile(p.Center, Vector2.UnitX, ModContent.ProjectileType<IlluminantBatSoulProj>(), 35 + 2 * stack, .1f, p.whoAmI, stack);
 			return (true);
 		}
 	}
@@ -41,7 +43,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		// No need to sync, just visually.
 		private bool justSpawned;
 
-		public override string Texture => "Terraria/NPC_" + NPCID.IlluminantBat;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.IlluminantBat;
 
 		public override void SetStaticDefaults()
 		{
@@ -59,7 +61,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.penetrate = -1;
 			projectile.minionSlots = 0;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -210,12 +211,14 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Vector2 origin = new Vector2(Main.projectileTexture[projectile.type].Width / 2, (Main.projectileTexture[projectile.type].Height / 4) / 2);
+			Texture2D texture = TextureAssets.Projectile[Type].Value;
+			Rectangle frame = texture.Frame(1, 4, 0, projectile.frame);
+			Vector2 origin =  frame.Size() / 2;
 			for (int i = 0; i < projectile.oldPos.Length; ++i)
 			{
 				Color c = new Color(150 * (10 - i) / 15, 100 * (10 - i) / 15, 150 * (10 - i) / 15, 50 * (10 - i) / 15);
-				Main.spriteBatch.Draw(Main.projectileTexture[projectile.type],
-					projectile.oldPos[i] - Main.screenPosition + origin + new Vector2(drawOffsetX, 0), Main.projectileTexture[projectile.type].Frame(1, 4, 0, projectile.frame),
+				Main.spriteBatch.Draw(texture,
+					projectile.oldPos[i] - Main.screenPosition + origin + new Vector2(drawOffsetX, 0), frame,
 					c, projectile.rotation, origin, projectile.scale, projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
 			}
 		}

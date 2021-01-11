@@ -2,8 +2,9 @@
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -41,14 +42,14 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 			}
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 8;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<KrampusSoulProj>(), damage, 1, p.whoAmI, 0, modifier);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<KrampusSoulProj>(), damage, 1, p.whoAmI, 0, modifier);
 			return (true);
 		}
 	}
 
 	internal sealed class KrampusSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Item_" + ItemID.Present;
+		public override string Texture => "Terraria/Images/Item_" + ItemID.Present;
 
 		public override void SetStaticDefaults()
 		{
@@ -78,7 +79,7 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item14, projectile.position);
+			SoundEngine.PlaySound(SoundID.Item14, projectile.position);
 
 			for (int i = 0; i < 20; ++i)
 			{
@@ -89,11 +90,11 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 
 			for (int i = 0; i < 10; ++i)
 			{
-				Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0, 0, 100, default, 2.5f)];
+				Dust newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.FlameBurst, 0, 0, 100, default, 2.5f)];
 				newDust.noGravity = true;
 				newDust.velocity *= 5;
 
-				newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0, 0, 100, default, 1.5f)];
+				newDust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.FlameBurst, 0, 0, 100, default, 1.5f)];
 				newDust.velocity *= 3;
 			}
 
@@ -106,7 +107,7 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D texture = GetTexture(Texture);
+			Texture2D texture = TextureAssets.Projectile[Type].Value;
 			Vector2 origin = texture.Size() / 2;
 
 			spriteBatch.Draw(texture, projectile.position + origin/2 - Main.screenPosition, null, lightColor, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0);

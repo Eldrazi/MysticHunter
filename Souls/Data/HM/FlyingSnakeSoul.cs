@@ -1,13 +1,14 @@
-﻿using System;
+﻿#region Using directives
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -23,7 +24,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override short ManaCost(Player p, short stack) => 20;
 		public override bool SoulUpdate(Player p, short stack)
 		{
-			Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ProjectileType<FlyingSnakeSoulProj>(), 70 + 5 * stack, .2f, p.whoAmI, stack);
+			Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<FlyingSnakeSoulProj>(), 70 + 5 * stack, .2f, p.whoAmI, stack);
 			return (true);
 		}
 	}
@@ -33,7 +34,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		// No need to sync, just visually.
 		private bool justSpawned;
 
-		public override string Texture => "Terraria/NPC_" + NPCID.FlyingSnake;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.FlyingSnake;
 
 		public override void SetStaticDefaults()
 		{
@@ -48,7 +49,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.timeLeft = 300;
 			projectile.penetrate = -1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;

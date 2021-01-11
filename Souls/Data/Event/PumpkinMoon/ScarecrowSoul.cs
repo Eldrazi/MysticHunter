@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -43,7 +44,7 @@ namespace MysticHunter.Souls.Data.Event.PumpkinMoon
 
 	internal sealed class ScarecrowSoul_Proj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_" + ProjectileID.Seed;
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.Seed;
 
 		public override void SetStaticDefaults()
 		{
@@ -107,7 +108,7 @@ namespace MysticHunter.Souls.Data.Event.PumpkinMoon
 
 	internal sealed class ScarecrowSoul_ScarecrowProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.Scarecrow1;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.Scarecrow1;
 
 		public override void SetStaticDefaults()
 		{
@@ -169,7 +170,7 @@ namespace MysticHunter.Souls.Data.Event.PumpkinMoon
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D texture = Main.projectileTexture[projectile.type];
+			Texture2D texture = TextureAssets.Projectile[Type].Value;
 			Rectangle frame = texture.Frame(1, 6, 0, projectile.frame);
 			Vector2 origin = frame.Size() / 2 + new Vector2(0, frame.Height / 2);
 

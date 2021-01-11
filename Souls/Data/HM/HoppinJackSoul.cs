@@ -1,13 +1,17 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -26,7 +30,7 @@ namespace MysticHunter.Souls.Data.HM
 			int damage = 85 + 5 * stack;
 
 			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 6f;
-			Projectile.NewProjectile(p.Center, velocity, ProjectileType<HoppinJackSoulProj>(), damage, .25f, p.whoAmI, stack);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<HoppinJackSoulProj>(), damage, .25f, p.whoAmI, stack);
 
 			return (true);
 		}
@@ -34,7 +38,7 @@ namespace MysticHunter.Souls.Data.HM
 
 	public class HoppinJackSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Item_1725";
+		public override string Texture => "Terraria/Images/Item_" + ItemID.Pumpkin;
 
 		public override void SetStaticDefaults()
 		{
@@ -93,7 +97,7 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item14, projectile.position);
+			SoundEngine.PlaySound(SoundID.Item14, projectile.position);
 
 			projectile.position.X = projectile.position.X + (projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (projectile.height / 2);

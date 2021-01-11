@@ -1,15 +1,18 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
-using Terraria.Utilities;
+using Terraria.GameContent;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.Rain
 {
@@ -29,7 +32,7 @@ namespace MysticHunter.Souls.Data.Event.Rain
 
 			Vector2 projVel = Vector2.Normalize(Main.MouseWorld - p.Center) * 12;
 
-			Projectile.NewProjectile(p.Center, projVel, ProjectileType<AngryNimbusSoulProj>(), damage, 0, p.whoAmI, projVel.ToRotation());
+			Projectile.NewProjectile(p.Center, projVel, ModContent.ProjectileType<AngryNimbusSoulProj>(), damage, 0, p.whoAmI, projVel.ToRotation());
 
 			return (true);
 		}
@@ -37,7 +40,7 @@ namespace MysticHunter.Souls.Data.Event.Rain
 
 	internal sealed class AngryNimbusSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_" + ProjectileID.CultistBossLightningOrbArc;
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.CultistBossLightningOrbArc;
 
 		public override void SetStaticDefaults()
 		{
@@ -52,7 +55,6 @@ namespace MysticHunter.Souls.Data.Event.Rain
 			projectile.penetrate = -1;
 			projectile.extraUpdates = 4;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.tileCollide = true;
 			projectile.ignoreWater = true;
@@ -216,7 +218,7 @@ namespace MysticHunter.Souls.Data.Event.Rain
 				Vector2 projVel = Vector2.Normalize(Main.npc[i].Center - projectile.Center) * 12;
 
 				chains--;
-				int newProj = Projectile.NewProjectile(projectile.Center, projVel, ProjectileType<AngryNimbusSoulProj>(), damage, 0, projectile.owner, projVel.ToRotation(), 30);
+				int newProj = Projectile.NewProjectile(projectile.Center, projVel, ModContent.ProjectileType<AngryNimbusSoulProj>(), damage, 0, projectile.owner, projVel.ToRotation(), 30);
 				Main.projectile[newProj].timeLeft = projectile.timeLeft;
 				NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, newProj);
 			}
@@ -241,7 +243,7 @@ namespace MysticHunter.Souls.Data.Event.Rain
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 end = projectile.position + new Vector2(projectile.width, projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
-			Texture2D texture = Main.extraTexture[33];
+			Texture2D texture = TextureAssets.Extra[33].Value;
 			projectile.GetAlpha(lightColor);
 			Vector2 scale = new Vector2(projectile.scale) * .5f;
 

@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -25,17 +28,17 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		{
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<HornetSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<HornetSoulProj>())
 					Main.projectile[i].Kill();
 
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<HornetSoulProj>(), 10 + 2 * stack, 0, p.whoAmI, stack);
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<HornetSoulProj>(), 10 + 2 * stack, 0, p.whoAmI, stack);
 			return (true);
 		}
 	}
 
 	public class HornetSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.Hornet;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.Hornet;
 
 		public override void SetStaticDefaults()
 		{
@@ -50,7 +53,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			projectile.penetrate = -1;
 			projectile.minionSlots = 0f;
 
-			projectile.minion = true;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -127,7 +129,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			return (false);
 		}
 
-		public override bool CanDamage() => false;
+		public override bool? CanDamage()
+			=> false;
 
 		public override void Kill(int timeLeft)
 		{

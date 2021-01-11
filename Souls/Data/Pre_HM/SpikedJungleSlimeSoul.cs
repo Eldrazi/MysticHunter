@@ -1,13 +1,17 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -30,16 +34,16 @@ namespace MysticHunter.Souls.Data.Pre_HM
 				float rotValue = (float)(Math.PI / (amount - 1)) * i;
 
 				Vector2 v2 = new Vector2((float)Math.Cos(rotValue), (float)Math.Sin(-rotValue)) * 7f;
-				Projectile.NewProjectile(p.Center, v2, ProjectileType<SpikedJungleSlimeSoulProj>(), 5, .1f, p.whoAmI);
+				Projectile.NewProjectile(p.Center, v2, ModContent.ProjectileType<SpikedJungleSlimeSoulProj>(), 5, .1f, p.whoAmI);
 			}
-			Main.PlaySound(SoundID.Item17, p.Center);
+			SoundEngine.PlaySound(SoundID.Item17, p.Center);
 			return (true);
 		}
 	}
 
 	public class SpikedJungleSlimeSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Projectile_176";
+		public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.JungleSpike;
 
 		public override void SetDefaults()
 		{

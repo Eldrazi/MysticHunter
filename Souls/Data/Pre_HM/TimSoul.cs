@@ -1,7 +1,12 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -20,8 +25,8 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				p.TeleportationPotion();
 			else if (Main.netMode == NetmodeID.MultiplayerClient && p.whoAmI == Main.myPlayer)
-				NetMessage.SendData(73);
-			Main.PlaySound(SoundID.Item6, p.Center);
+				NetMessage.SendData(MessageID.Teleport);
+			SoundEngine.PlaySound(SoundID.Item6, p.Center);
 			return (true);
 		}
 	}

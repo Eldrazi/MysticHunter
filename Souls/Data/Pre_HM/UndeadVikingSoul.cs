@@ -1,7 +1,12 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -18,7 +23,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override bool SoulUpdate(Player p, short stack)
 		{
 			p.statDefense -= 5 * stack;
-			p.meleeDamage += .1f * stack;
+			p.GetDamage<Melee>() += .1f * stack;
 			return (true);
 		}
 	}

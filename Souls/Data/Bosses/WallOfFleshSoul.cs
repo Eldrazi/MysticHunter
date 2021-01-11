@@ -1,14 +1,18 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Bosses
 {
@@ -27,7 +31,7 @@ namespace MysticHunter.Souls.Data.Bosses
 			// Destroy any pre-existing projectile.
 			for (int i = 0; i < Main.maxProjectiles; ++i)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ProjectileType<WallOfFleshSoulProj>())
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<WallOfFleshSoulProj>())
 					Main.projectile[i].Kill();
 			}
 
@@ -40,7 +44,7 @@ namespace MysticHunter.Souls.Data.Bosses
 			for (int i = 0; i < amount; ++i)
 			{
 				Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center).RotatedByRandom(.2f) * 3f;
-				Projectile.NewProjectile(p.Center, velocity, ProjectileType<WallOfFleshSoulProj>(), 30 + (2 * stack), .2f, p.whoAmI, -1);
+				Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<WallOfFleshSoulProj>(), 30 + (2 * stack), .2f, p.whoAmI, -1);
 			}
 			return (true);
 		}
@@ -50,7 +54,7 @@ namespace MysticHunter.Souls.Data.Bosses
 	{
 		private readonly float maxRange = 1000;
 
-		public override string Texture => "Terraria/NPC_116";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.TheHungryII;
 
 		public override void SetStaticDefaults()
 		{
@@ -164,7 +168,7 @@ namespace MysticHunter.Souls.Data.Bosses
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D projTexture = GetTexture(Texture);
+			Texture2D projTexture = TextureAssets.Projectile[Type].Value;
 
 			Vector2 projOrigin = new Vector2(projTexture.Width * .5f, (projTexture.Height / Main.projFrames[projectile.type]) * .5f);
 

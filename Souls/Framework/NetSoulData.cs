@@ -6,6 +6,7 @@
 	/// </summary>
 	public class NetSoulData
 	{
+		// TODO: Eldrazi - Maybe create read and write methods for easy networking integration.
 		public byte stack;
 		public short soulNPC;
 

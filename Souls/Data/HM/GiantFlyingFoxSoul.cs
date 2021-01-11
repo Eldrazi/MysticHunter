@@ -1,13 +1,17 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {
@@ -31,17 +35,17 @@ namespace MysticHunter.Souls.Data.Pre_HM
 			Vector2 velocity = new Vector2(maxVelocity.X * (p.Center.X < spawnPos.X ? 1 : -1), maxVelocity.Y);
 
 			spawnPos -= velocity * Main.rand.Next(60, 90);
-			Projectile.NewProjectile(spawnPos, velocity, ProjectileType<GiantFlyingFoxSoulProj>(), damage, .1f, p.whoAmI, Main.MouseWorld.Y);
+			Projectile.NewProjectile(spawnPos, velocity, ModContent.ProjectileType<GiantFlyingFoxSoulProj>(), damage, .1f, p.whoAmI, Main.MouseWorld.Y);
 
 			// Play 'minion summon' item sound.
-			Main.PlaySound(SoundID.Item44, p.position);
+			SoundEngine.PlaySound(SoundID.Item44, p.position);
 			return (true);
 		}
 	}
 
 	public class GiantFlyingFoxSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_152";
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.GiantFlyingFox;
 
 		public override void SetStaticDefaults()
 		{
@@ -54,7 +58,6 @@ namespace MysticHunter.Souls.Data.Pre_HM
 
 			projectile.penetrate = -1;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 		}

@@ -1,12 +1,16 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using Terraria.GameContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.HM
 {
@@ -27,7 +31,7 @@ namespace MysticHunter.Souls.Data.HM
 			{
 				int randomProjType = Main.rand.Next(3);
 				int randomProjFrame = Main.rand.Next(3);
-				Projectile.NewProjectile(p.Center, new Vector2(p.velocity.X * .2f, 2), ProjectileType<MothSoulProj>(), 10, 0, p.whoAmI, randomProjType, stack);
+				Projectile.NewProjectile(p.Center, new Vector2(p.velocity.X * .2f, 2), ModContent.ProjectileType<MothSoulProj>(), 10, 0, p.whoAmI, randomProjType, stack);
 			}
 			return (true);
 		}
@@ -35,7 +39,7 @@ namespace MysticHunter.Souls.Data.HM
 
 	public class MothSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/Dust";
+		public override string Texture => "Terraria/Images/Dust";
 
 		public override void SetStaticDefaults()
 		{
@@ -50,7 +54,6 @@ namespace MysticHunter.Souls.Data.HM
 			projectile.penetrate = 1;
 			projectile.timeLeft = 600;
 
-			projectile.magic = true;
 			projectile.friendly = true;
 			projectile.tileCollide = true;
 		}
@@ -106,7 +109,7 @@ namespace MysticHunter.Souls.Data.HM
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D projTexture = GetTexture(Texture);
+			Texture2D projTexture = TextureAssets.Projectile[Type].Value;
 
 			int frameIndex = 15;
 			if (projectile.ai[0] == 1)

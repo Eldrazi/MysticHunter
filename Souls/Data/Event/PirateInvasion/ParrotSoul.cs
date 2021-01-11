@@ -1,13 +1,17 @@
-﻿using System;
+﻿#region Using directives
+
+using System;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 using MysticHunter.Souls.Framework;
 
 using Microsoft.Xna.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.PirateInvasion
 {
@@ -49,7 +53,7 @@ namespace MysticHunter.Souls.Data.Event.PirateInvasion
 				// Rotate the target velocity by a set degree.
 				velocity = velocity.RotatedBy(MathHelper.ToRadians(-5 * (amount - 1) + (10 * i)));
 
-				Projectile.NewProjectile(p.Center, velocity, ProjectileType<ParrotSoulProj>(), damage, .2f, p.whoAmI, Math.Abs(6 * (i - delayHelper)));
+				Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<ParrotSoulProj>(), damage, .2f, p.whoAmI, Math.Abs(6 * (i - delayHelper)));
 			}
 			return (true);
 		}
@@ -81,7 +85,7 @@ namespace MysticHunter.Souls.Data.Event.PirateInvasion
 			if (projectile.ai[1]++ >= projectile.ai[0])
 			{
 				if (projectile.ai[1] == projectile.ai[0])
-					Main.PlaySound(SoundID.Item17, projectile.position);
+					SoundEngine.PlaySound(SoundID.Item17, projectile.position);
 
 				if (projectile.alpha > 0)
 					projectile.alpha -= 20;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
+using Terraria.Audio;
 using Terraria.ModLoader;
 
 using Microsoft.Xna.Framework;
@@ -52,7 +53,7 @@ namespace MysticHunter.Souls.Data.Event.FrostMoon
 
 	public class ZombieElfSoulProj : ModProjectile
 	{
-		public override string Texture => "Terraria/NPC_" + NPCID.ZombieElf;
+		public override string Texture => "Terraria/Images/NPC_" + NPCID.ZombieElf;
 
 		public override void SetStaticDefaults()
 		{
@@ -68,7 +69,6 @@ namespace MysticHunter.Souls.Data.Event.FrostMoon
 			projectile.timeLeft = 600;
 
 			projectile.hide = true;
-			projectile.melee = true;
 			projectile.friendly = true;
 			projectile.manualDirectionChange = true;
 		}
@@ -184,7 +184,7 @@ namespace MysticHunter.Souls.Data.Event.FrostMoon
 
 			// Digging sound effect.
 			projectile.soundDelay = 20;
-			Main.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y);
+			SoundEngine.PlaySound(15, (int)projectile.position.X, (int)projectile.position.Y);
 		}
 	}
 }

@@ -1,5 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿#region Using directives
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+#endregion
 
 namespace MysticHunter.Souls.UI
 {
