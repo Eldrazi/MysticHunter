@@ -29,6 +29,15 @@ namespace MysticHunter.Souls.Data.HM
 			if (stack >= 9)
 				damage += 10;
 
+			for (int i = 0; i < Main.maxProjectiles; ++i)
+			{
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<SlimelingSoulProj>())
+				{
+					Main.projectile[i].Kill();
+					break;
+				}
+			}
+
 			Projectile.NewProjectile(p.Center, Vector2.Zero, ProjectileType<SlimelingSoulProj>(), damage, knockBack, p.whoAmI);
 			return (true);
 		}

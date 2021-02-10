@@ -1,7 +1,7 @@
 author = Terratroid, Eldrazi
-version = 0.1.6.2
+version = 0.1.6.4
 displayName = Mystic Hunter
 homepage = https://forums.terraria.org/index.php?threads/0-1-mystic-hunter.87334/
-hideCode = true
+hideCode = false
 hideResources = true
 buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*

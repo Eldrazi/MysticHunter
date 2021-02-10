@@ -68,7 +68,7 @@ namespace MysticHunter.Souls.Data.HM
 			Player owner = Main.player[projectile.owner];
 			SoulPlayer sp = owner.GetModPlayer<SoulPlayer>();
 
-			if (owner.active && !owner.dead || sp.BlueSoulNet.soulNPC == NPCID.GiantFungiBulb)
+			if (owner.active && !owner.dead && sp.BlueSoulNet.soulNPC == NPCID.GiantFungiBulb)
 				projectile.timeLeft = 2;
 
 			float maxSpeed = 2;

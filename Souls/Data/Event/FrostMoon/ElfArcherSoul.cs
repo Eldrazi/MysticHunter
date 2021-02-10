@@ -29,16 +29,16 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 			if (stack >= 5)
 			{
 				damage += 20;
-				modifier += 0.5f;
+				modifier += 0.25f;
 			}
 			if (stack >= 9)
 			{
 				damage += 20;
-				modifier += 0.5f;
+				modifier += 0.25f;
 			}
 
-			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 8;
-			int newProj = Projectile.NewProjectile(p.Center, velocity, ProjectileID.FlamingArrow, damage, 1, p.whoAmI);
+			Vector2 velocity = Vector2.Normalize(Main.MouseWorld - p.Center) * 12;
+			int newProj = Projectile.NewProjectile(p.Center, velocity, ProjectileID.FireArrow, damage, 1, p.whoAmI);
 			Main.projectile[newProj].scale = modifier;
 			Main.projectile[newProj].netUpdate = true;
 

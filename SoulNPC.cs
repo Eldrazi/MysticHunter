@@ -5,8 +5,10 @@ using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
+using MysticHunter.Config;
 using MysticHunter.Souls.Items;
 using MysticHunter.Souls.Framework;
+using System.Linq;
 
 namespace MysticHunter
 {
@@ -109,6 +111,8 @@ namespace MysticHunter
 		{
 			if (Main.netMode == NetmodeID.Server)
 			{
+				var serverConfig = ModContent.GetInstance<SoulServerConfig>();
+
 				int item = Item.NewItem(position, ItemType<BasicSoulItem>(), 1, noBroadcast: true);
 				BasicSoulItem bs = Main.item[item].modItem as BasicSoulItem;
 				bs.soulNPC = soul.soulNPC;
@@ -119,9 +123,9 @@ namespace MysticHunter
 					if (Main.player[i].active)
 					{
 						float modifier = Main.player[i].GetModPlayer<SoulPlayer>().soulDropModifier[(int)soul.soulType];
-						if (Main.rand.NextFloat() <= modifier)
+						if (Main.rand.NextFloat() <= modifier || serverConfig.GuaranteedSoulDrops.Any(x => x.Type == soul.soulNPC))
 						{
-							NetMessage.SendData(90, i, -1, null, item);
+							NetMessage.SendData(MessageID.InstancedItem, i, -1, null, item);
 						}
 					}
 				}
@@ -129,8 +133,10 @@ namespace MysticHunter
 			}
 			else if (Main.netMode == NetmodeID.SinglePlayer)
 			{
+				var serverConfig = ModContent.GetInstance<SoulServerConfig>();
 				float modifier = Main.LocalPlayer.GetModPlayer<SoulPlayer>().soulDropModifier[(int)soul.soulType];
-				if (Main.rand.NextFloat() <= modifier)
+
+				if (Main.rand.NextFloat() <= modifier || serverConfig.GuaranteedSoulDrops.Any(x => x.Type == soul.soulNPC))
 				{
 					Item item = Main.item[Item.NewItem(position, ItemType<BasicSoulItem>())];
 					if (item != null)
@@ -150,7 +156,7 @@ namespace MysticHunter
 
 			if (sp.pinkySoul)
 			{
-				spawnRate -= 5 * (sp.UnlockedSouls[sp.YellowSoul.soulNPC]);
+				spawnRate -= 5 * (sp.YellowSoulNet.stack);
 				if (spawnRate < 5)
 					spawnRate = 5;
 			}

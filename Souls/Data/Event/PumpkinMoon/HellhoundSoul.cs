@@ -25,10 +25,9 @@ namespace MysticHunter.Souls.Data.Event.PumpkinMoon
 		public override bool SoulUpdate(Player p, short stack)
 		{
 			int damage = 78 + 2 * stack;
-			int modifier = 10 * stack;
 
 			Vector2 velocity = new Vector2(12 * p.direction, 0);
-			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<HellhoundSoulProj>(), damage, 1, p.whoAmI, 0, modifier);
+			Projectile.NewProjectile(p.Center, velocity, ModContent.ProjectileType<HellhoundSoulProj>(), damage, 1, p.whoAmI, 0);
 
 			return (true);
 		}
