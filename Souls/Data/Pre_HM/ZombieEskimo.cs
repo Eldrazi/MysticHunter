@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#region Using directives
+
+using System.Collections.Generic;
 
 using Terraria;
 using Terraria.ID;
@@ -8,6 +10,8 @@ using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Pre_HM
 {

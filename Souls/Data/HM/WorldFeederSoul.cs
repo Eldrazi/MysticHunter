@@ -148,7 +148,7 @@ namespace MysticHunter.Souls.Data.HM
 				projectile.netUpdate = true;
 			}
 
-			targetPosition = (targetPosition - projectile.Center);
+			targetPosition -= projectile.Center;
 			targetPosition *= (maxSpeed / TailLength) * targetPosition.Length();
 			projectile.velocity = targetPosition;
 			return (false);
@@ -174,7 +174,12 @@ namespace MysticHunter.Souls.Data.HM
 			Rectangle drawRect = tailPartTex.Bounds;
 
 			int maxLen = 1;
-			int dir = (startPos.X > player.Center.X + tailPartLength * Math.Sign(Math.Cos(startRot - MathHelper.PiOver2))) ? 1 : -1;
+			int dir = -1;
+			if (startRot > MathHelper.Pi)
+			{
+				dir = 1;
+			}
+
 			for (int i = 0; i < maxLen; ++i)
 			{
 				// Draw the current tail part/piece.

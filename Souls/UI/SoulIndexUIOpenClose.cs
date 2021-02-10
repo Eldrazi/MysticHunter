@@ -1,10 +1,12 @@
 ﻿using Terraria;
 using Terraria.UI;
+using Terraria.ModLoader;
 using Terraria.GameContent.UI.Elements;
-using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using MysticHunter.Config;
 
 namespace MysticHunter.Souls.UI
 {
@@ -30,7 +32,7 @@ namespace MysticHunter.Souls.UI
 
 		public override void OnInitialize()
 		{
-			texture = GetTexture("MysticHunter/Souls/UI/SoulIndex_OpenCloseButton");
+			texture = ModContent.GetTexture("MysticHunter/Souls/UI/SoulIndex_OpenCloseButton");
 
 			this.SetPadding(0);
 			this.Top.Pixels = 28;
@@ -39,6 +41,16 @@ namespace MysticHunter.Souls.UI
 			this.Width.Pixels = this.Height.Pixels = 52;
 
 			this.OnClick += OpenCloseSoulIndexUI;
+		}
+
+		public override void Update(GameTime gameTime)
+		{
+			Vector2 desiredPosition = ModContent.GetInstance<SoulClientConfig>().SoulIndexPosition;
+
+			this.Top.Set(desiredPosition.Y, 0f);
+			this.Left.Set(desiredPosition.X, 0f);
+
+			base.Update(gameTime);
 		}
 
 		private void OpenCloseSoulIndexUI(UIMouseEvent evt, UIElement e)

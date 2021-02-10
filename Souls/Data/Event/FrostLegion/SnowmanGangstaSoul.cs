@@ -1,13 +1,17 @@
-﻿using Terraria;
+﻿#region Using directives
+
+using System;
+
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 using Microsoft.Xna.Framework;
 
 using MysticHunter.Souls.Framework;
-using Terraria.ModLoader;
-using log4net.Util;
-using System;
+
+#endregion
 
 namespace MysticHunter.Souls.Data.Event.FrostLegion
 {

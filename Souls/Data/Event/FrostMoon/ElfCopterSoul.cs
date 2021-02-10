@@ -27,8 +27,16 @@ namespace MysticHunter.Souls.Data.Event.FrostLegion
 		{
 			int damage = 60 + 5 * stack;
 
-			int randomSide = Main.rand.Next(2) == 0 ? -1 : 1;
-			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<ElfCopterSoulProj>(), damage, .5f, p.whoAmI, 0, randomSide);
+			for (int i = 0; i < Main.maxProjectiles; ++i)
+			{
+				if (Main.projectile[i].active && Main.projectile[i].owner == p.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<ElfCopterSoulProj>())
+				{
+					Main.projectile[i].Kill();
+					break;
+				}
+			}
+
+			Projectile.NewProjectile(p.Center, Vector2.Zero, ModContent.ProjectileType<ElfCopterSoulProj>(), damage, .5f, p.whoAmI);
 			return (true);
 		}
 	}

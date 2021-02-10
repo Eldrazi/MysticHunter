@@ -15,7 +15,7 @@ namespace MysticHunter.Souls.Data.HM
 	public class CrimSlimeSoul : PostHMSoul
 	{
 		public override short soulNPC => NPCID.Crimslime;
-		public override string soulDescription => "Fires a corrupt slime blob.";
+		public override string soulDescription => "Fires a crimson slime blob.";
 
 		public override short cooldown => 180;
 

@@ -28,9 +28,12 @@ namespace MysticHunter.Souls.Data.Event.PumpkinMoon
 		{
 			int damage = 20 + 2 * stack;
 
-			Vector2 newProjPos = p.position + new Vector2(8 - 16 * p.direction, p.height - 10);
-			Vector2 velocity = Vector2.UnitX * -p.direction;
-			Projectile.NewProjectile(newProjPos, velocity, ModContent.ProjectileType<SplinterlingSoulProj>(), damage, 0, p.whoAmI);
+			if (p.velocity.X != 0 && p.velocity.Y >= -0.5f && p.velocity.Y <= 0.5f)
+			{
+				Vector2 newProjPos = p.position + new Vector2(8 - 16 * p.direction, p.height - 10);
+				Vector2 velocity = Vector2.UnitX * -p.direction;
+				Projectile.NewProjectile(newProjPos, velocity, ModContent.ProjectileType<SplinterlingSoulProj>(), damage, 0, p.whoAmI);
+			}
 
 			return (true);
 		}

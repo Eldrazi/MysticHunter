@@ -63,7 +63,7 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override void SetDefaults()
 		{
 			projectile.width = 28;
-			projectile.height = 44;
+			projectile.height = 42;
 
 			projectile.penetrate = -1;
 			projectile.timeLeft = 600;
@@ -163,11 +163,11 @@ namespace MysticHunter.Souls.Data.Pre_HM
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D tex = GetTexture("Terraria/NPC_" + (int)projectile.ai[1]);
-			Vector2 origin = new Vector2(tex.Width / 2, (tex.Height / Main.projFrames[projectile.type]) / 2);
+			Rectangle frame = tex.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
+			Vector2 origin = frame.Size();
 			SpriteEffects effects = projectile.spriteDirection >= 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition + new Vector2(0, drawOriginOffsetY),
-				Utils.Frame(tex, 1, 15, 0, projectile.frame), lightColor, projectile.rotation, origin, projectile.scale, effects, 0f);
+			spriteBatch.Draw(tex, projectile.Center + origin/2 - Main.screenPosition, frame, lightColor, projectile.rotation, origin, projectile.scale, effects, 0f);
 
 			return (false);
 		}

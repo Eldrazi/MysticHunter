@@ -1,6 +1,7 @@
 ﻿#region Using directives
 
 using Terraria;
+using Terraria.ModLoader.Config;
 
 #endregion
 
@@ -20,11 +21,17 @@ namespace MysticHunter.Souls.Framework
 	{
 		public abstract short soulNPC { get; }
 
-		public abstract string soulDescription { get; }
-
+		// TODO: Eldrazi - UNUSED for now. Will probably be used when the cross-mod content is fully supported.
+		public virtual string soulNPCMod => null;
+		public virtual string soulNPCName { get; }
+		
 		public abstract short cooldown { get; }
 
 		public abstract SoulType soulType { get; }
+		
+		public abstract string soulDescription { get; }
+
+		public NPCDefinition soulNPCDefinition;
 
 		public abstract short ManaCost(Player player, short stack);
 		public abstract bool SoulUpdate(Player player, short stack);
@@ -36,7 +43,7 @@ namespace MysticHunter.Souls.Framework
 		public virtual void PostUpdate(Player player) { }
 		public virtual void OnHitNPC(Player player, NPC npc, Entity hitEntity, ref int damage, byte stack) { }
 
-		// TODO: Rewrite this method to instead use statically available memory, instead of loading onto heap.
+		// TODO: Rewrite this method to instead use statically available memory, instead of loading onto heap?
 		public virtual short[] GetAdditionalTypes() => null;
 
 		public virtual string SoulNPCName()
